@@ -9,3 +9,4 @@ uwsgi.out
 logs/
 static/resource/
 media/
+data/
