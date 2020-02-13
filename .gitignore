@@ -1,7 +1,11 @@
 **/.DS_Store
-**/__pycache__/
 /.idea/
 /.vscode/
+
+**/__pycache__/
+**/.ipynb_checkpoints/
+
+# django
 **/migrations/
 !**/migrations/__init__.py
 staticsfile/
@@ -9,4 +13,6 @@ uwsgi.out
 logs/
 static/resource/
 media/
+
+# local
 data/

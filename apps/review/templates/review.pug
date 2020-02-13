@@ -1,1 +1,25 @@
-h1 sdf
+doctype html
+html
+  head
+    {% load sass_tags %}
+
+    link(href="/static/bootstrap/bootstrap.min.css" rel="stylesheet")
+    script(src="/static/jquery/jquery-3.4.1.min.js")
+    
+    link(href="/static/css/review.css" rel="stylesheet")
+    script(src="/static/js/review.js")
+
+  body
+    div.container.flex-column
+      div.align-self-center
+        div(style="text-align: center")
+          h1#tmpl-word word
+        div#meaning-box.rounded.shadow
+          div.align-self-center#tmpl-content 中文
+        div.progress-div
+          div.progress(style="width:250px; background-color: dodgerblue")
+            div.progress-bar.bg-palevioletred(role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
+              a 2/5
+        div.btn-div
+          button.btn.btn-secondary.shadow 不认识
+          button.btn.btn-primary.shadow 我记得
