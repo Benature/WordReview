@@ -6,11 +6,13 @@
 
 #meaning-box{
     width: 300px;
-    height: 200px;
+    min-height: 200px;
     /* border: 1px solid grey; */
     margin: 20px;
     justify-content: center;
     display: flex;
+    padding: 20px;
+    cursor: pointer;
 }
 
 .btn-div{
