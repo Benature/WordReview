@@ -15,6 +15,18 @@
     cursor: pointer;
 }
 
+#tmpl-index{
+    text-align: center;
+    color: grey;
+    font-size: 13px;
+}
+
+#tmpl-total-num{
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
 .btn-div{
     justify-content: space-around;
     display: flex;
@@ -28,4 +40,23 @@
 
 .bg-palevioletred{
     background-color: palevioletred;
+}
+
+.btn-jump{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    border-radius: .25rem!important;
+    width: 18px;
+    text-align: center;
+    cursor: pointer;
+    background-color: grey;
+    color: white;
+    height: 27px;
+}
+
+.last-forget{
+    color: red;
+}
+
+.last-remember{
+    color: grey;
 }

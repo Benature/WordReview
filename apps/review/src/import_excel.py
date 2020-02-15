@@ -1,10 +1,9 @@
 import pandas as pd
 
-path = '/Users/benature/OneDrive - LOSA/0_Project_A/托福练习/再要你命3000/3000(注释版).xlsx'
-path_mean = '/Users/benature/OneDrive - LOSA/0_Project_A/托福练习/再要你命3000/再要你命3000.xlsx'
 
-
-def import_excel(model):
+def import_gre(model):
+    path = '/Users/benature/OneDrive - LOSA/0_Project_A/托福练习/再要你命3000/3000(注释版).xlsx'
+    path_mean = '/Users/benature/OneDrive - LOSA/0_Project_A/托福练习/再要你命3000/再要你命3000.xlsx'
     df = pd.read_excel(path)
     df2 = pd.read_excel(path_mean)
     df.sort_values(["List", "Unit", "Index"], inplace=True)
@@ -42,3 +41,26 @@ def import_excel(model):
         except Exception as e:
             print(e)
         # break
+
+
+def import_qugen(model):
+    path = 'data/qugen10000.xlsx'
+    df = pd.read_excel(path)
+    for i in range(0, (len(df))):
+        dr = df.iloc[i]
+        db = {
+            'word': dr['word'],
+            'mean': dr['meaning'],
+            'total_num': 0,
+            'forget_num': 0,
+            'rate': None,
+            'LIST': dr['List'],
+            'UNIT': dr['Unit'],
+            'INDEX': dr['Index'],
+            'BOOK': 'qugen10000',
+            'history': '',
+        }
+        print(i, dr['word'], dr['meaning'])
+        new_word = model.objects.create(**db)
+        new_word.save()
+        print(new_word)

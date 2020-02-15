@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from apps.review.src.import_excel import import_excel
+from apps.review.src.import_excel import import_qugen
 from apps.review.models import Review
 
 from django.core import serializers
@@ -21,7 +21,7 @@ def index(request):
 
 
 def temp(request):
-    # import_excel(Review)
+    # import_qugen(Review)
     # rev = Review.objects.filter(BOOK='GRE3000')
     # print(len(rev))
     return render(request, "review.pug")
@@ -29,7 +29,8 @@ def temp(request):
 
 def get_word(request):
     LIST = request.GET.get('list')
-    word = Review.objects.filter(LIST=LIST)
+    BOOK = request.GET.get('book')
+    word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
     data = {
         'data': ormToJson(word),
         'status': 200,
@@ -41,7 +42,8 @@ def get_word(request):
 def review_a_word(request):
     post = request.POST
     print(post)
-    word = Review.objects.get(word=post.get('word'))
+    word = Review.objects.filter(
+        word=post.get('word'), BOOK=post.get('book'))[0]
     word.total_num += 1
     if post.get('remember') == 'true':
         word.history += '1'
@@ -56,9 +58,14 @@ def review_a_word(request):
 
 def review(request):
     LIST = request.GET.get('list')
-    if LIST is None:
-        LIST = 1
-        return redirect('/review?list=1')
+    BOOK = request.GET.get('book')
+    if LIST is None or BOOK is None:
+        if LIST is None:
+            LIST = 0
+        if BOOK is None:
+            BOOK = 'qugen10000'
+        return redirect(f'/review?list={LIST}&book={BOOK}')
+
     # word = Review.objects.all()[:1]
     # data = ormToJson(word)[0]
     # print('data', data)

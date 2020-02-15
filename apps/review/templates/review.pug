@@ -2,6 +2,7 @@ doctype html
 html
   head
     {% load sass_tags %}
+    meta(http-equiv="Access-Control-Allow-Origin" content="*")
 
     link(href="/static/bootstrap/bootstrap.min.css" rel="stylesheet")
     script(src="/static/jquery/jquery-3.4.1.min.js")
@@ -18,12 +19,18 @@ html
       div.align-self-center
           div(style="text-align: center")
             h1#tmpl-word 
-          div#meaning-box.rounded.shadow
-            div.align-self-center#tmpl-content.d-none
+          div#tmpl-index
+          div#tmpl-last-word
+          div.d-flex.flex-row
+            div.align-self-center.btn-jump#jump-back &laquo;
+            div#meaning-box.rounded.shadow
+              div.align-self-center#tmpl-content.d-none
+            div.align-self-center.btn-jump#jump-forward &raquo;
           div.progress-div
             div.progress(style="width:250px; background-color: dodgerblue")
               div.progress-bar.bg-palevioletred(role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
                 a#tmpl-progress
+              div#tmpl-total-num
           div.btn-div
-            button.btn.btn-secondary.shadow 不认识
-            button.btn.btn-primary.shadow 我记得
+            button.btn.btn-secondary.shadow#btn-forget 不认识
+            button.btn.btn-primary.shadow#btn-remember 我记得

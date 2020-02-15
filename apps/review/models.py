@@ -3,7 +3,7 @@ from django.db import models
 
 class Review(models.Model):
     '''复习单词表'''
-    word = models.CharField('英文单词', max_length=50, unique=True)
+    word = models.CharField('英文单词', max_length=50, unique=False)
     mean = models.CharField('中文释义', max_length=500, default='')
     total_num = models.IntegerField('复习总次数', default=0)
     forget_num = models.IntegerField('忘记次数', default=0)
