@@ -1,0 +1,38 @@
+{% extends "base.pug" %}
+{% block title %}复习主页{% endblock %}
+{% block css %}
+script $(function () {$('.list-block').on('click', function (e) {console.log($(this));document.location.href = $(this).attr('href');})})
+style
+  | .list-block{
+  |     width: 7rem;
+  |     padding: 10px;
+  |     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  |     border-radius: .25rem!important;
+  |     text-align: center;
+  |     margin: 10px;
+  |     cursor: pointer;
+  | }
+{% endblock %}
+
+{% block content %}
+div.container.flex-column
+  {% for d in data%}
+  h2(style="margin-top:20px;") {{d.name}}
+  div.d-flex.justify-content-center.flex-wrap
+    {% for l in d.lists %}
+    div.list-block(href='/review/review?list={{l}}&book={{d.name_en}}')
+      h4 List {{l.i}}
+      a {{l.len}} 
+        {% if l.max != 0 %}
+        {% if l.min == 0 or l.min == l.max %}
+        | [{{l.max}}次]
+        {%else%}
+        | [{{l.min}}-{{l.max}}次]
+        {%endif%}
+        {%endif%}
+      div.progress(style="width:100%;")
+        div.progress-bar(style="width:{{l.rate}}%;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
+          | {{l.rate}}%
+    {% endfor %}
+  {% endfor %}
+{% endblock %}
