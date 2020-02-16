@@ -18,10 +18,10 @@ style
 div.container.flex-column
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
-  div.d-flex.justify-content-center.flex-wrap
+  div.d-flex.flex-wrap
     {% for l in d.lists %}
-    div.list-block(href='/review/review?list={{l}}&book={{d.name_en}}')
-      h4 List {{l.i}}
+    div.list-block(href='/review/review?list={{l.i}}&book={{d.name_en}}')
+      h4 List {{l.i|add:1}}
       a {{l.len}} 
         {% if l.max != 0 %}
         {% if l.min == 0 or l.min == l.max %}

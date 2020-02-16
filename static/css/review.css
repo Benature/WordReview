@@ -54,3 +54,8 @@
 .last-remember{
     color: grey;
 }
+
+.sort-array{
+    margin: 0 5px;
+    cursor: pointer;
+}

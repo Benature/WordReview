@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.homepage, name='index'),
     path('review/review/', views.review, name='复习单词'),
     path('review/homepage/', views.homepage, name='复习主页'),
+    path('review/', views.homepage, name='复习主页'),
     path('temp/', views.temp, name='temp'),
 
     # 接口

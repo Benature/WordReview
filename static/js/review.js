@@ -1,18 +1,20 @@
 var word;
-var wordCount = 0;
+var wordCount = 0; // 本次复习的计数
 var book = getQueryString('book');
 var wordArray;
 var wordIndex = 0;
 var lastWord = '';
-var remember = true;
+var remember = true; // 这个单词是否记住了
+var sortMode = '顺序'; //排序模式
 
-function compare(att, direct) {
+function compareField(att, direct) {
     return function (a, b) {
         var value1 = a.fields[att];
         var value2 = b.fields[att];
         return (value1 - value2) * direct;
     }
 }
+
 
 $(function () {
     /**
@@ -66,7 +68,7 @@ $(function () {
         }
     }).done(function (response) {
         console.log(response)
-        wordArray = response.data//.sort(compare('rate', -1));
+        wordArray = response.data;
         let data = response.data[wordIndex];
         if (response.status === 200) {
             renderWord(data);
@@ -153,6 +155,50 @@ $(function () {
             $('#tmpl-content').addClass('d-none')
         }
         renderWord(wordArray[wordIndex]);
+    })
+
+    // 列表重排序
+    $('.sort-array').on('click', function (e) {
+        let text = $(this).text();
+        if (text != sortMode) {
+            wordArray = wordArray.slice(wordIndex);
+            switch (text) {
+                case '顺序':
+                    wordArray.sort(function (a, b) {
+                        a = a.fields;
+                        b = b.fields;
+                        if (a.LIST == b.LIST) {
+                            if (a.UNIT == b.UNIT) {
+                                return a.INDEX - b.INDEX;
+                            } else {
+                                return a.UNIT - b.UNIT;
+                            }
+                        } else {
+                            return a.LIST - b.LIST;
+                        }
+                    })
+                    break;
+                case '乱序':
+                    wordArray.sort(function (a, b) {
+                        return Math.random() > 0.5 ? -1 : 1;
+                    })
+                    break;
+                case '记忆序':
+                    wordArray.sort(compareField('rate', -1));
+                    break;
+                case '次数序':
+                    wordArray.sort(compareField('total_num', 1));
+                    break;
+                default:
+                    console.error('未知' + text);
+            }
+            sortMode = text;
+            wordIndex = 0;
+            renderWord(wordArray[wordIndex]);
+        } else {
+            layer.msg('已是' + text);
+        }
+
     })
 
 })

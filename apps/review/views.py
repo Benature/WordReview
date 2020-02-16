@@ -36,7 +36,6 @@ def get_word(request):
 def review_a_word(request):
     '''接口：在数据库更新单词记忆情况'''
     post = request.POST
-    print(post)
     word = Review.objects.filter(
         word=post.get('word'), BOOK=post.get('book'))[0]
     word.total_num += 1
@@ -83,7 +82,7 @@ def homepage(request):
                         ]) / len(ld) * 100
             rate = 100 - rate if rate != 0.0 else 0
             list_info.append({
-                'i': l+1,
+                'i': l,
                 'len': len(ld),
                 'rate': int(rate),
                 'min': min(total),
