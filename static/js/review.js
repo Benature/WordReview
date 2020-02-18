@@ -49,8 +49,11 @@ $(function () {
             mean_content += '<p>' + means[i] + '</p>'
         }
         $.template("mean", mean_content);
-        $('#tmpl-content').empty()
-        $.tmpl("mean").appendTo($('#tmpl-content'))
+        $('#tmpl-content').empty();
+        $.tmpl("mean").appendTo($('#tmpl-content'));
+
+        copy2Clipboard(word, "clipboard");
+
     }
 
     function selectWord() {
@@ -148,7 +151,6 @@ $(function () {
                 display = true;
             }
         }
-        console.log(wordIndex);
         if (display) {
             $('#tmpl-content').removeClass('d-none')
         } else {

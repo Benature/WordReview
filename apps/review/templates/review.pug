@@ -6,28 +6,19 @@ script(src="/static/js/review.js")
 {% endblock %}
 
 {% block content %}
-nav.navbar.navbar-light.bg-light.sticky-top.navbar-expand-lg
+nav.navbar.navbar-light.bg-light.sticky-top
   a.navbar-brand(href="/review/") 
     img(src="/static/media/muyi.png"  height="30" class="d-inline-block align-top" alt="")
-    | TG Word
-  //- button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarSupportedContent", aria-controls="navbarSupportedContent", aria-expanded="false", aria-label="Toggle navigation")
-  //-   span.navbar-toggler-icon
-  //- div.collapse.navbar-collapse#navbarSupportedContent
-  div
-    //- ul.navbar-nav.mr-auto
-    //-   li.nav-item#active-push
-    //-     a.nav-link(href="/push/") 所有推送 
-    //-   li.nav-item#active-photo
-    //-     a.nav-link(href="/push-select/?select=photo") 采风
-    div.navbar-nav.ml-auto.d-flex.flex-row
-      li.nav-item
-        a.nav-link.sort-array 顺序
-      li.nav-item
-        a.nav-link.sort-array 乱序
-      li.nav-item
-        a.nav-link.sort-array 记忆序
-      li.nav-item
-        a.nav-link.sort-array 次数序
+    | &nbsp TG Word
+  div.navbar-nav.ml-auto.flex-row
+    li.nav-item
+      a.nav-link.sort-array 顺序
+    li.nav-item
+      a.nav-link.sort-array 乱序
+    li.nav-item
+      a.nav-link.sort-array 记忆序
+    li.nav-item
+      a.nav-link.sort-array 次数序
 
 
 div.container.flex-column
@@ -49,4 +40,6 @@ div.container.flex-column
       div.btn-div
         button.btn.btn-secondary.shadow#btn-forget 不认识
         button.btn.btn-primary.shadow#btn-remember 我记得
+
+input#clipboard(style="position: absolute;top: 0;")
 {% endblock %}
