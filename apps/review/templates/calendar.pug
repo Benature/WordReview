@@ -1,0 +1,21 @@
+{% extends "base.pug" %}
+{% block title %}艾宾浩斯记忆日历{% endblock %}
+{% block css %}
+link(href="/static/css/calendar.css" rel="stylesheet")
+script(src="/static/js/calendar.js")
+{% endblock %}
+
+{% block content %}
+div.container.flex-column
+  div.align-self-center
+    table(border='1')
+      tbody#tbMain
+        tr
+          th 日
+          th 一
+          th 二
+          th 三
+          th 四
+          th 五
+          th 六
+{% endblock %}

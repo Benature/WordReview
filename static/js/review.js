@@ -5,7 +5,7 @@ var wordArray;
 var wordIndex = 0;
 var lastWord = '';
 var remember = true; // 这个单词是否记住了
-var sortMode = '顺序'; //排序模式
+var sortMode = '乱序'; //排序模式
 
 function compareField(att, direct) {
     return function (a, b) {
@@ -54,6 +54,8 @@ $(function () {
 
         copy2Clipboard(word, "clipboard");
 
+        readText(word);
+
     }
 
     function selectWord() {
@@ -72,6 +74,10 @@ $(function () {
     }).done(function (response) {
         console.log(response)
         wordArray = response.data;
+        // 乱序
+        wordArray.sort(function (a, b) {
+            return Math.random() > 0.5 ? -1 : 1;
+        })
         let data = response.data[wordIndex];
         if (response.status === 200) {
             renderWord(data);
@@ -95,8 +101,26 @@ $(function () {
         w.rate = w.forget_num / w.total_num;
     }
 
+    // 复习完成后更新后端数据库
+    function review_finish_post() {
+        $.ajax({
+            url: '/review/review_list_finish',
+            type: 'POST',
+            data: {
+                list: getQueryString('list'),
+                book: book,
+            }
+        }).done(function (response) {
+            if (response.status === 200) {
+                readText('Mission completed!');
+            } else {
+                layer.msg(response.msg);
+            }
+        })
+    }
+
     // 复习完一个单词
-    $('.btn').on('click', function (e) {
+    $('.jump-btn').on('click', function (e) {
         e.preventDefault();
         if ($(this).text() == '我记得') {
             remember = true;
@@ -121,7 +145,9 @@ $(function () {
                 if (wordIndex != wordArray.length - 1) {
                     wordIndex = selectWord();
                 } else {
-                    layer.msg('背完了')
+                    review_finish_post();
+                    readText('You have finished list' + (parseInt(getQueryString('list')) + 1));
+                    layer.msg('背完了(●´∀｀●)ﾉ')
                 }
                 $('#tmpl-content').addClass('d-none')
 
@@ -148,6 +174,7 @@ $(function () {
                 layer.msg('跳转到下一个单词');
             } else {
                 layer.msg('这是最后一个单词');
+                review_finish_post();
                 display = true;
             }
         }
@@ -157,6 +184,15 @@ $(function () {
             $('#tmpl-content').addClass('d-none')
         }
         renderWord(wordArray[wordIndex]);
+    })
+    $('#btn-quick-jump').on('click', function (e) {
+        let i = parseInt($('#jump-index').val());
+        if (i <= wordArray.length && i >= 0) {
+            layer.msg('跳转到第' + i + '个单词')
+            wordIndex = i - 1
+            renderWord(wordArray[wordIndex]);
+            $('#jump-index').val('');
+        }
     })
 
     // 列表重排序
@@ -222,9 +258,10 @@ $(document).keyup(function (e) {
     else if (190 == e.keyCode) {
         $('#jump-forward').click();
     }
-    else if (32 == e.keyCode) {
+    else if (32 == e.keyCode || 13 == e.keyCode) {
         // blank
         $('#meaning-box').click();
+        readText(word);
     }
 
 });

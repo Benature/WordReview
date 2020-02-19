@@ -16,6 +16,7 @@ style
 
 {% block content %}
 div.container.flex-column
+  a(href="/calendar/") 艾宾浩斯复习日历
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
   div.d-flex.flex-wrap

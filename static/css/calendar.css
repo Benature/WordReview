@@ -1,0 +1,36 @@
+th{
+    text-align: center;
+}
+
+td{
+    text-align:center;
+    width: 10%;
+    height: 60px;
+    padding:5px;
+}
+.td-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.td-date{
+    color: grey;
+    text-align:left;
+}
+
+.list{
+    text-align: center;
+    vertical-align: middle;
+    border-radius: .25rem;
+    margin: 1px 2px;
+    padding: 0 2px;
+    min-width: 45px;
+}
+
+.undo{
+    border: 1px solid #007bff;
+}
+.done{
+    border: 1px solid grey;
+}

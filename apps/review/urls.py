@@ -6,9 +6,14 @@ urlpatterns = [
     path('review/review/', views.review, name='复习单词'),
     path('review/homepage/', views.homepage, name='复习主页'),
     path('review/', views.homepage, name='复习主页'),
+    path('calendar/', views.calendar, name='艾宾浩斯日历'),
     path('temp/', views.temp, name='temp'),
 
     # 接口
+    # GET
     path('review/get_word', views.get_word, name='获取单词'),
+    path('review/get_calendar_data', views.get_calendar_data, name='获取日历渲染数据'),
+    # POST
     path('review/review_a_word', views.review_a_word, name='获取单词'),
+    path('review/review_list_finish', views.review_lists, name='复习结束'),
 ]

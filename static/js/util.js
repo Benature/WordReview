@@ -15,3 +15,8 @@ function copy2Clipboard(content, idN) {
     }
 
 }
+
+function readText(word) {
+    let speechInstance = new SpeechSynthesisUtterance(word);
+    speechSynthesis.speak(speechInstance);
+}

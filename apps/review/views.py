@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
-from apps.review.models import Review
+from apps.review.models import Review, BookList
 
 from apps.src.util import ormToJson, valueList
 
 from apps.review.src.import_excel import import_qugen
+from apps.review.src.init_db import init_db
+
+from datetime import datetime, timedelta
+
+EBBINGHAUS_DAYS = [1, 2, 4, 7, 15, 30]
+EBBINGHAUS_DELTA = [0, 1, 2, 3, 8, 15]
 
 
 def index(request):
@@ -14,21 +21,57 @@ def index(request):
 
 
 def temp(request):
+    init_db(BookList, Review)
     # import_qugen(Review)
     # rev = Review.objects.filter(BOOK='GRE3000')
     # print(len(rev))
     return render(request, "review.pug")
 
 
-def get_word(request):
-    '''接口：获取单词'''
-    LIST = request.GET.get('list')
-    BOOK = request.GET.get('book')
-    word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
-    data = {
-        'data': ormToJson(word),
-        'status': 200,
-    }
+@csrf_exempt
+def review_lists(request):
+    '''接口：复习完成 list，更新 book_list'''
+    post = request.POST
+    today = datetime.now() - timedelta(hours=4)  # 熬夜情况
+    today_str = today.strftime('%Y-%m-%d')
+    print(post)
+
+    LISTS = [int(i) for i in post.get('list').split('-')]
+    BOOK = post.get('book')
+
+    try:
+        for LIST in LISTS:
+            ld = Review.objects.filter(BOOK=BOOK, LIST=LIST)  # list data
+            rate = sum([r[0] if r[0] is not None else 1 for r in ld.values_list('rate')
+                        ]) / len(ld)
+            rate = 1 - rate if rate != 0.0 else 0
+
+            L_db = BookList.objects.get(BOOK=BOOK, LIST=LIST)
+            L_db.word_num = len(ld)
+            L_db.review_word_counts = ';'.join(
+                set([str(t[0]) for t in ld.values_list('total_num')]))
+            L_db.list_rate = rate
+            if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DELTA):
+                c = L_db.ebbinghaus_counter
+                should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
+                                                     ) + timedelta(days=EBBINGHAUS_DELTA[c])
+                print(should_next_date)
+                if (today - should_next_date).days >= 0:
+                    # 今天 不早于 理论下一天
+                    L_db.ebbinghaus_counter += 1
+                    L_db.review_dates += ';' + today_str
+                    L_db.last_review_date = today_str
+            elif L_db.ebbinghaus_counter == 0:
+                L_db.last_review_date = today_str
+                L_db.ebbinghaus_counter = 1
+                L_db.review_dates = today_str
+            else:
+                print('这个 list 背完了')
+
+            L_db.save()
+        data = {'msg': 'done', 'status': 200}
+    except Exception as e:
+        data = {'msg': e, 'status': 500}
     return JsonResponse(data)
 
 
@@ -50,6 +93,36 @@ def review_a_word(request):
     return JsonResponse(data)
 
 
+def get_word(request):
+    '''接口：获取单词'''
+    LIST = request.GET.get('list')
+    BOOK = request.GET.get('book')
+    word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+    data = {
+        'data': ormToJson(word),
+        'status': 200,
+    }
+    return JsonResponse(data)
+
+
+def get_calendar_data(request):
+    '''接口：获取日历渲染数据'''
+    # db = BookList.objects.filter(~Q(ebbinghaus_counter=0))
+    db = BookList.objects.filter(ebbinghaus_counter__range=[1, 5])
+    # today = datetime.now()
+    # begin = today - timedelta(days=(today.weekday() + 1))
+    # end = begin + timedelta(days=(7 * 4))
+    data = {
+        'data': ormToJson(db),
+        'EBBINGHAUS_DELTA': EBBINGHAUS_DELTA,
+        'status': 200,
+        # 'begin': begin.strftime('%Y-%m-%d'),
+        # 'end': end.strftime('%Y-%m-%d'),
+        # 'today': today.strftime('%Y-%m-%d'),
+    }
+    return JsonResponse(data)
+
+
 def review(request):
     '''页面：单词复习页'''
     LIST = request.GET.get('list')
@@ -61,6 +134,11 @@ def review(request):
             BOOK = 'qugen10000'
         return redirect(f'/review/review?list={LIST}&book={BOOK}')
     return render(request, "review.pug", locals())
+
+
+def calendar(request):
+    '''页面：艾宾浩斯日历图'''
+    return render(request, "calendar.pug", )
 
 
 def homepage(request):
@@ -76,15 +154,12 @@ def homepage(request):
             BOOK=BOOK).values_list('LIST')))])
         list_info = []
         for l in lists:
-            ld = Review.objects.filter(BOOK=BOOK, LIST=l)  # list data
-            total = [t[0] for t in ld.values_list('total_num')]
-            rate = sum([r[0] if r[0] is not None else 1 for r in ld.values_list('rate')
-                        ]) / len(ld) * 100
-            rate = 100 - rate if rate != 0.0 else 0
+            ld = BookList.objects.get(BOOK=BOOK, LIST=l)
+            total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
                 'i': l,
-                'len': len(ld),
-                'rate': int(rate),
+                'len': ld.word_num,
+                'rate': int(ld.list_rate * 100),
                 'min': min(total),
                 'max': max(total),
             })
