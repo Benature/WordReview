@@ -1,7 +1,8 @@
 {% extends "base.pug" %}
 {% block title %}复习主页{% endblock %}
 {% block css %}
-script $(function () {$('.list-block').on('click', function (e) {console.log($(this));document.location.href = $(this).attr('href');})})
+script $(function () {$('.list-block').on('click', function (e) {document.location.href = $(this).attr('href');})});
+  |  $(document).keyup(function (e) {if (67 == e.keyCode) {document.location = '/calendar/';}});
 style
   | .list-block{
   |     width: 7rem;

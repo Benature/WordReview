@@ -61,5 +61,10 @@
 }
 
 #jump-index{
+    background-color: transparent !important;
     width: 50px;
+}
+
+#btn-quick-jump{
+    color: grey;
 }

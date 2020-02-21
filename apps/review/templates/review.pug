@@ -10,15 +10,19 @@ nav.navbar.navbar-light.bg-light.sticky-top
   a.navbar-brand(href="/review/") 
     img(src="/static/media/muyi.png"  height="30" class="d-inline-block align-top" alt="")
     | &nbsp TG Word
-  div.navbar-nav.ml-auto.flex-row
-    li.nav-item
-      a.nav-link.sort-array 顺序
-    li.nav-item
-      a.nav-link.sort-array 乱序
-    li.nav-item
-      a.nav-link.sort-array 记忆序
-    li.nav-item
-      a.nav-link.sort-array 次数序
+  div.d-flex.flex-row
+    div.d-flex.flex-row.justify-content-center(style="margin-right: 40px;")
+      input#jump-index.form-control
+      button#btn-quick-jump.btn 跳转
+    div.navbar-nav.ml-auto.flex-row
+      li.nav-item
+        a.nav-link.sort-array 顺序
+      li.nav-item
+        a.nav-link.sort-array 乱序
+      li.nav-item
+        a.nav-link.sort-array 记忆序
+      li.nav-item
+        a.nav-link.sort-array 次数序
 
 
 div.container.flex-column
@@ -40,9 +44,7 @@ div.container.flex-column
     div.btn-div
       button.btn.btn-secondary.shadow#btn-forget.jump-btn 不认识
       button.btn.btn-primary.shadow#btn-remember.jump-btn 我记得
-    div(style="margin-top: 20px;").d-flex.flex-row.justify-content-center
-      input#jump-index.form-control
-      button#btn-quick-jump.btn 跳转
+    
 
 
 

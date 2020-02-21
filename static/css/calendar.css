@@ -30,6 +30,9 @@ td{
 
 .undo{
     border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
 }
 .done{
     border: 1px solid grey;

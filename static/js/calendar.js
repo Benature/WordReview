@@ -27,10 +27,11 @@ function getDataRow(data, i, tag = 'td') {
         let text = '<div class="d-flex flex-wrap">';
         for (let k = 0; k < data[j].length; k++) {
             let d = data[j][k];
-            let l = d.LIST;
-            l = l.length == 1 ? '0' + l : l;
+            let l = (d.LIST + 1).toString();
+            // l = l.length == 1 ? '0' + l : l;
             let cls = d.state ? 'undo' : 'done';
-            text += '<div class="list ' + cls + '">' + d.BOOK[0].replace(/q/, 'T') + l + '<sup>' + d.c + '</sup></div>';
+            let href = 'book=' + d.BOOK + '&list=' + d.LIST;
+            text += '<div class="list ' + cls + '" href="' + href + '">' + d.BOOK[0].replace(/q/, 'T') + l + '<sup>' + d.c + '</sup></div>';
         }
         bigDiv.innerHTML += text + '</div';
 
@@ -67,7 +68,7 @@ function renderCalendar(data) {
             if ((calendar_end - next_day) < 0) { break; }
             calendar[dayDelta(next_day, calendar_begin) + 1].push({
                 BOOK: list.BOOK,
-                LIST: (list.LIST + 1).toString(),
+                LIST: (list.LIST),
                 c: j + 1,
                 state: true,
             })
@@ -80,7 +81,7 @@ function renderCalendar(data) {
             if (d < 0) { continue; }
             calendar[d].push({
                 BOOK: list.BOOK,
-                LIST: (list.LIST + 1).toString(),
+                LIST: (list.LIST),
                 c: j + 1,
                 state: false,
             })
@@ -100,5 +101,9 @@ $(function () {
             EBBINGHAUS_DELTA = response.EBBINGHAUS_DELTA;
             renderCalendar(response.data);
         }
+    })
+
+    $('#tbMain').on('click', '.undo', function (e) {
+        window.location = '/review/review?' + $(this).attr('href')
     })
 })

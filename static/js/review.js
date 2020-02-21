@@ -20,8 +20,9 @@ $(function () {
     /**
      * 渲染单词 页面
      * @param {object} data 单词数据
+     * @param {bool} read 是否朗读
      */
-    function renderWord(data) {
+    function renderWord(data, read = true) {
         data = data.fields;
         word = data.word;
         console.log(word)
@@ -52,9 +53,10 @@ $(function () {
         $('#tmpl-content').empty();
         $.tmpl("mean").appendTo($('#tmpl-content'));
 
-        copy2Clipboard(word, "clipboard");
-
-        readText(word);
+        if (read) {
+            copy2Clipboard(word, "clipboard");
+            readText(word);
+        }
 
     }
 
@@ -144,27 +146,28 @@ $(function () {
                 // console.log(wordArray)
                 if (wordIndex != wordArray.length - 1) {
                     wordIndex = selectWord();
+                    $('#tmpl-content').addClass('d-none')
+                    renderWord(wordArray[wordIndex]);
                 } else {
                     review_finish_post();
-                    readText('You have finished list' + (parseInt(getQueryString('list')) + 1));
+                    readText('finished list' + (parseInt(getQueryString('list')) + 1));
                     layer.msg('背完了(●´∀｀●)ﾉ')
+                    renderWord(wordArray[wordIndex], false);
                 }
-                $('#tmpl-content').addClass('d-none')
-
-                renderWord(wordArray[wordIndex]);
             } else {
                 layer.msg(response.msg);
             }
         })
     })
 
+    // 直接跳转
     $('.btn-jump').on('click', function (e) {
         let display = false;
         if ($(this).text() == '«') {
             if (wordIndex > 0) {
                 layer.msg('跳转到上一个单词');
                 wordIndex--;
-                display = true
+                display = true;
             } else {
                 layer.msg('这是第一个单词');
             }
@@ -187,11 +190,20 @@ $(function () {
     })
     $('#btn-quick-jump').on('click', function (e) {
         let i = parseInt($('#jump-index').val());
-        if (i <= wordArray.length && i >= 0) {
+        if (i <= wordArray.length && i > 0) {
             layer.msg('跳转到第' + i + '个单词')
             wordIndex = i - 1
-            renderWord(wordArray[wordIndex]);
-            $('#jump-index').val('');
+        } else if (i <= 0) {
+            wordIndex = 0;
+        } else {
+            wordIndex = wordArray.length - 1;
+        }
+        renderWord(wordArray[wordIndex]);
+        $('#jump-index').val('');
+    })
+    $('#jump-index').keyup(function (e) {
+        if (13 == e.keyCode) {
+            $('#btn-quick-jump').click();
         }
     })
 
@@ -230,6 +242,7 @@ $(function () {
                 default:
                     console.error('未知' + text);
             }
+            $('#tmpl-content').addClass('d-none')
             sortMode = text;
             wordIndex = 0;
             renderWord(wordArray[wordIndex]);
@@ -238,6 +251,8 @@ $(function () {
         }
 
     })
+
+
 
 })
 
@@ -258,10 +273,9 @@ $(document).keyup(function (e) {
     else if (190 == e.keyCode) {
         $('#jump-forward').click();
     }
-    else if (32 == e.keyCode || 13 == e.keyCode) {
+    else if (32 == e.keyCode /*|| 13 == e.keyCode*/) {
         // blank
         $('#meaning-box').click();
         readText(word);
     }
-
 });

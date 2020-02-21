@@ -34,44 +34,60 @@ def review_lists(request):
     post = request.POST
     today = datetime.now() - timedelta(hours=4)  # 熬夜情况
     today_str = today.strftime('%Y-%m-%d')
-    print(post)
 
     LISTS = [int(i) for i in post.get('list').split('-')]
+    if len(LISTS) == 2:
+        LISTS = list(range(LISTS[0], LISTS[1]))
     BOOK = post.get('book')
 
-    try:
-        for LIST in LISTS:
+    msg = 'done'
+    status = 200
+    # try:
+    for LIST in LISTS:
+        try:
             ld = Review.objects.filter(BOOK=BOOK, LIST=LIST)  # list data
-            rate = sum([r[0] if r[0] is not None else 1 for r in ld.values_list('rate')
-                        ]) / len(ld)
-            rate = 1 - rate if rate != 0.0 else 0
-
             L_db = BookList.objects.get(BOOK=BOOK, LIST=LIST)
-            L_db.word_num = len(ld)
-            L_db.review_word_counts = ';'.join(
-                set([str(t[0]) for t in ld.values_list('total_num')]))
-            L_db.list_rate = rate
-            if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DELTA):
-                c = L_db.ebbinghaus_counter
-                should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
-                                                     ) + timedelta(days=EBBINGHAUS_DELTA[c])
-                print(should_next_date)
-                if (today - should_next_date).days >= 0:
-                    # 今天 不早于 理论下一天
-                    L_db.ebbinghaus_counter += 1
-                    L_db.review_dates += ';' + today_str
-                    L_db.last_review_date = today_str
-            elif L_db.ebbinghaus_counter == 0:
-                L_db.last_review_date = today_str
-                L_db.ebbinghaus_counter = 1
-                L_db.review_dates = today_str
-            else:
-                print('这个 list 背完了')
+        except Exception as e:
+            msg = f'获取数据异常：{e}'
+            status = 501
+            break
 
+        rate = sum([r[0] if r[0] is not None else 1 for r in ld.values_list('rate')
+                    ]) / len(ld)
+        rate = 1 - rate if rate != 0.0 else 0
+
+        L_db.word_num = len(ld)
+        L_db.review_word_counts = ';'.join(
+            set([str(t[0]) for t in ld.values_list('total_num')]))
+        L_db.list_rate = rate
+
+        if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DELTA):
+            c = L_db.ebbinghaus_counter
+            should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
+                                                 ) + timedelta(days=EBBINGHAUS_DELTA[c])
+            # print(should_next_date)
+            if (today - should_next_date).days >= 0:
+                # 今天 不早于 理论下一天
+                L_db.ebbinghaus_counter += 1
+                L_db.review_dates += ';' + today_str
+                L_db.last_review_date = today_str
+        elif L_db.ebbinghaus_counter == 0:
+            L_db.last_review_date = today_str
+            L_db.ebbinghaus_counter = 1
+            L_db.review_dates = today_str
+        else:
+            print('这个 list 背完了')
+
+        try:
             L_db.save()
-        data = {'msg': 'done', 'status': 200}
-    except Exception as e:
-        data = {'msg': e, 'status': 500}
+        except Exception as e:
+            msg = f'保存数据异常：{e}'
+            status = 502
+            break
+        # data = {'msg': msg, 'status': 200}
+    # except Exception as e:
+    #     data = {'msg': e, 'status': 500}
+    data = {'msg': msg, 'status': status}
     return JsonResponse(data)
 
 
@@ -95,9 +111,16 @@ def review_a_word(request):
 
 def get_word(request):
     '''接口：获取单词'''
-    LIST = request.GET.get('list')
     BOOK = request.GET.get('book')
-    word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+    LIST = request.GET.get('list')
+    LIST_li = [int(i) for i in LIST.split('-')]
+    if len(LIST_li) == 1:
+        word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+    elif len(LIST_li) == 2:
+        word = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
+    else:
+        raise KeyError('LIST_li 长度异常')
+
     data = {
         'data': ormToJson(word),
         'status': 200,
