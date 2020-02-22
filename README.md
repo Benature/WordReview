@@ -33,13 +33,6 @@ Django + MySQL + Pug + JS
 - ~~缺背单词的毅力~~
 - ······
 
-## Mysql configuration
+## 安装
 
-```sql
-show databases;
-use mysql;
-create database tg_word_db character set utf8;
-create user 'tg_word_user'@'localhost' identified by 'tg_word2020'; -- 新建用户
-grant all privileges ON tg_word_db.* TO 'tg_word_user'@'localhost'; -- 授权
-flush privileges; -- 刷新系统权限表
-```
+有点繁琐，请看[这里](doc/install.md)

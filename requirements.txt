@@ -1,8 +1,9 @@
-Django==3.0.3
+django==3.0.3
 django-mysql==3.3.0
-django-mysql-pymysql==0.1
 django-sass-processor==0.8
 libsass==0.19.4
 mysqlclient==1.4.6
-PyMySQL==0.9.3
+pymysql==0.9.3
 pypugjs==5.8.1
+
+django-compressor
