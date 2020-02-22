@@ -1,4 +1,4 @@
-# Python 环境
+# 1. Python 环境
 
 1. Install `Miniconda` (recommanded) or `Anaconda` at first.
 2. create a virtual environment
@@ -24,11 +24,11 @@ pip install -r requirements.txt
 ```
 
 
-# 1. MySQL
+# 2. MySQL
 
-## 1.1. Install
+## 2.1. Install
 
-### 1.1.1. MacOS
+### 2.1.1. MacOS
 
 1. 下载
 download from <https://dev.mysql.com/downloads/mysql/>, select `macOS 10.14 (x86, 64-bit), DMG Archive`(.dmg file)
@@ -45,16 +45,16 @@ vim ~/.bash_profile
 PATH=$PATH:/usr/local/mysql/bin
 ```
 
-### Windows
+### 2.1.2. Windows
 
 同样在<https://dev.mysql.com/downloads/mysql/>下载，略。
 
-### 1.1.2. GUI app 数据库可视化工具（荐）
+### 2.1.3. GUI app 数据库可视化工具（荐）
 
 - MySQL Workbench (free & recommend)
   ~~如同处理 excel，不用学 mysql 命令也能操作数据库啦~~
 
-## 1.2. Mysql configuration
+## 2.2. Mysql configuration
 
 登录进入 mysql 命令行，密码是安装时候设置的那个。
 
@@ -71,7 +71,7 @@ grant all privileges ON tg_word_db.* TO 'tg_word_user'@'localhost'; -- 授权
 flush privileges; -- 刷新系统权限表
 ```
 
-# 前戏
+# 3. 前戏
 
 1. 数据库迁移
 
