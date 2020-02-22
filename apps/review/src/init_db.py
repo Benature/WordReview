@@ -1,4 +1,4 @@
-def init_db(BookList, Review):
+def init_db_booklist(BookList, Review):
     for BOOK in ['GRE3000', 'qugen10000']:
         for l in range(len(set(Review.objects.filter(BOOK=BOOK).values_list('LIST')))):
             ld = Review.objects.filter(BOOK=BOOK, LIST=l)  # list data
@@ -15,3 +15,32 @@ def init_db(BookList, Review):
                     set([str(t[0]) for t in ld.values_list('total_num')])),
             }
             BookList.objects.create(**data)
+
+
+def init_db_word(Review, Words):
+    all = Review.objects.all()
+    for review in all:
+        old = False
+        try:
+            word = Words.objects.get(word=review.word)
+            old = True
+        except:
+            data = {
+                'word': review.word,
+                'mean': review.mean,
+                'forget_num': review.forget_num,
+                'total_num': review.total_num,
+                'history': review.history,
+                'rate': review.rate
+            }
+            word = Words.objects.create(**data)
+
+        if old:
+            word.total_num += review.total_num
+            word.forget_num += review.forget_num
+            word.history += review.history
+            if word.total_num != 0:
+                word.rate = word.forget_num / word.total_num
+        print(word.word)
+        word.save()
+        # break

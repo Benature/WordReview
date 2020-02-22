@@ -17,7 +17,7 @@ style
 
 {% block content %}
 div.container.flex-column
-  a(href="/calendar/") 艾宾浩斯复习日历
+  a(style="text-align:end;" href="/calendar/") 艾宾浩斯复习日历
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
   div.d-flex.flex-wrap
@@ -25,13 +25,14 @@ div.container.flex-column
     div.list-block(href='/review/review?list={{l.i}}&book={{d.name_en}}')
       h4 List {{l.i|add:1}}
       a {{l.len}} 
-        {% if l.max != 0 %}
-        {% if l.min == 0 or l.min == l.max %}
-        | [{{l.max}}次]
-        {%else%}
-        | [{{l.min}}-{{l.max}}次]
-        {%endif%}
-        {%endif%}
+        //- {% if l.max != 0 %}
+        //- {% if l.min == 0 or l.min == l.max %}
+        //- | [{{l.max}}次]
+        //- {%else%}
+        //- | [{{l.min}}-{{l.max}}次]
+        //- {%endif%}
+        //- {%endif%}
+        | [{{l.times}}次]
       div.progress(style="width:100%;")
         div.progress-bar(style="width:{{l.rate}}%;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
           | {{l.rate}}%

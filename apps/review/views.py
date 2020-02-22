@@ -3,12 +3,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-from apps.review.models import Review, BookList
+from apps.review.models import Review, BookList, Words
 
 from apps.src.util import ormToJson, valueList
 
-from apps.review.src.import_excel import import_qugen
-from apps.review.src.init_db import init_db
+# from apps.review.src.import_excel import import_qugen
+from apps.review.src.init_db import init_db_word
 
 from datetime import datetime, timedelta
 
@@ -21,11 +21,11 @@ def index(request):
 
 
 def temp(request):
-    init_db(BookList, Review)
+    init_db_word(Review, Words)
     # import_qugen(Review)
     # rev = Review.objects.filter(BOOK='GRE3000')
     # print(len(rev))
-    return render(request, "review.pug")
+    return render(request, "calendar.pug")
 
 
 @csrf_exempt
@@ -37,7 +37,7 @@ def review_lists(request):
 
     LISTS = [int(i) for i in post.get('list').split('-')]
     if len(LISTS) == 2:
-        LISTS = list(range(LISTS[0], LISTS[1]))
+        LISTS = list(range(LISTS[0], LISTS[1]+1))
     BOOK = post.get('book')
 
     msg = 'done'
@@ -95,16 +95,18 @@ def review_lists(request):
 def review_a_word(request):
     '''接口：在数据库更新单词记忆情况'''
     post = request.POST
-    word = Review.objects.filter(
+    word_in_list = Review.objects.filter(
         word=post.get('word'), BOOK=post.get('book'))[0]
-    word.total_num += 1
-    if post.get('remember') == 'true':
-        word.history += '1'
-    elif post.get('remember') == 'false':
-        word.history += '0'
-        word.forget_num += 1
-    word.rate = word.forget_num / word.total_num
-    word.save()
+    word = Words.objects.get(word=post.get('word'))
+    for w in [word, word_in_list]:
+        w.total_num += 1
+        if post.get('remember') == 'true':
+            w.history += '1'
+        elif post.get('remember') == 'false':
+            w.history += '0'
+            w.forget_num += 1
+        w.rate = word.forget_num / word.total_num
+        w.save()
     data = {'msg': 'done', 'status': 200}
     return JsonResponse(data)
 
@@ -115,14 +117,19 @@ def get_word(request):
     LIST = request.GET.get('list')
     LIST_li = [int(i) for i in LIST.split('-')]
     if len(LIST_li) == 1:
-        word = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+        list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK)
     elif len(LIST_li) == 2:
-        word = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
+        list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
     else:
         raise KeyError('LIST_li 长度异常')
+    word_list = [w[0] for w in list_info.values_list('word')]
+    word = Words.objects.filter(word__in=word_list)
+    if len(word) != len(word_list):
+        return JsonResponse({"msg": 'Words 数据库内缺少单词', 'status': 404})
 
     data = {
         'data': ormToJson(word),
+        'list_info': ormToJson(list_info),
         'status': 200,
     }
     return JsonResponse(data)
@@ -178,13 +185,14 @@ def homepage(request):
         list_info = []
         for l in lists:
             ld = BookList.objects.get(BOOK=BOOK, LIST=l)
-            total = sorted([int(i) for i in ld.review_word_counts.split(';')])
+            # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
                 'i': l,
                 'len': ld.word_num,
                 'rate': int(ld.list_rate * 100),
-                'min': min(total),
-                'max': max(total),
+                # 'min': min(total),
+                # 'max': max(total),
+                'times': ld.ebbinghaus_counter,
             })
         data.append({
             'name': book,

@@ -5,7 +5,7 @@ import uuid
 class Review(models.Model):
     '''复习单词表'''
     word = models.CharField('英文单词', max_length=50, unique=False)
-    mean = models.CharField('中文释义', max_length=500, default='')
+    # mean = models.CharField('中文释义', max_length=500, default='')
     total_num = models.IntegerField('复习总次数', default=0)
     forget_num = models.IntegerField('忘记次数', default=0)
     rate = models.FloatField(
@@ -40,3 +40,26 @@ class BookList(models.Model):
     class Meta:
         db_table = 'book_list'
         ordering = ('BOOK', 'LIST', 'last_review_date')
+
+
+class Words(models.Model):
+    '''单纯的单词表'''
+    flag_choices = (
+        (-1, '太简单'),
+        (0, 'default'),
+        (1, '重难词'),
+    )
+    word = models.CharField('英文单词', max_length=50, unique=True)
+    mean = models.CharField('中文释义', max_length=500, default='')
+    note = models.CharField('记忆法', max_length=200, default='')
+    total_num = models.IntegerField('复习总次数', default=0)
+    forget_num = models.IntegerField('忘记次数', default=0)
+    rate = models.FloatField(
+        '单词遗忘率', default=None, null=True)
+    history = models.CharField('记忆历史', max_length=100,
+                               default='')  # 10100101
+    flag = models.IntegerField('tag', default=0, choices=flag_choices)
+
+    class Meta:
+        db_table = 'words'
+        ordering = ('word',)
