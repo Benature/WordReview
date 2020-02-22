@@ -25,6 +25,7 @@
     justify-content: space-around;
     display: flex;
     margin-top: 30px;
+    width: 320px;
 }
 
 .progress-div{
@@ -67,4 +68,18 @@
 
 #btn-quick-jump{
     color: grey;
+}
+
+.side-echarts{
+    width: 200px;
+    height: inherit;
+}
+
+#echarts-left{
+    height: 100%;
+}
+
+#echarts-bottom{
+    width: 600px;
+    height: 15rem;
 }

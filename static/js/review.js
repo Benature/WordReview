@@ -7,6 +7,10 @@ var lastWord = '';
 var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
 
+var currentHistoryX = new Array();
+var currentHistoryY = new Array();
+
+
 function compareField(att, direct) {
     return function (a, b) {
         var value1 = a.fields[att];
@@ -58,6 +62,73 @@ $(function () {
             readText(word);
         }
 
+        // echarts 画图
+        let X = new Array();
+        let Y = new Array();
+        for (let i = 0; i < data.history.length; i++) {
+            let h = data.history[i]
+            X.push(i);
+            if (i == 0) {
+                Y[0] = h == '1' ? 1 : -1;
+                continue;
+            }
+            Y[i] = Y[i - 1] + (h == '1' ? 1 : -1);
+        }
+        let myChart = echarts.init(document.getElementById("echarts-left"));
+
+        option = {
+            title: {
+                show: true,
+                text: word,
+                subtext: '复习历史',
+                textStyle: {
+                    color: "#757575",
+                    fontWeight: "normal",
+                },
+                // textStyle: {
+                //     color: "#333",
+                // },
+            },
+            legend: {
+                data: ['记忆曲线']
+            },
+            toolbox: {
+                show: false,
+                feature: {
+                    mark: { show: true },
+                    dataView: { show: true, readOnly: true },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            xAxis: {
+                show: false,
+                type: 'category',
+                boundaryGap: false,
+                data: X,
+            },
+            yAxis: {
+                // show: false,
+                type: 'value',
+                // axisLine: {
+                //     lineStyle: {
+                //         color: '#1a85ff'
+                //     }
+                // }
+            },
+            series: [
+                {
+                    data: Y,
+                    type: 'line',
+                    // areaStyle: {}
+                    smooth: 0.2,
+                    color: '#1a85ff',
+                },
+            ]
+        };
+        myChart.setOption(option);
+        $('#echarts-left').addClass('d-none');
     }
 
     function selectWord() {
@@ -90,7 +161,7 @@ $(function () {
 
 
     $('#meaning-box').on('click', function (e) {
-        $('#tmpl-content').removeClass('d-none')
+        $('.hide').removeClass('d-none')
     })
 
     // 往前查看单词时候看到更新后的信息
@@ -99,8 +170,69 @@ $(function () {
         if (!remember) {
             w.forget_num++;
         }
+        w.history += remember ? '1' : '0';
         w.total_num++;
         w.rate = w.forget_num / w.total_num;
+
+        // echarts 画图
+        console.log(wordCount)
+        currentHistoryX.push(wordCount);
+        console.log(currentHistoryX)
+        if (wordCount == 1) {
+            currentHistoryY[0] = remember ? 1 : -1;
+        } else {
+            currentHistoryY.push(currentHistoryY[wordCount - 2] + (remember ? 1 : -1));
+        }
+        let myChart = echarts.init(document.getElementById("echarts-bottom"));
+
+        option = {
+            title: {
+                show: true,
+                text: '本轮复习记忆历史',
+                textStyle: {
+                    color: "#757575",
+                    fontWeight: "normal",
+                },
+            },
+            legend: {
+                data: ['记忆曲线']
+            },
+            toolbox: {
+                show: false,
+                feature: {
+                    mark: { show: true },
+                    dataView: { show: true, readOnly: true },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            xAxis: {
+                // show: false,
+                type: 'category',
+                // boundaryGap: false,
+                data: currentHistoryX,
+                axisLine: {
+                    lineStyle: {
+                        color: '#757575'
+                    }
+                }
+            },
+            yAxis: {
+                show: false,
+                type: 'value',
+            },
+            series: [
+                {
+                    data: currentHistoryY,
+                    type: 'line',
+                    smooth: 0.2,
+                    color: '#bec980',
+                },
+            ]
+        };
+        myChart.setOption(option);
+
     }
 
     // 复习完成后更新后端数据库
@@ -146,7 +278,7 @@ $(function () {
                 // console.log(wordArray)
                 if (wordIndex != wordArray.length - 1) {
                     wordIndex = selectWord();
-                    $('#tmpl-content').addClass('d-none')
+                    $('.hide').addClass('d-none')
                     renderWord(wordArray[wordIndex]);
                 } else {
                     review_finish_post();
@@ -182,9 +314,9 @@ $(function () {
             }
         }
         if (display) {
-            $('#tmpl-content').removeClass('d-none')
+            $('.hide').removeClass('d-none');
         } else {
-            $('#tmpl-content').addClass('d-none')
+            $('.hide').addClass('d-none');
         }
         renderWord(wordArray[wordIndex]);
     })
@@ -242,7 +374,7 @@ $(function () {
                 default:
                     console.error('未知' + text);
             }
-            $('#tmpl-content').addClass('d-none')
+            $('.hide').addClass('d-none');
             sortMode = text;
             wordIndex = 0;
             renderWord(wordArray[wordIndex]);
