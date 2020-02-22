@@ -34,13 +34,14 @@ download from <https://dev.mysql.com/downloads/mysql/>, select `macOS 10.14 (x86
 
 >顺路会看到一个叫 workbench 的，可视化工具，就像看 excel 看数据库，which is recommended.
 
-2. 安装
+2. 安装  
 clike `next` all the way.
 
 set the PATH
 
 ```shell
 vim ~/.bash_profile
+# 增加以下这行
 PATH=$PATH:/usr/local/mysql/bin
 ```
 
@@ -81,9 +82,10 @@ mysql -V # check version
 参见[此文](https://benature.github.io/linux/wsl-install-mysql8/)
 </details>
 
-- macOS 和 Windows 下可以装个数据库 GUI app
-  - MySQL Workbench (free & recommend)
-  ~~如同处理 excel，不用学 mysql 命令也能操作数据库啦~~
+
+>macOS 和 Windows 下可以装个数据库 GUI app  
+>  - MySQL Workbench (free & recommend)  
+>  ~~如同处理 excel，不用学 mysql 命令也能操作数据库啦~~
 
 ## 2.2. Mysql configuration
 
