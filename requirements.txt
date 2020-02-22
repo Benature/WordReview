@@ -5,5 +5,4 @@ libsass==0.19.4
 mysqlclient==1.4.6
 pymysql==0.9.3
 pypugjs==5.8.1
-
 django-compressor

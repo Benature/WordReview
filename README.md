@@ -2,8 +2,11 @@
 
 Django + MySQL + Pug + JS
 
-- django-3.0.3
-- Mysql
+- Python 3.7
+- Django 3.0
+- Mysql 8
+
+简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)
 
 ## 前言
 
@@ -35,4 +38,13 @@ Django + MySQL + Pug + JS
 
 ## 安装
 
-有点繁琐，请看[这里](doc/install.md)
+安装指引请看[这里](doc/install.md)
+
+## 使用
+
+```shell
+conda activate <venv name>
+python manage.py runserver
+```
+
+打开<localhost:8000/>，开始背单词之旅吧🤓

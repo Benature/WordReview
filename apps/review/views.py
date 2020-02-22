@@ -21,7 +21,7 @@ def index(request):
 
 
 def temp(request):
-    init_db_word(Review, Words)
+    # init_db_word(Review, Words)
     # import_qugen(Review)
     # rev = Review.objects.filter(BOOK='GRE3000')
     # print(len(rev))

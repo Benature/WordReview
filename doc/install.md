@@ -37,7 +37,9 @@ download from <https://dev.mysql.com/downloads/mysql/>, select `macOS 10.14 (x86
 2. 安装  
 clike `next` all the way.
 
-set the PATH
+3. 设置环境变量
+
+如果`mysql -Version`命令会报错，补一下环境变量
 
 ```shell
 vim ~/.bash_profile
