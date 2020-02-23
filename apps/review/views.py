@@ -3,11 +3,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-from apps.review.models import Review, BookList, Words
+from apps.review.models import Review, BookList, Words, Books
 
 from apps.src.util import ormToJson, valueList
 
-# from apps.review.src.init_db import import_word, init_db_word, init_db_booklist(BookList, Review)
+from apps.review.src.init_db import (
+    import_word, init_db_words, init_db_booklist, init_db_books)
 
 from datetime import datetime, timedelta
 
@@ -21,8 +22,9 @@ def index(request):
 
 def temp(request):
     # import_word(Review, BookList, Words)
-    # init_db_booklist(BookList, Review)
     # init_db_word(Review, Words)
+    # init_db_booklist(BookList, Review)
+    # init_db_books(Books)
     return render(request, "calendar.pug")
 
 
@@ -116,8 +118,12 @@ def get_word(request):
     BOOK = request.GET.get('book')
     LIST = request.GET.get('list')
     LIST_li = [int(i) for i in LIST.split('-')]
+    sortType = '乱序'
     if len(LIST_li) == 1:
         list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+        counter = BookList.objects.get(LIST=LIST, BOOK=BOOK).ebbinghaus_counter
+        if counter == 0:
+            sortType = '顺序'
     elif len(LIST_li) == 2:
         list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
     else:
@@ -142,24 +148,32 @@ def get_word(request):
     data = {
         'data': list_info,
         'status': 200,
+        'sort': sortType,
     }
     return JsonResponse(data)
 
 
 def get_calendar_data(request):
     '''接口：获取日历渲染数据'''
+    books = Books.objects.all()
+    book_info = {}
+    for b in books:
+        book_info[b.BOOK] = {
+            'abbr': b.BOOK_abbr,
+            'begin_index': 1 if b.begin_index == 0 else 0,
+        }
     # db = BookList.objects.filter(~Q(ebbinghaus_counter=0))
     db = BookList.objects.filter(ebbinghaus_counter__range=[1, 5])
-    # today = datetime.now()
-    # begin = today - timedelta(days=(today.weekday() + 1))
-    # end = begin + timedelta(days=(7 * 4))
+    data = ormToJson(db)
+    for d in data:
+        d = d['fields']
+        d['abbr'] = book_info[d['BOOK']]['abbr']
+        d['begin_index'] = book_info[d['BOOK']]['begin_index']
+
     data = {
-        'data': ormToJson(db),
+        'data': data,
         'EBBINGHAUS_DELTA': EBBINGHAUS_DELTA,
         'status': 200,
-        # 'begin': begin.strftime('%Y-%m-%d'),
-        # 'end': end.strftime('%Y-%m-%d'),
-        # 'today': today.strftime('%Y-%m-%d'),
     }
     return JsonResponse(data)
 
@@ -187,10 +201,18 @@ def homepage(request):
     # BOOK = request.GET.get('book')
     # if BOOK is None:
     #     BOOK = 'qugen10000'
-    # b = set(Review.objects.values_list('BOOK'))
-    dic = {'qugen10000': '曲根一万单词', 'GRE3000': '再要你命3000'}
+    books = Books.objects.all()[::-1]
+    dic = {}
+    for b in books:
+        dic[b.BOOK] = {
+            'BOOK_zh': b.BOOK_zh,
+            'begin_index': b.begin_index,
+        }
     data = []
-    for BOOK, book in dic.items():
+    for BOOK, book_info in dic.items():
+        book = book_info['BOOK_zh']
+        index = book_info['begin_index']
+        index = 1 if index == 0 else 0
         lists = sorted([l[0] for l in (set(Review.objects.filter(
             BOOK=BOOK).values_list('LIST')))])
         list_info = []
@@ -198,7 +220,7 @@ def homepage(request):
             ld = BookList.objects.get(BOOK=BOOK, LIST=l)
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
-                'i': l,
+                'i': l + index,
                 'len': ld.word_num,
                 'rate': int(ld.list_rate * 100),
                 # 'min': min(total),

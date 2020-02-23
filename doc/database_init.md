@@ -8,14 +8,14 @@
 然后来到`apps/review/views.py`，找到
 
 ```python
-# from apps.review.src.init_db import import_word, init_db_word, init_db_booklist(BookList, Review)
+# from apps.review.src.init_db import import_word, init_db_word, init_db_booklist
 
 ...
 
 def temp(request):
     # import_word(Review, BookList, Words)
-    # init_db_booklist(BookList, Review)
     # init_db_word(Review, Words)
+    # init_db_booklist(BookList, Review)
     return render(request, "calendar.pug")
 ```
 
@@ -24,3 +24,5 @@ def temp(request):
 打开<localhost:8000/temp/>，当你网页加载完成，说明数据库导入结束了，或者你也可以看下 terminal，原始代码是导入一个单词都打印出来了，你可以看到哗啦啦的一片。
 
 结束后再把那几行给注释了，以后用不着了。
+
+**Warning: 只能跑一次，跑多次数据库内容就重复了！**

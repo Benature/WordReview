@@ -31,7 +31,7 @@ function getDataRow(data, i, tag = 'td') {
             // l = l.length == 1 ? '0' + l : l;
             let cls = d.state ? 'undo' : 'done';
             let href = 'book=' + d.BOOK + '&list=' + d.LIST;
-            text += '<div class="list ' + cls + '" href="' + href + '">' + d.BOOK[0].replace(/q/, 'T') + l + '<sup>' + d.c + '</sup></div>';
+            text += '<div class="list ' + cls + '" href="' + href + '">' + d.abbr + l + '<sup>' + d.c + '</sup></div>';
         }
         bigDiv.innerHTML += text + '</div';
 
@@ -52,6 +52,16 @@ function drawTable(data) {
     }
 }
 
+function pushCalendarData(list, j, state) {
+    return {
+        BOOK: list.BOOK,
+        LIST: (list.LIST),
+        c: j + list.begin_index,
+        state: state,
+        abbr: list.abbr,
+    }
+}
+
 function renderCalendar(data) {
     today = new Date();
     calendar_begin = addDays(today, (-today.getDay() - 7));
@@ -66,12 +76,8 @@ function renderCalendar(data) {
         for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DELTA.length; j++) {
             let next_day = addDays(last_review_date, EBBINGHAUS_DELTA[j]);
             if (dayDelta(next_day, calendar_end) >= 0) { break; }
-            calendar[dayDelta(next_day, calendar_begin) + 1].push({
-                BOOK: list.BOOK,
-                LIST: (list.LIST),
-                c: j + 1,
-                state: true,
-            })
+            calendar[dayDelta(next_day, calendar_begin) + 1].push(
+                pushCalendarData(list, j, true));
             last_review_date = next_day;
         }
         let history = list.review_dates.split(';');
@@ -79,12 +85,8 @@ function renderCalendar(data) {
             let old_date = new Date(history[j]);
             let d = dayDelta(old_date, calendar_begin) + 1;
             if (d < 0) { continue; }
-            calendar[d].push({
-                BOOK: list.BOOK,
-                LIST: (list.LIST),
-                c: j + 1,
-                state: false,
-            })
+            calendar[d].push(
+                pushCalendarData(list, j, false));
         }
     }
     drawTable(calendar);

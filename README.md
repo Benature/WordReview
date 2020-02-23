@@ -44,6 +44,13 @@ Django + MySQL + Pug + JS
 
 </details>
 
+</br>
+
+<p align="center">
+  <img src="./doc/img/demo1.png" width="50%"/>
+</p>
+<p align="center">单词复习页</p>
+</br>
 
 ## 安装
 
@@ -62,7 +69,7 @@ conda activate <venvName> # <venvName>是你设置的虚拟环境名
 python manage.py runserver
 ```
 
-打开<localhost:8000/>，开始背单词之旅吧🤓
+打开[localhost:8000](localhost:8000/)，开始背单词之旅吧 🤓
 
 当你想要更新代码的时候，请
 

@@ -13,5 +13,8 @@ uwsgi.out
 logs/
 /media/
 
+# config
+/config.py
+
 # local
 data/

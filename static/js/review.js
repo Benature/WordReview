@@ -36,7 +36,8 @@ $(function () {
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
         $('.progress-bar').css("width", data.panRate * 100 + "%");
-        if (!data.panRate == 0 || !data.panRate == null) {
+        console.log(data.panRate);
+        if (data.panRate > 0 && data.panRate != null) {
             $('#tmpl-total-num').addClass('d-none');
             $('#tmpl-progress').text(data.panForgetNum + '/' + data.panTotalNum);
             $('#tmpl-total-num').text('');
@@ -154,17 +155,22 @@ $(function () {
             book: book,
         }
     }).done(function (response) {
-        console.log(response)
-        wordArray = response.data;
-        // 乱序
-        wordArray.sort(function (a, b) {
-            return Math.random() > 0.5 ? -1 : 1;
-        })
-        let data = response.data[wordIndex];
         if (response.status === 200) {
-            renderWord(data);
-        } else {
-            layer.msg(response.msg)
+            wordArray = response.data;
+            // 乱序
+            if (response.sort == sortMode) {
+                wordArray.sort(function (a, b) {
+                    return Math.random() > 0.5 ? -1 : 1;
+                })
+            } else {
+                sortMode = response.sort;
+            }
+            let data = response.data[wordIndex];
+            if (response.status === 200) {
+                renderWord(data);
+            } else {
+                layer.msg(response.msg)
+            }
         }
     })
 
