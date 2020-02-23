@@ -11,8 +11,7 @@
 staticsfile/
 uwsgi.out
 logs/
-static/resource/
-media/
+/media/
 
 # local
 data/

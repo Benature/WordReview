@@ -1,4 +1,4 @@
-<a href="https://pugjs.org"><img src="./static/media/muyi.png" height="200" align="right"></a>
+<a href="https://benature.github.io/"><img src="./static/media/muyi.png" height="200" align="right"></a>
 
 # Word Review 单词复习
 
