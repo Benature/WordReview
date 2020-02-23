@@ -7,8 +7,7 @@ from apps.review.models import Review, BookList, Words
 
 from apps.src.util import ormToJson, valueList
 
-# from apps.review.src.import_excel import import_qugen
-from apps.review.src.init_db import init_db_word
+# from apps.review.src.init_db import import_word, init_db_word, init_db_booklist(BookList, Review)
 
 from datetime import datetime, timedelta
 
@@ -21,10 +20,9 @@ def index(request):
 
 
 def temp(request):
+    # import_word(Review, BookList, Words)
+    # init_db_booklist(BookList, Review)
     # init_db_word(Review, Words)
-    # import_qugen(Review)
-    # rev = Review.objects.filter(BOOK='GRE3000')
-    # print(len(rev))
     return render(request, "calendar.pug")
 
 

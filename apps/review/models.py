@@ -9,7 +9,7 @@ class Review(models.Model):
     total_num = models.IntegerField('复习总次数', default=0)
     forget_num = models.IntegerField('忘记次数', default=0)
     rate = models.FloatField(
-        '单词遗忘率', default=None, null=True)
+        '单词遗忘率', default=-1, null=False)
     LIST = models.IntegerField('list', default=0)
     UNIT = models.IntegerField('unit', default=0)
     INDEX = models.IntegerField('index', default=0)
