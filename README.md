@@ -1,3 +1,5 @@
+<a href="https://pugjs.org"><img src="./static/media/muyi.png" height="200" align="right"></a>
+
 # Word Review 单词复习
 
 Django + MySQL + Pug + JS
@@ -56,3 +58,9 @@ python manage.py runserver
 ```
 
 打开<localhost:8000/>，开始背单词之旅吧🤓
+
+当你想要更新代码的时候，请
+
+```shell
+git pull
+```
