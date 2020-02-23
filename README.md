@@ -14,6 +14,8 @@ Django + MySQL + Pug + JS
 
 ## 前言
 
+<b><details><summary>前言有点啰嗦（先收起来）</summary></b>
+
 ### 主流单词软件给我的痛点
 
 大部分软件对错词的处理似乎只记录了他`错过`，至于错了多少次，用户一般不能显式知晓。对单词错误率的感觉，只能从这个单词是否在软件的错题本上显式来隐隐约约得知。之前看过一些背单词的方法，其中一个是根据错误率排序来背单词（也就算是挑重点了），这样我觉得比单纯一个错题本记录要来的精确。
@@ -40,13 +42,16 @@ Django + MySQL + Pug + JS
 - ~~缺背单词的毅力~~
 - ······
 
+</details>
+
+
 ## 安装
 
 ```shell
 git clone https://github.com/Benature/WordReview.git
 ```
 
-安装指引请看[这里](doc/install.md)
+安装指引请看[这里](doc/install.md)，数据库初始化看[这里](doc/database_init.md)。
 
 文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
