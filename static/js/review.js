@@ -51,9 +51,9 @@ $(function () {
         // note
         note = data.note;
         if (data.note.length == 0) {
-            $('#tmpl-note').text(word);
+            $('#tmpl-note').val(word);
         } else {
-            $('#tmpl-note').text(note);
+            $('#tmpl-note').val(note);
         }
 
         // 中文释义处理
@@ -182,11 +182,10 @@ $(function () {
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
         w.panRate = w.panForgetNum / w.panTotalNum;
+        w.note = $('#tmpl-note').val();
 
         // echarts 画图
-        console.log(wordCount)
         currentHistoryX.push(wordCount);
-        console.log(currentHistoryX)
         if (wordCount == 1) {
             currentHistoryY[0] = remember ? 1 : -1;
         } else {
@@ -270,7 +269,7 @@ $(function () {
         } else if ($(this).text() == '不认识') {
             remember = false;
         }
-        let note_now = $('#tmpl-note').text();
+        let note_now = $('#tmpl-note').val();
         $.ajax({
             url: '/review/review_a_word',
             type: 'POST',
@@ -278,7 +277,7 @@ $(function () {
                 remember: remember,
                 word: word,
                 book: book,
-                note: note == note_now ? false : note_now,
+                note: (note == note_now || note_now == word) ? false : note_now,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -324,12 +323,12 @@ $(function () {
                 display = true;
             }
         }
+        renderWord(wordArray[wordIndex]);
         if (display) {
             $('.hide').removeClass('d-none');
         } else {
             $('.hide').addClass('d-none');
         }
-        renderWord(wordArray[wordIndex]);
     })
     $('#btn-quick-jump').on('click', function (e) {
         let i = parseInt($('#jump-index').val());

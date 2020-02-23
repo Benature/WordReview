@@ -2,11 +2,11 @@
 
 Django + MySQL + Pug + JS
 
-- Python 3.7
-- Django 3.0
+- Python 3.7+
+- Django 3
 - Mysql 8
 
-简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)。
+简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)，欢迎康康。
 
 如果觉得还不错的话，不如给个 star✨呗(￣▽￣)~*
 
@@ -45,6 +45,8 @@ git clone https://github.com/Benature/WordReview.git
 ```
 
 安装指引请看[这里](doc/install.md)
+
+文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
 ## 使用
 

@@ -1,3 +1,5 @@
+>文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
+
 # 1. Python 环境
 
 1. Install `Miniconda` (recommanded) or `Anaconda` at first.
@@ -6,7 +8,7 @@
 >名字随便定，这里以`tgword`为例
 
 ```shell
-conda create -n tgword
+conda create -n tgword python=3
 ```
 
 1. activate the environment
@@ -23,13 +25,21 @@ source activate tgword
 pip install -r requirements.txt
 ```
 
-<b><details><summary>你可能会遇到的问题</summary></b>
+<b><details><summary>你可能会遇到的问题（点开）</summary></b>
 
+- pip 命令不见了
 ```shell
 pip: command not found
 ```
 
 那么请看[这里](https://benature.github.io/python-code/pip-cmd-not-found/)
+
+- 其他你 handle 不了的报错
+  那就退而求其次跑下面这个吧
+
+```shell
+pip install django pypugjs pymysql django-compressor django-sass-processor libsass mysqlclient
+```
 </details>
 
 
@@ -139,11 +149,17 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-3. debug🤦‍♂️  
-然后大概率会报错，因为有个包有问题（实名甩锅），从报错也能看出来
+3. debug 🤦‍♂️  
+然后大概率会报错👇，因为有个包有问题（实名甩锅）
+
+```error
+mysqlclient 1.3.13 or newer is required;
+```
+
+根据自己情况修改`/path/to/xxxconda`部分，修改文件
 
 ```shell
-vim /opt/miniconda3/lib/python3.7/site-packages/django/db/backends/mysql/base.py
+vim /path/to/xxxconda/lib/python3.7/site-packages/django/db/backends/mysql/base.py
 ```
 
 找到下面两行，注释之
