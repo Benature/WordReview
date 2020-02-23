@@ -6,6 +6,7 @@ var wordIndex = 0;
 var lastWord = '';
 var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
+var note = '';
 
 var currentHistoryX = new Array();
 var currentHistoryY = new Array();
@@ -34,18 +35,26 @@ $(function () {
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
-        $('.progress-bar').css("width", data.rate * 100 + "%");
-        if (!data.rate == 0 || !data.rate == null) {
+        $('.progress-bar').css("width", data.panRate * 100 + "%");
+        if (!data.panRate == 0 || !data.panRate == null) {
             $('#tmpl-total-num').addClass('d-none');
-            $('#tmpl-progress').text(data.forget_num + '/' + data.total_num);
+            $('#tmpl-progress').text(data.panForgetNum + '/' + data.panTotalNum);
             $('#tmpl-total-num').text('');
         } else {
             $('#tmpl-total-num').removeClass('d-none');
             $('#tmpl-progress').text('');
-            $('#tmpl-total-num').text(data.total_num);
+            $('#tmpl-total-num').text(data.panTotalNum);
         }
         $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
             ' [' + wordIndex + '/' + wordArray.length + ']');
+
+        // note
+        note = data.note;
+        if (data.note.length == 0) {
+            $('#tmpl-note').text(word);
+        } else {
+            $('#tmpl-note').text(note);
+        }
 
         // 中文释义处理
         let means = data.mean.split('\n')
@@ -65,8 +74,8 @@ $(function () {
         // echarts 画图
         let X = new Array();
         let Y = new Array();
-        for (let i = 0; i < data.history.length; i++) {
-            let h = data.history[i]
+        for (let i = 0; i < data.panHistory.length; i++) {
+            let h = data.panHistory[i]
             X.push(i);
             if (i == 0) {
                 Y[0] = h == '1' ? 1 : -1;
@@ -168,11 +177,11 @@ $(function () {
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
         if (!remember) {
-            w.forget_num++;
+            w.panForgetNum++;
         }
-        w.history += remember ? '1' : '0';
-        w.total_num++;
-        w.rate = w.forget_num / w.total_num;
+        w.panHistory += remember ? '1' : '0';
+        w.panTotalNum++;
+        w.panRate = w.panForgetNum / w.panTotalNum;
 
         // echarts 画图
         console.log(wordCount)
@@ -261,6 +270,7 @@ $(function () {
         } else if ($(this).text() == '不认识') {
             remember = false;
         }
+        let note_now = $('#tmpl-note').text();
         $.ajax({
             url: '/review/review_a_word',
             type: 'POST',
@@ -268,6 +278,7 @@ $(function () {
                 remember: remember,
                 word: word,
                 book: book,
+                note: note == note_now ? false : note_now,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -366,10 +377,10 @@ $(function () {
                     })
                     break;
                 case '记忆序':
-                    wordArray.sort(compareField('rate', -1));
+                    wordArray.sort(compareField('panRate', -1));
                     break;
                 case '次数序':
-                    wordArray.sort(compareField('total_num', 1));
+                    wordArray.sort(compareField('panTotalNum', 1));
                     break;
                 default:
                     console.error('未知' + text);

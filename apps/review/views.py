@@ -98,6 +98,8 @@ def review_a_word(request):
     word_in_list = Review.objects.filter(
         word=post.get('word'), BOOK=post.get('book'))[0]
     word = Words.objects.get(word=post.get('word'))
+    if (post.get('note')):
+        word.note = post.get('note')
     for w in [word, word_in_list]:
         w.total_num += 1
         if post.get('remember') == 'true':
@@ -122,14 +124,25 @@ def get_word(request):
         list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
     else:
         raise KeyError('LIST_li 长度异常')
-    word_list = [w[0] for w in list_info.values_list('word')]
-    word = Words.objects.filter(word__in=word_list)
-    if len(word) != len(word_list):
-        return JsonResponse({"msg": 'Words 数据库内缺少单词', 'status': 404})
-
+    # word_list = [w[0] for w in list_info.values_list('word')]
+    # word = Words.objects.filter(word__in=word_list)
+    # if len(word) != len(word_list):
+    #     return JsonResponse({"msg": 'Words 数据库内缺少单词', 'status': 404})
+    list_info = ormToJson(list_info)
+    for l in list_info:
+        l = l['fields']
+        try:
+            w = Words.objects.get(word=l['word'])
+        except Words.DoesNotExist:
+            return JsonResponse({"msg": f"Word not found:{l['word']}", 'status': 404})
+        l['panTotalNum'] = w.total_num
+        l['panForgetNum'] = w.forget_num
+        l['panRate'] = w.rate
+        l['panHistory'] = w.history
+        l['mean'] = w.mean
+        l['note'] = w.note
     data = {
-        'data': ormToJson(word),
-        'list_info': ormToJson(list_info),
+        'data': list_info,
         'status': 200,
     }
     return JsonResponse(data)

@@ -65,7 +65,7 @@ function renderCalendar(data) {
         let last_review_date = new Date(list.last_review_date);
         for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DELTA.length; j++) {
             let next_day = addDays(last_review_date, EBBINGHAUS_DELTA[j]);
-            if ((calendar_end - next_day) < 0) { break; }
+            if (dayDelta(next_day, calendar_end) >= 0) { break; }
             calendar[dayDelta(next_day, calendar_begin) + 1].push({
                 BOOK: list.BOOK,
                 LIST: (list.LIST),

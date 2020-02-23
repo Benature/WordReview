@@ -6,7 +6,9 @@ Django + MySQL + Pug + JS
 - Django 3.0
 - Mysql 8
 
-简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)
+简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)。
+
+如果觉得还不错的话，不如给个 star✨呗(￣▽￣)~*
 
 ## 前言
 
@@ -38,12 +40,16 @@ Django + MySQL + Pug + JS
 
 ## 安装
 
+```shell
+git clone https://github.com/Benature/WordReview.git
+```
+
 安装指引请看[这里](doc/install.md)
 
 ## 使用
 
 ```shell
-conda activate <venv name>
+conda activate <venvName> # <venvName>是你设置的虚拟环境名
 python manage.py runserver
 ```
 

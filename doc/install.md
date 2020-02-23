@@ -23,6 +23,15 @@ source activate tgword
 pip install -r requirements.txt
 ```
 
+<b><details><summary>你可能会遇到的问题</summary></b>
+
+```shell
+pip: command not found
+```
+
+那么请看[这里](https://benature.github.io/python-code/pip-cmd-not-found/)
+</details>
+
 
 # 2. MySQL
 
@@ -106,7 +115,16 @@ grant all privileges ON tg_word_db.* TO 'tg_word_user'@'localhost'; -- 授权
 flush privileges; -- 刷新系统权限表
 ```
 
+>如果你在这里自定义了数据库名和用户名的话，需要去`WordReview/setting.py`内修改对应的数据库配置
+
 # 3. 前戏
+
+在这个**仓库根目录**下
+
+```shell
+# 首先确保在虚拟环境下
+conda activate tgword
+```
 
 1. 数据库迁移
 
