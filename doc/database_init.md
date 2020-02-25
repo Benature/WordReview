@@ -8,7 +8,8 @@
 然后来到`apps/review/views.py`，找到
 
 ```python
-# from apps.review.src.init_db import import_word, init_db_word, init_db_booklist
+from apps.review.src.init_db import (
+    import_word, init_db_words, init_db_booklist, init_db_books)
 
 ...
 
@@ -16,6 +17,7 @@ def temp(request):
     # import_word(Review, BookList, Words)
     # init_db_word(Review, Words)
     # init_db_booklist(BookList, Review)
+    # init_db_books(Books)
     return render(request, "calendar.pug")
 ```
 

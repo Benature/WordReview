@@ -52,9 +52,14 @@ def review_lists(request):
             status = 501
             break
 
-        rate = sum([r[0] if r[0] is not None else 1 for r in ld.values_list('rate')
+        rate = sum([r[0] if r[0] != -1 else 1 for r in ld.values_list('rate')
                     ]) / len(ld)
         rate = 1 - rate if rate != 0.0 else 0
+
+        if rate == 0:
+            status = 404
+            msg = '你怕是还没背过这个List'
+            continue
 
         L_db.word_num = len(ld)
         L_db.review_word_counts = ';'.join(
@@ -98,7 +103,7 @@ def review_a_word(request):
     word_in_list = Review.objects.filter(
         word=post.get('word'), BOOK=post.get('book'))[0]
     word = Words.objects.get(word=post.get('word'))
-    if (post.get('note')):
+    if (post.get('note') != 'false'):
         word.note = post.get('note')
     for w in [word, word_in_list]:
         w.total_num += 1
@@ -149,6 +154,7 @@ def get_word(request):
         'data': list_info,
         'status': 200,
         'sort': sortType,
+        'begin_index': int(Books.objects.get(BOOK=BOOK).begin_index == 0)
     }
     return JsonResponse(data)
 
@@ -212,7 +218,7 @@ def homepage(request):
     for BOOK, book_info in dic.items():
         book = book_info['BOOK_zh']
         index = book_info['begin_index']
-        index = 1 if index == 0 else 0
+        # index = 1 if index == 0 else 0
         lists = sorted([l[0] for l in (set(Review.objects.filter(
             BOOK=BOOK).values_list('LIST')))])
         list_info = []
@@ -220,12 +226,13 @@ def homepage(request):
             ld = BookList.objects.get(BOOK=BOOK, LIST=l)
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
-                'i': l + index,
+                'i': l,
                 'len': ld.word_num,
                 'rate': int(ld.list_rate * 100),
                 # 'min': min(total),
                 # 'max': max(total),
                 'times': ld.ebbinghaus_counter,
+                'index': index
             })
         data.append({
             'name': book,

@@ -125,7 +125,7 @@ grant all privileges ON tg_word_db.* TO 'tg_word_user'@'localhost'; -- 授权
 flush privileges; -- 刷新系统权限表
 ```
 
->如果你在这里自定义了数据库名和用户名的话，需要去`WordReview/setting.py`内修改对应的数据库配置
+>如果你在这里自定义了数据库名和用户名的话，需要去`config.py`内修改对应的数据库配置
 
 # 3. 前戏
 

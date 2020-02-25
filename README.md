@@ -46,17 +46,21 @@ Django + MySQL + Pug + JS
 
 </br>
 
-<p align="center">
-  <img src="./doc/img/demo1.png" width="50%"/>
-</p>
 <p align="center">单词复习页</p>
+<p align="center">
+  <img src="./doc/img/demo1.png" width="70%"/>
+</p>
 </br>
+
+背单词方法我主要参考[这种方法](https://www.bilibili.com/video/av46223252/)。
 
 ## 安装
 
 ```shell
 git clone https://github.com/Benature/WordReview.git
 ```
+
+复制一份`./config_sample.py`文件，改名为`./config.py`
 
 安装指引请看[这里](doc/install.md)，数据库初始化看[这里](doc/database_init.md)。
 
