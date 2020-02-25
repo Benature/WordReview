@@ -48,7 +48,17 @@ Django + MySQL + Pug + JS
 
 <p align="center">单词复习页</p>
 <p align="center">
-  <img src="./doc/img/demo1.png" width="70%"/>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo1.png" width="70%"/></a>
+</p>
+</br>
+<p align="center">艾宾浩斯日历</p>
+<p align="center">
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="70%"/></a>
+</p>
+</br>
+<p align="center">主页</p>
+<p align="center">
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="70%"/></a>
 </p>
 </br>
 

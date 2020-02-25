@@ -13,10 +13,13 @@ Unit
 Index
 '''
 
+path = config.excel_path
+df = pd.read_excel(path)
+
 
 def import_word(Review, BookList, Words):
-    path = config.excel_path
-    df = pd.read_excel(path)
+    # path = config.excel_path
+    # df = pd.read_excel(path)
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         review_db = {
@@ -57,8 +60,8 @@ def init_db_booklist(BookList, Review):
 
 
 def init_db_words(Review, Words):
-    path = config.excel_path
-    df = pd.read_excel(path)
+    # path = config.excel_path
+    # df = pd.read_excel(path)
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         try:
