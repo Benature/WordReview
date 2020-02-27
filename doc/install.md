@@ -10,6 +10,8 @@ git clone https://github.com/Benature/WordReview.git
 
 # 2. Python 环境
 
+<b><details><summary>选择一：开发者流程</summary></b>
+
 1. Install `Miniconda` (recommanded) or `Anaconda` at first.
 2. create a virtual environment  
   名字随便定，这里以`tgword`为例
@@ -34,21 +36,33 @@ source activate tgword
 pip install -r requirements.txt
 ```
 
-<b><details><summary>你可能会遇到的问题（点开）</summary></b>
+</details>
 
-- pip 命令不见了
+<b><details open><summary>选择二：小白流程</summary></b>
+
+你只要能运行 Python 就好了！
+
+在命令行跑这个👇
+
+```shell
+pip install django pypugjs pymysql django-compressor django-sass-processor libsass mysqlclient -i http://mirrors.aliyun.com/pypi/simple/ 
+```
+
+</details>
+
+<b><details open><summary>另：你可能会遇到的问题</summary></b>
+
+- pip 命令不见了（像下面这种报错）
+
 ```shell
 pip: command not found
 ```
 
 那么请看[这里](https://benature.github.io/python-code/pip-cmd-not-found/)
 
-- 其他你 handle 不了的报错
-  那就退而求其次跑下面这个吧
+<!-- - 其他你 handle 不了的报错
+  那就退而求其次跑下面这个吧 -->
 
-```shell
-pip install django pypugjs pymysql django-compressor django-sass-processor libsass mysqlclient
-```
 </details>
 
 
@@ -58,10 +72,6 @@ pip install django pypugjs pymysql django-compressor django-sass-processor libsa
 
 ## 3.1. 选择一：sqlite3
 
-小白建议用 sqlite3
-
->不过我是用 MySQL 的，如果想直接操作数据库的话，主要靠你自己百度的，你来问我我也是去百度的。  
->当然，只要你操作正常，一般没必要去直接操作数据库的。
 
 `config.py`文件下，找到下面这个变量，定义为`sqlite`。（默认就是这个，一般不用动了）
 
@@ -70,7 +80,13 @@ pip install django pypugjs pymysql django-compressor django-sass-processor libsa
 database_type = 'sqlite'
 ```
 
+>不过我是用 MySQL 的，如果想直接操作数据库的话，主要靠你自己百度的，你来问我我也是去百度的。  
+>当然，只要你操作正常，一般没必要去直接操作数据库的。  
+>再其实，就算要直接操作数据库，也可以借助 GUI 工具，工具有哪些可以[自己找找看](https://www.bing.com/search?q=sqlite+GUI)。
+
 ## 3.2. 选择二：MySQL
+
+<b><details><summary>MySQL 操作这么繁琐一看就劝退喽</summary></b>
 
 ### 3.2.1. Install
 
@@ -161,13 +177,16 @@ flush privileges; -- 刷新系统权限表
 database_type = 'mysql'
 ```
 
+</details>
+
+
 # 4. 前戏
 
 在这个**仓库根目录**下
 
 ```shell
 # 首先确保在虚拟环境下
-conda activate tgword
+conda activate tgword # 小白跳过
 ```
 
 1. 数据库迁移

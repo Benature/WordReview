@@ -3,6 +3,9 @@
 import os
 import sys
 
+BASE_DIR = os.path.abspath(__file__)
+sys.path.append(os.path.join(BASE_DIR, "pypi"))
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WordReview.settings')

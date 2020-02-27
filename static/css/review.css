@@ -91,3 +91,11 @@
     padding: 10px 10px;
     /* border: 0; */
 }
+
+.d-n-note{
+    display: none;
+}
+
+#active-note{
+    cursor: pointer;
+}

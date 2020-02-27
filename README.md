@@ -51,14 +51,14 @@ Django + MySQL + Pug + JS
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo1.png" width="70%"/></a>
 </p>
 </br>
-<p align="center">艾宾浩斯日历</p>
+<p align="center">艾宾浩斯日历(还没改的很好看)</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="70%"/></a>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="60%"/></a>
 </p>
 </br>
 <p align="center">主页</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="70%"/></a>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="60%"/></a>
 </p>
 </br>
 
@@ -72,14 +72,14 @@ git clone https://github.com/Benature/WordReview.git
 
 复制一份`./config_sample.py`文件，改名为`./config.py`
 
-安装指引请看[这里](doc/install.md)，数据库初始化看[这里](doc/database_init.md)。
+其余安装指引请看[这里](doc/install.md)，数据库初始化看[这里](doc/database_init.md)。
 
 文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
 ## 使用
 
 ```shell
-conda activate <venvName> # <venvName>是你设置的虚拟环境名
+conda activate <venvName> # 小白流程不用这条命令
 python manage.py runserver
 ```
 
@@ -90,3 +90,11 @@ python manage.py runserver
 ```shell
 git pull
 ```
+
+---
+
+### 更新日志
+
+- fea: 笔记框默认隐藏，点击显示（增加有无笔记之对比） @02-27
+- 优化线型图显示（0 起） @02-27
+- fix: 日历显示月份 bug 修复 @02-27
