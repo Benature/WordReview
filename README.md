@@ -76,6 +76,8 @@ git clone https://github.com/Benature/WordReview.git
 
 文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
+<!-- 链接:https://pan.baidu.com/s/1XiyI7DPxrd_mRsuvMeJwQg  密码:0hhe -->
+
 ## 使用
 
 ```shell
@@ -95,6 +97,7 @@ git pull
 
 ### 更新日志
 
+- fea: 新增导入单词本页面 @02-27
 - fea: 笔记框默认隐藏，点击显示（增加有无笔记之对比） @02-27
 - 优化线型图显示（0 起） @02-27
 - fix: 日历显示月份 bug 修复 @02-27

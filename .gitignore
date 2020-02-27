@@ -19,7 +19,7 @@ logs/
 # PyInstaller
 /build/
 /dist/
-/manage.spec
+/*.spec
 
 # local
 data/

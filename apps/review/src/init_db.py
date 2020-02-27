@@ -1,8 +1,8 @@
-import pandas as pd
+from pandas import read_excel
 import config
 
-bookName = config.BOOK  # 请用英文
-List_begin_num = config.begin_index  # 或 1，看你的 List 是从 0 开始还是 1 开始
+# bookName = config.BOOK  # 请用英文
+# List_begin_num = config.begin_index  # 或 1，看你的 List 是从 0 开始还是 1 开始
 
 '''
 如果是 excel/csv，你应该有以下列
@@ -13,13 +13,13 @@ Unit
 Index
 '''
 
-path = config.excel_path
-df = pd.read_excel(path)
+# path = config.excel_path
+# df = read_excel(path)
 
 
-def import_word(Review, BookList, Words):
+def import_word(Review, BookList, Words, df, bookName):
     # path = config.excel_path
-    # df = pd.read_excel(path)
+    # df = read_excel(path)
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         review_db = {
@@ -38,7 +38,7 @@ def import_word(Review, BookList, Words):
     # init_db_word(Review, Words)
 
 
-def init_db_booklist(BookList, Review):
+def init_db_booklist(BookList, Review, bookName, List_begin_num):
     for l in range(List_begin_num, List_begin_num + len(set(Review.objects.filter(BOOK=bookName).values_list('LIST')))):
         ld = Review.objects.filter(BOOK=bookName, LIST=l)  # list data
         if len(ld) == 0:
@@ -59,9 +59,9 @@ def init_db_booklist(BookList, Review):
         BookList.objects.create(**data)
 
 
-def init_db_words(Review, Words):
+def init_db_words(Review, Words, df):
     # path = config.excel_path
-    # df = pd.read_excel(path)
+    # df = read_excel(path)
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         try:
@@ -77,11 +77,19 @@ def init_db_words(Review, Words):
             word.save()
 
 
-def init_db_books(Books):
+def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index):
     data = {
-        'BOOK': config.BOOK,
-        'BOOK_zh': config.BOOK_zh,
-        'BOOK_abbr': config.BOOK_abbr,
-        'begin_index': config.begin_index,
+        'BOOK': BOOK,
+        'BOOK_zh': BOOK_zh,
+        'BOOK_abbr': BOOK_abbr,
+        'begin_index': begin_index,
     }
     Books.objects.create(**data).save()
+
+
+def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, BookList, Words):
+    df = read_excel(excel_path)
+    init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index)
+    import_word(Review, BookList, Words, df, BOOK)
+    init_db_words(Review, Words, df)
+    init_db_booklist(BookList, Review, BOOK, begin_index)
