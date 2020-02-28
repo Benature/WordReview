@@ -195,7 +195,9 @@ $(function () {
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
         w.panRate = w.panForgetNum / w.panTotalNum;
-        w.note = $('#tmpl-note').val();
+        if ($('#tmpl-note').val() != word) {
+            w.note = $('#tmpl-note').val();
+        }
 
         // echarts 画图
         currentHistoryX.push(wordCount);

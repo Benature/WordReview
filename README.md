@@ -91,6 +91,8 @@ python manage.py runserver
 
 ```shell
 git pull
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 ---

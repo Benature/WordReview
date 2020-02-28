@@ -254,7 +254,11 @@ def homepage(request):
             BOOK=BOOK).values_list('LIST')))])
         list_info = []
         for l in lists:
-            ld = BookList.objects.get(BOOK=BOOK, LIST=l)
+            try:
+                ld = BookList.objects.get(BOOK=BOOK, LIST=l)
+            except Exception as e:
+                print(l, e)
+                continue
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
                 'i': l,
