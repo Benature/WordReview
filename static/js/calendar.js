@@ -22,7 +22,7 @@ function getDataRow(data, i, tag = 'td') {
         let cell = document.createElement(tag);
         let date = addDays(calendar_begin, j)
         let bigDiv = document.createElement('div');
-        bigDiv.innerHTML = '<div class="td-date">' + date.getMonth() + '月' + date.getDate() + '日' + '</div>';
+        bigDiv.innerHTML = '<div class="td-date">' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + '</div>';
 
         let text = '<div class="d-flex flex-wrap">';
         for (let k = 0; k < data[j].length; k++) {

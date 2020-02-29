@@ -1,17 +1,28 @@
 >文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
-# 1. Python 环境
+# 1. 当然是先克隆代码啦
+
+```shell
+git clone https://github.com/Benature/WordReview.git
+```
+
+然后复制一份项目根目录下的`config_sample.py`文件，更名为`config.py`
+
+# 2. Python 环境
+
+<b><details><summary>选择一：开发者流程</summary></b>
 
 1. Install `Miniconda` (recommanded) or `Anaconda` at first.
-2. create a virtual environment
-
->名字随便定，这里以`tgword`为例
+2. create a virtual environment  
+  名字随便定，这里以`tgword`为例
 
 ```shell
 conda create -n tgword python=3
 ```
 
-1. activate the environment
+>如果你没有其他 django 的项目，偷懒起见可以不创建虚拟环境，以及下面关于虚拟环境的步骤。
+
+3. activate the environment
 
 ```shell
 source activate tgword 
@@ -25,27 +36,59 @@ source activate tgword
 pip install -r requirements.txt
 ```
 
-<b><details><summary>你可能会遇到的问题（点开）</summary></b>
+</details>
 
-- pip 命令不见了
+<b><details open><summary>选择二：小白流程</summary></b>
+
+你只要能运行 Python 就好了！
+
+在命令行跑这个👇
+
+```shell
+pip install django pypugjs pymysql django-compressor django-sass-processor libsass mysqlclient -i http://mirrors.aliyun.com/pypi/simple/ 
+```
+
+</details>
+
+<b><details open><summary>另：你可能会遇到的问题</summary></b>
+
+- pip 命令不见了（像下面这种报错）
+
 ```shell
 pip: command not found
 ```
 
 那么请看[这里](https://benature.github.io/python-code/pip-cmd-not-found/)
 
-- 其他你 handle 不了的报错
-  那就退而求其次跑下面这个吧
+<!-- - 其他你 handle 不了的报错
+  那就退而求其次跑下面这个吧 -->
 
-```shell
-pip install django pypugjs pymysql django-compressor django-sass-processor libsass mysqlclient
-```
 </details>
 
 
-# 2. MySQL
+# 3. 数据库
 
-## 2.1. Install
+二选一即可
+
+## 3.1. 选择一：sqlite3
+
+
+`config.py`文件下，找到下面这个变量，定义为`sqlite`。（默认就是这个，一般不用动了）
+
+```python
+# 使用数据库类型：`mysql`、`sqlite`
+database_type = 'sqlite'
+```
+
+>不过我是用 MySQL 的，如果想直接操作数据库的话，主要靠你自己百度的，你来问我我也是去百度的。  
+>当然，只要你操作正常，一般没必要去直接操作数据库的。  
+>再其实，就算要直接操作数据库，也可以借助 GUI 工具，工具有哪些可以[自己找找看](https://www.bing.com/search?q=sqlite+GUI)。
+
+## 3.2. 选择二：MySQL
+
+<b><details><summary>MySQL 操作这么繁琐一看就劝退喽</summary></b>
+
+### 3.2.1. Install
 
 <b><details><summary>MacOS</summary></b>
 1. 下载  
@@ -108,7 +151,7 @@ mysql -V # check version
 >  - MySQL Workbench (free & recommend)  
 >  ~~如同处理 excel，不用学 mysql 命令也能操作数据库啦~~
 
-## 2.2. Mysql configuration
+### 3.2.2. Mysql configuration
 
 登录进入 mysql 命令行，密码是安装时候设置的那个。
 
@@ -127,13 +170,23 @@ flush privileges; -- 刷新系统权限表
 
 >如果你在这里自定义了数据库名和用户名的话，需要去`config.py`内修改对应的数据库配置
 
-# 3. 前戏
+`config.py`文件下，找到下面这个变量，定义为`mysql`。（默认就是这个，一般不用动了）
+
+```python
+# 使用数据库类型：`mysql`、`sqlite`
+database_type = 'mysql'
+```
+
+</details>
+
+
+# 4. 前戏
 
 在这个**仓库根目录**下
 
 ```shell
 # 首先确保在虚拟环境下
-conda activate tgword
+conda activate tgword # 小白跳过
 ```
 
 1. 数据库迁移

@@ -16,5 +16,13 @@ logs/
 # config
 /config.py
 
+# PyInstaller
+/build/
+/dist/
+/*.spec
+
 # local
 data/
+db.sqlite3
+/backup/
+/pypi/

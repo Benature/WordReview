@@ -8,6 +8,7 @@ urlpatterns = [
     path('review/', views.homepage, name='复习主页'),
     path('calendar/', views.calendar, name='艾宾浩斯日历'),
     path('temp/', views.temp, name='temp'),
+    path('import/', views.import_db, name='导入数据库'),
 
     # 接口
     # GET
@@ -16,4 +17,5 @@ urlpatterns = [
     # POST
     path('review/review_a_word', views.review_a_word, name='获取单词'),
     path('review/review_list_finish', views.review_lists, name='复习结束'),
+    # path('import-database/', views.import_db, name='导入数据库'),
 ]

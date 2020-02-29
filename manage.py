@@ -3,6 +3,12 @@
 import os
 import sys
 
+BASE_DIR = os.path.abspath(__file__)
+sys.path.append(os.path.join(BASE_DIR, "pypi"))
+
+if len(sys.argv) == 1:
+    sys.argv.append('runserver')
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WordReview.settings')

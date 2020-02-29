@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
@@ -6,9 +6,9 @@ from django.db.models import Q
 from apps.review.models import Review, BookList, Words, Books
 
 from apps.src.util import ormToJson, valueList
+import config
+from apps.review.src.init_db import init_db
 
-from apps.review.src.init_db import (
-    import_word, init_db_words, init_db_booklist, init_db_books,clean_db_words)
 
 from datetime import datetime, timedelta
 
@@ -21,12 +21,42 @@ def index(request):
 
 
 def temp(request):
-    #import_word(Review, BookList, Words)
-    #init_db_words(Review, Words)
-    #init_db_booklist(BookList, Review)
-    #init_db_books(Books)
-    #clean_db_words(Review)
-    return render(request, "calendar.pug")
+    # if config.init_db_mode:
+    #     from apps.review.src.init_db import (
+    #         import_word, init_db_words, init_db_booklist, init_db_books)
+    #     init_db_books(Books)
+    #     import_word(Review, BookList, Words)
+    #     init_db_words(Review, Words)
+    #     init_db_booklist(BookList, Review)
+    #     return HttpResponse('数据库初始化结束，请记得去 config.py 中将 init_db_mode 变量改为 Flase！')
+    # else:
+    #     return HttpResponse('如果需要导入数据库，请去 config.py 中将 init_db_mode 变量改为 True。\n平时请不用访问这个网址')
+    return render(request, "review.pug")
+
+
+def import_db(request):
+    if request.method == 'POST':
+        post = request.POST
+        print(post)
+        BOOK = post.get('BOOK')
+        BOOK_zh = post.get('BOOK_zh')
+        BOOK_abbr = post.get('BOOK_abbr')
+        excel_path = post.get('excel_path')
+        try:
+            begin_index = int(post.get('begin_index'))
+            if begin_index not in [0, 1]:
+                return render(request, "import_db.pug", {'message': '请输入 0 或 1！'})
+        except:
+            return render(request, "import_db.pug", {'message': '请输入 0 或 1！'})
+        print(BOOK, BOOK_zh, BOOK_abbr, begin_index,
+              excel_path)
+        try:
+            init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index,
+                    excel_path, Books, Review, BookList, Words)
+        except Exception as e:
+            return render(request, "import_db.pug", {'message': e})
+        return redirect('/review')
+    return render(request, "import_db.pug")
 
 
 @csrf_exempt
@@ -224,7 +254,11 @@ def homepage(request):
             BOOK=BOOK).values_list('LIST')))])
         list_info = []
         for l in lists:
-            ld = BookList.objects.get(BOOK=BOOK, LIST=l)
+            try:
+                ld = BookList.objects.get(BOOK=BOOK, LIST=l)
+            except Exception as e:
+                print(l, e)
+                continue
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
                 'i': l,

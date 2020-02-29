@@ -1,0 +1,42 @@
+{% extends "base.pug" %}
+{% block title %}导入数据库{% endblock %}
+{% block css %}
+script
+  | $(function () {
+  |     $('#submit-btn').on('click', function (e) {
+  |         //$('#submit-btn').addClass('d-none');
+  |         $('#wait').text('导入数据成功后将自动跳转')
+  |     })
+  | })
+{% endblock %}
+
+{% block content %}
+
+div.d-flex.container.justify-content-center.flex-column
+  h3(style="margin-bottom:20px;text-align: center;") 导入数据库
+  {% if message %}
+  div.alert.alert-warning 
+   | 您的输入有问题😯
+   | {{ message }}
+  {% endif %}
+  form(method="post" action='/import/')#pwdForm.d-flex.flex-column
+    {% csrf_token %}
+    div.form-group
+      label 单词本的名字（请用英文，不带空格）
+      input(type="text" name="BOOK" placeholder="eg: CET6_green" required='true').form-control
+    div.form-group
+      label 单词本的中文名
+      input(type="text" name="BOOK_zh" placeholder="eg: 新东方六级绿皮书" required='true').form-control
+    div.form-group
+      label 单词本的缩写（用于日历显示，建议一个英文大写字符）
+      input(type="text" name="BOOK_abbr" placeholder="eg: G" required='true').form-control
+    div.form-group
+      label 单词本 list、unit、index 的序号从 0 开始还是从 1 开始
+      input(type="text" name="begin_index" placeholder="输入 0 或 1" required='true').form-control
+    div.form-group
+      label 单词 excel 文件路径（绝对路径）
+      input(type="text" name="excel_path" placeholder="/file/path/to/excel.xls" required='true').form-control
+    div.justify-content-center.d-flex
+      label#wait
+      button(type='submit').btn.btn-primary#submit-btn 开始导入数据
+{% endblock %}
