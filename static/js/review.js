@@ -7,7 +7,6 @@ var lastWord = '';
 var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
 var note = '';
-var begin_index;
 var repeat = 1
 var currentHistoryX = new Array();
 var currentHistoryY = new Array();
@@ -158,7 +157,6 @@ $(function () {
     }).done(function (response) {
         if (response.status === 200) {
             wordArray = response.data;
-            begin_index = response.begin_index;
             // 乱序
             if (response.sort == sortMode) {
                 wordArray.sort(function (a, b) {
@@ -307,7 +305,7 @@ $(function () {
                     renderWord(wordArray[wordIndex]);
                 } else {
                     review_finish_post();
-                    readText('finished list' + (parseInt(getQueryString('list')) + begin_index));
+                    readText('finished list' + (parseInt(getQueryString('list')) + 1));
                     layer.msg('背完了(●´∀｀●)ﾉ')
                     renderWord(wordArray[wordIndex], false);
                 }
@@ -432,10 +430,10 @@ $(document).keyup(function (e) {
         // shift + right arrow
         $('#btn-remember').click();
     }
-    else if (188 == e.keyCode && !e.shiftKey) {
+    else if (188 == e.keyCode) {
         $('#jump-back').click();
     }
-    else if (190 == e.keyCode && !e.shiftKey) {
+    else if (190 == e.keyCode) {
         $('#jump-forward').click();
     }
     else if (32 == e.keyCode /*|| 13 == e.keyCode*/) {
