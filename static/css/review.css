@@ -91,3 +91,7 @@
     padding: 10px 10px;
     /* border: 0; */
 }
+.repeat,.norepeat{
+    margin: 0 5px;
+    cursor: pointer;
+}

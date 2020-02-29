@@ -20,13 +20,13 @@ def import_word(Review, BookList, Words):
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         review_db = {
-            'word': dr['word'],
-            'LIST': dr['List'],
-            'UNIT': dr['Unit'],
-            'INDEX': dr['Index'],
+            'word': dr['Word'],
+            'LIST': dr['L'],
+            'UNIT': dr['U'],
+            'INDEX': dr['I'],
             'BOOK': bookName,
         }
-        print(i, dr['word'], dr['mean'])
+        print(i, dr['Word'], dr['Paraphrase (w/ POS)'])
 
         new_word = Review.objects.create(**review_db)
         new_word.save()
@@ -62,12 +62,12 @@ def init_db_words(Review, Words):
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         try:
-            word = Words.objects.get(word=dr['word'])
+            word = Words.objects.get(word=dr['Word'])
             continue
         except:
             data = {
-                'word': dr['word'],
-                'mean': dr['mean'],
+                'word': dr['Word'],
+                'mean': dr['Paraphrase (w/ POS)'],
             }
             word = Words.objects.create(**data)
             print(word.word)
@@ -82,3 +82,18 @@ def init_db_books(Books):
         'begin_index': config.begin_index,
     }
     Books.objects.create(**data).save()
+
+def clean_db_words(Review):
+    for i in range(3042, 6083):
+        try:
+            Review.objects.get(id=i).delete()
+        except:
+            continue
+def clean_db_list(BookList):
+    for i in range(1, 31):
+        try:
+            book = BookList.objects.get(id=i)
+            book.word_num = 100
+            book.save()
+        except:
+            continue

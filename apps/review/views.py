@@ -8,7 +8,7 @@ from apps.review.models import Review, BookList, Words, Books
 from apps.src.util import ormToJson, valueList
 
 from apps.review.src.init_db import (
-    import_word, init_db_words, init_db_booklist, init_db_books)
+    import_word, init_db_words, init_db_booklist, init_db_books,clean_db_words)
 
 from datetime import datetime, timedelta
 
@@ -21,10 +21,11 @@ def index(request):
 
 
 def temp(request):
-    # import_word(Review, BookList, Words)
-    # init_db_word(Review, Words)
-    # init_db_booklist(BookList, Review)
-    # init_db_books(Books)
+    #import_word(Review, BookList, Words)
+    #init_db_words(Review, Words)
+    #init_db_booklist(BookList, Review)
+    #init_db_books(Books)
+    #clean_db_words(Review)
     return render(request, "calendar.pug")
 
 
