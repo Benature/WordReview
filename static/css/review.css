@@ -91,7 +91,16 @@
     padding: 10px 10px;
     /* border: 0; */
 }
-.repeat,.norepeat{
+
+.repeat{
     margin: 0 5px;
+}
+
+
+.d-n-note{
+    display: none;
+}
+
+#active-note{
     cursor: pointer;
 }
