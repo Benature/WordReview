@@ -1,8 +1,6 @@
 from pandas import read_excel
-# import pandas as pd
 import config
 
-# read_excel = pd.read_excel
 # bookName = config.BOOK  # 请用英文
 # List_begin_num = config.begin_index  # 或 1，看你的 List 是从 0 开始还是 1 开始
 

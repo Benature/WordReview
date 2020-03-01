@@ -1,13 +1,8 @@
 {% extends "base.pug" %}
 {% block title %}导入数据库{% endblock %}
 {% block css %}
-script
-  | $(function () {
-  |     $('#submit-btn').on('click', function (e) {
-  |         //$('#submit-btn').addClass('d-none');
-  |         $('#wait').text('导入数据成功后将自动跳转')
-  |     })
-  | })
+//- link(href="/static/css/calendar.css" rel="stylesheet")
+script(src="/static/js/import_db.js")
 {% endblock %}
 
 {% block content %}
@@ -15,9 +10,7 @@ script
 div.d-flex.container.justify-content-center.flex-column
   h3(style="margin-bottom:20px;text-align: center;") 导入数据库
   {% if message %}
-  div.alert.alert-warning 
-   | 您的输入有问题😯
-   | {{ message }}
+  div.alert.alert-warning {{ message }}
   {% endif %}
   form(method="post" action='/import/')#pwdForm.d-flex.flex-column
     {% csrf_token %}
