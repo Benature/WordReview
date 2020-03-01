@@ -17,6 +17,10 @@ nav.navbar.navbar-light.bg-light.sticky-top
       button#btn-quick-jump.btn 跳转
     div.navbar-nav.ml-auto.flex-row
       li.nav-item
+        a.nav-link.repeat.cur-p 重复
+      li.nav-item
+        a.nav-link.norepeat.cur-p 不重复
+      li.nav-item
         a.nav-link.sort-array 顺序
       li.nav-item
         a.nav-link.sort-array 乱序
@@ -40,10 +44,10 @@ div.container.flex-column
         div#meaning-box.rounded.shadow
           div.align-self-center#tmpl-content.d-none.hide
       div.align-self-center.btn-jump#jump-forward &raquo;
-      div.side-card.justify-content-center#active-note
-        div(style="color:grey;text-align:center").hide.d-none
+      div.side-card.justify-content-center
+        div(style="color:grey;text-align:center").hide.d-none 
           | Note
-        textarea#tmpl-note.form-control.hide.d-none.d-n-note
+        textarea#tmpl-note.form-control.hide.d-none
     div.progress-div
       div.progress(style="width:250px; background-color: dodgerblue")
         div.progress-bar.bg-palevioletred(role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")

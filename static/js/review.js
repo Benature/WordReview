@@ -8,9 +8,9 @@ var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
 var note = '';
 var begin_index;
-
-var currentHistoryX = [0];
-var currentHistoryY = [0];
+var repeat = false
+var currentHistoryX = new Array();
+var currentHistoryY = new Array();
 
 
 function compareField(att, direct) {
@@ -53,10 +53,8 @@ $(function () {
         // note
         note = data.note;
         if (data.note.length == 0) {
-            $('#tmpl-note').addClass('d-n-note');
             $('#tmpl-note').val(word);
         } else {
-            $('#tmpl-note').removeClass('d-n-note');
             $('#tmpl-note').val(note);
         }
 
@@ -76,13 +74,13 @@ $(function () {
         }
 
         // echarts 画图
-        let X = [0];
-        let Y = [0];
-        for (let i = 1; i < data.panHistory.length + 1; i++) {
+        let X = new Array();
+        let Y = new Array();
+        for (let i = 0; i < data.panHistory.length; i++) {
             let h = data.panHistory[i]
             X.push(i);
-            if (i == 1) {
-                Y[1] = h == '1' ? 1 : -1;
+            if (i == 0) {
+                Y[0] = h == '1' ? 1 : -1;
                 continue;
             }
             Y[i] = Y[i - 1] + (h == '1' ? 1 : -1);
@@ -182,29 +180,31 @@ $(function () {
     $('#meaning-box').on('click', function (e) {
         $('.hide').removeClass('d-none')
     })
-    $('#active-note').on('click', function (e) {
-        $('.hide').removeClass('d-n-note')
-    })
 
     // 往前查看单词时候看到更新后的信息
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
+        let Word = wordArray[wordIndex]
         if (!remember) {
             w.panForgetNum++;
+            if (repeat) {
+                wordArray.splice(wordIndex, 1)
+                index = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex
+                wordArray.splice(index, 0, Word)
+                wordIndex = wordIndex - 1
+            }
         }
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
         w.panRate = w.panForgetNum / w.panTotalNum;
-        if ($('#tmpl-note').val() != word) {
-            w.note = $('#tmpl-note').val();
-        }
+        w.note = $('#tmpl-note').val();
 
         // echarts 画图
         currentHistoryX.push(wordCount);
         if (wordCount == 1) {
-            currentHistoryY[1] = remember ? 1 : -1;
+            currentHistoryY[0] = remember ? 1 : -1;
         } else {
-            currentHistoryY.push(currentHistoryY[wordCount - 1] + (remember ? 1 : -1));
+            currentHistoryY.push(currentHistoryY[wordCount - 2] + (remember ? 1 : -1));
         }
         let myChart = echarts.init(document.getElementById("echarts-bottom"));
 
@@ -405,6 +405,18 @@ $(function () {
             renderWord(wordArray[wordIndex]);
         } else {
             layer.msg('已是' + text);
+        }
+
+    })
+    $('.repeat').on('click', function () {
+        if ($(this).text() == '重复') {
+            repeat = false
+            $(this).text('不重复')
+            layer.msg('不认识单词将重复')
+        } else {
+            repeat = true
+            $(this).text('重复')
+            layer.msg('不认识单词将不重复')
         }
 
     })
