@@ -131,9 +131,13 @@ def review_lists(request):
 def review_a_word(request):
     '''接口：在数据库更新单词记忆情况'''
     post = request.POST
-    word_in_list = Review.objects.filter(
-        word=post.get('word'), BOOK=post.get('book'))[0]
-    word = Words.objects.get(word=post.get('word'))
+    try:
+        word_in_list = Review.objects.filter(
+            word=post.get('word'), BOOK=post.get('book'))[0]
+        word = Words.objects.get(word=post.get('word'))
+    except Exception as e:
+        return JsonResponse({'msg': '数据库损坏！' + e, 'status': 500})
+
     if (post.get('note') != 'false'):
         word.note = post.get('note')
     for w in [word, word_in_list]:

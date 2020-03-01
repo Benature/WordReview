@@ -255,7 +255,6 @@ $(function () {
             ]
         };
         myChart.setOption(option);
-
     }
 
     // 复习完成后更新后端数据库

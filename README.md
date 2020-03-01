@@ -76,6 +76,8 @@ git clone https://github.com/Benature/WordReview.git
 
 文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
 
+>如果你实在不想折腾配置的话，可以在[这里](https://github.com/Benature/WordReview/releases)直接安装可执行文件。（不推荐）
+
 <!-- 链接:https://pan.baidu.com/s/1XiyI7DPxrd_mRsuvMeJwQg  密码:0hhe -->
 
 ## 使用
@@ -95,10 +97,20 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+### 快捷键
+
+|      操作      |   快捷键   |   页面   |
+| :------------: | :--------: | :------: |
+|  词卡前后切换  |  `<`、`>`  | 复习页面 |
+|    查看释义    |   `空格`   | 复习页面 |
+|   会 / 不会    | `⇧←`、`⇧→` | 复习页面 |
+| 跳转到日历页面 |    `C`     |   主页   |
+
 ---
 
 ### 更新日志
 
+- release: 打包可执行文件 @02-28
 - fea: 新增导入单词本页面 @02-27
 - fea: 笔记框默认隐藏，点击显示（增加有无笔记之对比） @02-27
 - 优化线型图显示（0 起） @02-27

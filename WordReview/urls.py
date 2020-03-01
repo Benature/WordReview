@@ -22,7 +22,8 @@ from WordReview import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.review.urls')),
-    path(r'favicon.ico', RedirectView.as_view(url='/static/media/muyi.png')),
+    path(r'favicon.ico', RedirectView.as_view(
+        url='/static/media/vocabulary.png')),
 
 ]
 urlpatterns += static.static(settings.STATIC_URL,
