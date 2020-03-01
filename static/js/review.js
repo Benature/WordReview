@@ -11,7 +11,7 @@ var begin_index;
 var repeat = false;
 
 var currentHistoryX = [0];
-var currentHistoryY = [0];
+var currentHistoryY = [''];
 
 
 function compareField(att, direct) {
@@ -38,7 +38,7 @@ $(function () {
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
         $('.progress-bar').css("width", data.panRate * 100 + "%");
-        console.log(data.panRate);
+        // console.log(data.panRate);
         if (data.panRate > 0 && data.panRate != null) {
             $('#tmpl-total-num').addClass('d-none');
             $('#tmpl-progress').text(data.panForgetNum + '/' + data.panTotalNum);
@@ -195,8 +195,10 @@ $(function () {
             w.panForgetNum++;
             if (repeat) {
                 wordArray.splice(wordIndex, 1);
-                index = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
-                wordArray.splice(index, 0, word_tmp);
+                let index_tmp = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
+                index_tmp += Math.min(wordArray.length - wordIndex - 1, 5); // 防止过快重现
+                word_tmp.repeat = true;
+                wordArray.splice(index_tmp, 0, word_tmp);
                 wordIndex--;
             }
         }
@@ -208,7 +210,7 @@ $(function () {
         }
 
         // echarts 画图
-        currentHistoryX.push(wordCount);
+        currentHistoryX.push(word);
         if (wordCount == 1) {
             currentHistoryY[1] = remember ? 1 : -1;
         } else {
@@ -223,6 +225,7 @@ $(function () {
                 textStyle: {
                     color: "#757575",
                     fontWeight: "normal",
+                    fontSize: "12px",
                 },
             },
             legend: {
@@ -242,12 +245,20 @@ $(function () {
                 // show: false,
                 type: 'category',
                 // boundaryGap: false,
-                data: currentHistoryX,
+                data: currentHistoryX.slice(Math.max(0, currentHistoryX.length - 20), currentHistoryX.length),
                 axisLine: {
                     lineStyle: {
                         color: '#757575'
                     }
-                }
+                },
+                axisLabel: {
+                    interval: 0,
+                    rotate: -30,
+                },
+                grid: {
+                    left: '10%',
+                    bottom: '40%',
+                },
             },
             yAxis: {
                 show: false,
@@ -255,7 +266,7 @@ $(function () {
             },
             series: [
                 {
-                    data: currentHistoryY,
+                    data: currentHistoryY.slice(Math.max(0, currentHistoryY.length - 20), currentHistoryY.length),
                     type: 'line',
                     smooth: 0.2,
                     color: '#bec980',
@@ -298,8 +309,10 @@ $(function () {
             data: {
                 remember: remember,
                 word: word,
+                list: wordArray[wordIndex].fields.LIST,
                 book: book,
                 note: (note == note_now || note_now == word) ? false : note_now,
+                repeat: wordArray[wordIndex].repeat == true ? true : false,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -416,14 +429,16 @@ $(function () {
 
     })
     $('.repeat').on('click', function () {
-        if ($(this).text() == '设为重复模式') {
-            repeat = false
-            $(this).text('设为不重复模式')
-            layer.msg('不认识单词将重复')
-        } else {
+        if ($(this).text() == '设为重现模式') {
             repeat = true
-            $(this).text('设为重复模式')
-            layer.msg('不认识单词将不重复')
+            $(this).text('设为不重现模式')
+            layer.msg('不认识单词将重现')
+        } else if ($(this).text() == '设为不重现模式') {
+            repeat = false
+            $(this).text('设为重现模式')
+            layer.msg('不认识单词将不重现')
+        } else {
+            layer.msg('未知选择：' + $(this).text())
         }
     })
 
