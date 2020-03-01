@@ -110,6 +110,8 @@ python manage.py migrate
 
 ### 更新日志
 
+- update: 历史曲线 X 轴 label 从数字改为单词 @03-01
+- fea: 背单词的重现模式([pr#1](https://github.com/Benature/WordReview/pull/1)) @02-29
 - release: 打包可执行文件 @02-28
 - fea: 新增导入单词本页面 @02-27
 - fea: 笔记框默认隐藏，点击显示（增加有无笔记之对比） @02-27

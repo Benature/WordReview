@@ -133,14 +133,21 @@ def review_a_word(request):
     post = request.POST
     try:
         word_in_list = Review.objects.filter(
-            word=post.get('word'), BOOK=post.get('book'))[0]
+            word=post.get('word'), BOOK=post.get('book'), LIST=post.get('list'))[0]
         word = Words.objects.get(word=post.get('word'))
     except Exception as e:
         return JsonResponse({'msg': '数据库损坏！' + e, 'status': 500})
 
     if (post.get('note') != 'false'):
         word.note = post.get('note')
-    for w in [word, word_in_list]:
+
+    if post.get('repeat') == 'true':
+        word_dbs = [word]
+    else:
+        word_dbs = [word, word_in_list]
+    print(post.get('word'), post.get('repeat'), word_dbs)
+
+    for w in word_dbs:
         w.total_num += 1
         if post.get('remember') == 'true':
             w.history += '1'
