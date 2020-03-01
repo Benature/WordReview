@@ -8,6 +8,7 @@ var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
 var note = '';
 var begin_index;
+var repeat = false;
 
 var currentHistoryX = [0];
 var currentHistoryY = [0];
@@ -189,8 +190,15 @@ $(function () {
     // 往前查看单词时候看到更新后的信息
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
+        let word_tmp = wordArray[wordIndex]
         if (!remember) {
             w.panForgetNum++;
+            if (repeat) {
+                wordArray.splice(wordIndex, 1);
+                index = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
+                wordArray.splice(index, 0, word_tmp);
+                wordIndex--;
+            }
         }
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
@@ -407,7 +415,17 @@ $(function () {
         }
 
     })
-
+    $('.repeat').on('click', function () {
+        if ($(this).text() == '设为重复模式') {
+            repeat = false
+            $(this).text('设为不重复模式')
+            layer.msg('不认识单词将重复')
+        } else {
+            repeat = true
+            $(this).text('设为重复模式')
+            layer.msg('不认识单词将不重复')
+        }
+    })
 
 
 })
