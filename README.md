@@ -110,6 +110,7 @@ python manage.py migrate
 
 ### 更新日志
 
+- update: 重现模式在背词数目超过词表长度 50 次后自动关闭一次（防止无脑过词） @03-18
 - update: 历史曲线 X 轴 label 从数字改为单词 @03-01
 - fea: 背单词的重现模式([pr#1](https://github.com/Benature/WordReview/pull/1)) @02-29
 - release: 打包可执行文件 @02-28

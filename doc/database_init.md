@@ -23,7 +23,7 @@ def temp(request):
 
 <!-- 把四行注释恢复了，然后`python manage.py runserver` -->
 
-所要导入的单词的数据格式参见`data`文件夹下的`sample.xlsx`。
+<!-- 所要导入的单词的数据格式参见`data`文件夹下的`sample.xlsx`。
 
 在`config.py`下，按提示修改下面这部分代码
 
@@ -49,10 +49,18 @@ excel_path = 'data/sample.xlsx'
 **重点**：在导入单词之前`init_db_mode`调`True`，导入完后务必改为`Flase`！！！  
 **重点**：在导入单词之前`init_db_mode`调`True`，导入完后务必改为`Flase`！！！  
 **重点**：在导入单词之前`init_db_mode`调`True`，导入完后务必改为`Flase`！！！  
-否则你数据库就有重复内容了
+否则你数据库就有重复内容了 -->
 
 打开<localhost:8000/temp/>，当你网页加载完成，说明数据库导入结束了，或者你也可以看下 terminal，原始代码是导入一个单词都打印出来了，你可以看到哗啦啦的一片。
 
 <!-- 结束后再把那几行给注释了，以后用不着了。 -->
 
 <!-- **Warning: 只能跑一次，跑多次数据库内容就重复了！** -->
+
+
+---
+
+一些资源整合：
+- [IELTS 绿皮书](https://blog.csdn.net/M_sdn/article/details/85532520?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+- [要你命 3000](https://github.com/skywind3000/ECDICT)
+- [TOEFL 曲根单词](https://github.com/yihui-he/TOEFL-10000-0)

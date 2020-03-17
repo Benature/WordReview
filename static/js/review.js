@@ -8,10 +8,10 @@ var remember = true; // 这个单词是否记住了
 var sortMode = '乱序'; //排序模式
 var note = '';
 var begin_index;
-var repeat = false;
+var repeat = true;
 
-var currentHistoryX = [0];
-var currentHistoryY = [''];
+var currentHistoryX = [''];
+var currentHistoryY = [0];
 
 
 function compareField(att, direct) {
@@ -73,20 +73,24 @@ $(function () {
 
         if (read) {
             copy2Clipboard(word, "clipboard");
-            readText(word);
+            // readText(word);
+        }
+
+        if (wordCount == wordArray.length + 50 && repeat) {
+            repeat = false;
         }
 
         // echarts 画图
         let X = [0];
         let Y = [0];
-        for (let i = 1; i < data.panHistory.length + 1; i++) {
+        for (let i = 0; i < data.panHistory.length; i++) {
             let h = data.panHistory[i]
-            X.push(i);
-            if (i == 1) {
-                Y[1] = h == '1' ? 1 : -1;
-                continue;
-            }
-            Y[i] = Y[i - 1] + (h == '1' ? 1 : -1);
+            X.push(i + 1);
+            // if (i == 1) {
+            //     Y[1] = h == '1' ? 1 : -1;
+            //     continue;
+            // }
+            Y[i + 1] = Y[i] + (h == '1' ? 1 : -1);
         }
         let myChart = echarts.init(document.getElementById("echarts-left"));
 
@@ -181,27 +185,21 @@ $(function () {
 
 
     $('#meaning-box').on('click', function (e) {
-        $('.hide').removeClass('d-none')
+        readText(word);
+        $('.hide').removeClass('d-none');
     })
     $('#active-note').on('click', function (e) {
-        $('.hide').removeClass('d-n-note')
+        if ($('#tmpl-note').hasClass('d-n-note')) {
+            $('.hide').removeClass('d-n-note');
+            $('#tmpl-note').select(); // 不加判断的话每次点击都会全选
+        }
     })
 
     // 往前查看单词时候看到更新后的信息
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
         let word_tmp = wordArray[wordIndex]
-        if (!remember) {
-            w.panForgetNum++;
-            if (repeat) {
-                wordArray.splice(wordIndex, 1);
-                let index_tmp = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
-                index_tmp += Math.min(wordArray.length - wordIndex - 1, 5); // 防止过快重现
-                word_tmp.repeat = true;
-                wordArray.splice(index_tmp, 0, word_tmp);
-                wordIndex--;
-            }
-        }
+
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
         w.panRate = w.panForgetNum / w.panTotalNum;
@@ -209,6 +207,19 @@ $(function () {
             w.note = $('#tmpl-note').val();
         }
 
+        if (!remember) {
+            w.panForgetNum++;
+            if (repeat) {
+                if (wordIndex != wordArray.length - 1) {
+                    wordArray.splice(wordIndex, 1);
+                    let index_tmp = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
+                    index_tmp += Math.min(wordArray.length - wordIndex - 1, 5); // 防止过快重现
+                    word_tmp.repeat = true;
+                    wordArray.splice(index_tmp, 0, word_tmp);
+                }
+                wordIndex--;
+            }
+        }
         // echarts 画图
         currentHistoryX.push(word);
         if (wordCount == 1) {
@@ -225,7 +236,7 @@ $(function () {
                 textStyle: {
                     color: "#757575",
                     fontWeight: "normal",
-                    fontSize: "12px",
+                    fontSize: "14px",
                 },
             },
             legend: {
@@ -365,6 +376,7 @@ $(function () {
             $('.hide').addClass('d-none');
         }
     })
+    // 特定页跳转
     $('#btn-quick-jump').on('click', function (e) {
         let i = parseInt($('#jump-index').val());
         if (i <= wordArray.length && i > 0) {
@@ -428,15 +440,16 @@ $(function () {
         }
 
     })
+    // 重现模式
     $('.repeat').on('click', function () {
-        if ($(this).text() == '设为重现模式') {
+        if ($(this).text() == '重现模式:关') {
             repeat = true
-            $(this).text('设为不重现模式')
-            layer.msg('不认识单词将重现')
-        } else if ($(this).text() == '设为不重现模式') {
+            $(this).text('重现模式:开')
+            layer.msg('重现模式已开')
+        } else if ($(this).text() == '重现模式:开') {
             repeat = false
-            $(this).text('设为重现模式')
-            layer.msg('不认识单词将不重现')
+            $(this).text('重现模式:关')
+            layer.msg('重现模式已关')
         } else {
             layer.msg('未知选择：' + $(this).text())
         }
@@ -465,6 +478,6 @@ $(document).keyup(function (e) {
     else if (32 == e.keyCode /*|| 13 == e.keyCode*/) {
         // blank
         $('#meaning-box').click();
-        readText(word);
+        // readText(word);
     }
 });
