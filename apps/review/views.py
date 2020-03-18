@@ -211,7 +211,7 @@ def get_calendar_data(request):
             'begin_index': 1 if b.begin_index == 0 else 0,
         }
     # db = BookList.objects.filter(~Q(ebbinghaus_counter=0))
-    db = BookList.objects.filter(ebbinghaus_counter__range=[1, 5])
+    db = BookList.objects.filter(ebbinghaus_counter__range=[1, 6])
     data = ormToJson(db)
     for d in data:
         d = d['fields']

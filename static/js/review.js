@@ -12,7 +12,7 @@ var repeat = true;
 
 var currentHistoryX = [''];
 var currentHistoryY = [0];
-
+var noteFocus = false;
 
 function compareField(att, direct) {
     return function (a, b) {
@@ -77,7 +77,8 @@ $(function () {
         }
 
         if (wordCount == wordArray.length + 50 && repeat) {
-            repeat = false;
+            layer.msg('错误次数太多，将关闭重现模式😅')
+            $('.repeat').click();
         }
 
         // echarts 画图
@@ -455,29 +456,32 @@ $(function () {
         }
     })
 
-
+    $("#tmpl-note").focus(function () { noteFocus = true; });
+    $("#tmpl-note").blur(function () { noteFocus = false; });
 })
 
 // 快捷键
 $(document).keyup(function (e) {
+    // console.log(noteFocus)
     // console.log(e.keyCode);
-    if (37 == e.keyCode && e.shiftKey) {
-        // shift + left arrow
-        $('#btn-forget').click();
-    }
-    else if (39 == e.keyCode && e.shiftKey) {
-        // shift + right arrow
-        $('#btn-remember').click();
-    }
-    else if (188 == e.keyCode && !e.shiftKey) {
-        $('#jump-back').click();
-    }
-    else if (190 == e.keyCode && !e.shiftKey) {
-        $('#jump-forward').click();
-    }
-    else if (32 == e.keyCode /*|| 13 == e.keyCode*/) {
-        // blank
-        $('#meaning-box').click();
-        // readText(word);
+    if (!noteFocus) {
+        if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
+            $('#btn-forget').click();
+        }
+        else if (39 == e.keyCode && e.shiftKey) { // shift + right arrow
+            $('#btn-remember').click();
+        }
+        else if (188 == e.keyCode && !e.shiftKey) { // <
+            $('#jump-back').click();
+        }
+        else if (190 == e.keyCode && !e.shiftKey) { // >
+            $('#jump-forward').click();
+        }
+        else if (82 == e.keyCode && !e.shiftKey) { // R
+            $('.repeat').click();
+        }
+        else if (32 == e.keyCode /*|| 13 == e.keyCode*/) { // blank
+            $('#meaning-box').click();
+        }
     }
 });
