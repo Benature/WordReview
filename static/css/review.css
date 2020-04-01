@@ -99,3 +99,7 @@
 #active-note{
     cursor: pointer;
 }
+
+#tmpl-progress{
+    padding-left: 5px;
+}

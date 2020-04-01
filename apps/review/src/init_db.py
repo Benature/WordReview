@@ -95,3 +95,23 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
     import_word(Review, BookList, Words, df, BOOK)
     init_db_words(Review, Words, df)
     init_db_booklist(BookList, Review, BOOK, begin_index)
+
+
+def update_db(Words):
+    df = read_excel('data/xxx.xls')
+    for d in df.iloc:
+        mean = d['mean'].replace('; ', '\n').replace(
+            ';', '\n').replace('；', '\n')
+        try:
+            word = Words.objects.get(word=d['word'])
+            word.mean = mean
+        except:
+            data = {
+                'word': d['word'],
+                'mean': mean,
+            }
+            word = Words.objects.create(**data)
+        word.save()
+
+        print(d['word'], mean)
+        # break

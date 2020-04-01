@@ -5,7 +5,7 @@ var wordArray;
 var wordIndex = 0;
 var lastWord = '';
 var remember = true; // 这个单词是否记住了
-var sortMode = '乱序'; //排序模式
+var sortMode = ''; //排序模式
 var note = '';
 var begin_index;
 var repeat = true;
@@ -37,11 +37,11 @@ $(function () {
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
-        $('.progress-bar').css("width", data.panRate * 100 + "%");
+        $('.progress-bar').css("width", (1 - data.panRate) * 100 + "%");
         // console.log(data.panRate);
         if (data.panRate > 0 && data.panRate != null) {
             $('#tmpl-total-num').addClass('d-none');
-            $('#tmpl-progress').text(data.panForgetNum + '/' + data.panTotalNum);
+            $('#tmpl-progress').text((data.panTotalNum - data.panForgetNum) + '/' + data.panTotalNum);
             $('#tmpl-total-num').text('');
         } else {
             $('#tmpl-total-num').removeClass('d-none');
@@ -76,7 +76,7 @@ $(function () {
             // readText(word);
         }
 
-        if (wordCount == wordArray.length + 50 && repeat) {
+        if (wordCount == wordIndex + 50 && repeat) {
             layer.msg('错误次数太多，将关闭重现模式😅')
             $('.repeat').click();
         }
@@ -167,17 +167,14 @@ $(function () {
         if (response.status === 200) {
             wordArray = response.data;
             begin_index = response.begin_index;
-            // 乱序
-            if (response.sort == sortMode) {
-                wordArray.sort(function (a, b) {
-                    return Math.random() > 0.5 ? -1 : 1;
-                })
-            } else {
-                sortMode = response.sort;
-            }
-            let data = response.data[wordIndex];
             if (response.status === 200) {
-                renderWord(data);
+                for (let i = 0; i < response.sort.length; i++) {
+                    $('.sort-array').each(function () {
+                        if ($(this).text() == response.sort[i]) {
+                            $(this).click();
+                        }
+                    })
+                }
             } else {
                 layer.msg(response.msg)
             }
@@ -192,7 +189,7 @@ $(function () {
     $('#active-note').on('click', function (e) {
         if ($('#tmpl-note').hasClass('d-n-note')) {
             $('.hide').removeClass('d-n-note');
-            $('#tmpl-note').select(); // 不加判断的话每次点击都会全选
+            $('#tmpl-note').select();
         }
     })
 
@@ -200,10 +197,10 @@ $(function () {
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
         let word_tmp = wordArray[wordIndex]
-
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
         w.panRate = w.panForgetNum / w.panTotalNum;
+        // console.log(remember, w.panHistory)
         if ($('#tmpl-note').val() != word) {
             w.note = $('#tmpl-note').val();
         }
@@ -434,6 +431,7 @@ $(function () {
             }
             $('.hide').addClass('d-none');
             sortMode = text;
+            console.log(text);
             wordIndex = 0;
             renderWord(wordArray[wordIndex]);
         } else {
@@ -479,6 +477,12 @@ $(document).keyup(function (e) {
         }
         else if (82 == e.keyCode && !e.shiftKey) { // R
             $('.repeat').click();
+        }
+        else if (78 == e.keyCode && !e.shiftKey) { // N
+            // console.log($('#active-note')[0]);
+            // $('#active-note').click();
+            $('.hide').removeClass('d-n-note');
+            $('#tmpl-note').select();
         }
         else if (32 == e.keyCode /*|| 13 == e.keyCode*/) { // blank
             $('#meaning-box').click();

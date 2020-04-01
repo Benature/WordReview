@@ -21,6 +21,7 @@ def index(request):
 
 
 def temp(request):
+    # update_db(Words)
     # if config.init_db_mode:
     #     from apps.review.src.init_db import (
     #         import_word, init_db_words, init_db_booklist, init_db_books)
@@ -31,7 +32,7 @@ def temp(request):
     #     return HttpResponse('数据库初始化结束，请记得去 config.py 中将 init_db_mode 变量改为 Flase！')
     # else:
     #     return HttpResponse('如果需要导入数据库，请去 config.py 中将 init_db_mode 变量改为 True。\n平时请不用访问这个网址')
-    return render(request, "review.pug")
+    return render(request, "homepage.pug")
 
 
 def import_db(request):
@@ -165,12 +166,12 @@ def get_word(request):
     BOOK = request.GET.get('book')
     LIST = request.GET.get('list')
     LIST_li = [int(i) for i in LIST.split('-')]
-    sortType = '乱序'
+    sortType = ['乱序', '记忆序']
     if len(LIST_li) == 1:
         list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK)
         counter = BookList.objects.get(LIST=LIST, BOOK=BOOK).ebbinghaus_counter
         if counter == 0:
-            sortType = '顺序'
+            sortType = ['顺序']
     elif len(LIST_li) == 2:
         list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
     else:
