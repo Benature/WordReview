@@ -79,6 +79,7 @@ class Words(models.Model):
     note = models.CharField('记忆法', max_length=200, default='')
     total_num = models.IntegerField('复习总次数', default=0)
     forget_num = models.IntegerField('忘记次数', default=0)
+    sentence = models.CharField('例句', default='', max_length=800)
     rate = models.FloatField(
         '单词遗忘率', default=-1, null=False)
     history = models.CharField('记忆历史', max_length=100,

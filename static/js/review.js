@@ -32,18 +32,20 @@ $(function () {
     function renderWord(data, read = true) {
         data = data.fields;
         word = data.word;
+        // console.log(data)
         console.log(word)
         $('#tmpl-word').text(word);
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
-        $('.progress-bar').css("width", (1 - data.panRate) * 100 + "%");
         // console.log(data.panRate);
-        if (data.panRate > 0 && data.panRate != null) {
+        if (data.panTotalNum == data.panForgetNum && data.panRate != null) {
+            $('.progress-bar').css("width", (1 - data.panRate) * 100 + "%");
             $('#tmpl-total-num').addClass('d-none');
             $('#tmpl-progress').text((data.panTotalNum - data.panForgetNum) + '/' + data.panTotalNum);
             $('#tmpl-total-num').text('');
         } else {
+            $('.progress-bar').css("width", "0%");
             $('#tmpl-total-num').removeClass('d-none');
             $('#tmpl-progress').text('');
             $('#tmpl-total-num').text(data.panTotalNum);
@@ -70,6 +72,30 @@ $(function () {
         $.template("mean", mean_content);
         $('#tmpl-content').empty();
         $.tmpl("mean").appendTo($('#tmpl-content'));
+
+        // 例句
+        let sentence = data.sentence.replace('\n', '\n').split('\n')
+        $('#tmpl-sentence').empty();
+        if (sentence != '') {
+            var sentence_content = '';
+            for (let i = 0; i < sentence.length; i++) {
+                let eng = sentence[i].match(/[a-z \-,.?!'’…"]+/ig);
+                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》“”、 ]+/g);
+                for (let j = eng.length; j >= 0; j--) {
+                    if (eng[j] == ' ') { eng.splice(j, 1); }
+                }
+                for (let j = zh.length; j >= 0; j--) {
+                    if (zh[j] == ' ') { zh.splice(j, 1); }
+                }
+                if (eng == null || eng == 'nan') { eng = ''; }
+                if (zh == null) { zh = ''; }
+                sentence_content += '<p class="flex-column d-flex"><a>' + eng + '</a><a class="sentence-zh">' + zh[zh.length - 1] + '</a></p>';
+                console.log(sentence)
+                console.log(eng, zh)
+            }
+            $.template("sentence", sentence_content);
+            $.tmpl("sentence").appendTo($('#tmpl-sentence'));
+        }
 
         if (read) {
             copy2Clipboard(word, "clipboard");
@@ -254,11 +280,14 @@ $(function () {
                 // show: false,
                 type: 'category',
                 // boundaryGap: false,
-                data: currentHistoryX.slice(Math.max(0, currentHistoryX.length - 20), currentHistoryX.length),
+                data: currentHistoryX.slice(Math.max(0, currentHistoryX.length - 10), currentHistoryX.length),
                 axisLine: {
                     lineStyle: {
                         color: '#757575'
-                    }
+                    },
+                    textStyle: {
+                        fontSize: "10px",
+                    },
                 },
                 axisLabel: {
                     interval: 0,
@@ -275,7 +304,7 @@ $(function () {
             },
             series: [
                 {
-                    data: currentHistoryY.slice(Math.max(0, currentHistoryY.length - 20), currentHistoryY.length),
+                    data: currentHistoryY.slice(Math.max(0, currentHistoryY.length - 10), currentHistoryY.length),
                     type: 'line',
                     smooth: 0.2,
                     color: '#bec980',
@@ -489,3 +518,9 @@ $(document).keyup(function (e) {
         }
     }
 });
+
+window.onbeforeunload = function (event) {
+    if (wordIndex != wordArray.length) {
+        return "本轮被单词进度将会丢失😣";
+    }
+}

@@ -7,7 +7,7 @@ from apps.review.models import Review, BookList, Words, Books
 
 from apps.src.util import ormToJson, valueList
 import config
-from apps.review.src.init_db import init_db
+from apps.review.src.init_db import init_db, update_db
 
 
 from datetime import datetime, timedelta
@@ -193,11 +193,12 @@ def get_word(request):
         l['panHistory'] = w.history
         l['mean'] = w.mean
         l['note'] = w.note
+        l['sentence'] = w.sentence
     data = {
         'data': list_info,
         'status': 200,
         'sort': sortType,
-        'begin_index': int(Books.objects.get(BOOK=BOOK).begin_index == 0)
+        'begin_index': int(Books.objects.get(BOOK=BOOK).begin_index == 0),
     }
     return JsonResponse(data)
 

@@ -76,12 +76,17 @@
 }
 
 #echarts-left{
-    height: 100%;
+    width: 200px;
+    height: 15rem;
 }
 
 #echarts-bottom{
-    width: 600px;
-    height: 15rem;
+    width: 230px;
+    height: 10rem;
+}
+
+#tmpl-sentence{
+    width: 546px;
 }
 
 #tmpl-note{
@@ -102,4 +107,9 @@
 
 #tmpl-progress{
     padding-left: 5px;
+}
+
+.sentence-zh{
+    color: grey !important;
+    font-size: 12px;
 }

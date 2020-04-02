@@ -2,6 +2,11 @@
 
 # Word Review 单词复习
 
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Benature/WordReview)
+![GitHub stars](https://img.shields.io/github/stars/Benature/WordReview?style=flat)
+![GitHub stars](https://img.shields.io/github/forks/Benature/WordReview?style=flat)
+![GitHub](https://img.shields.io/github/license/Benature/WordReview)
+
 Django + MySQL + Pug + JS
 
 - Python 3.7+
@@ -112,6 +117,9 @@ python manage.py migrate
 
 ### 更新日志
 
+- feature: 离开`review`页面前询问（防止手误离开页面） @04-02
+- feature: 增加 **例句** 显示 @04-02
+- update:  单个单词进度条改为左记右忘 @04-01
 - feature: 词表初始化排序设置支持叠加排序 @04-01
 - update:  增加添加笔记快捷键`N` @03-24
 - update:  重现模式在 `背词数目==已背单词+50` 后自动关闭一次（防止无脑过词） @03-24

@@ -98,20 +98,19 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
 
 
 def update_db(Words):
-    df = read_excel('data/xxx.xls')
+    df = read_excel('data/再要你命3000整理版.xlsx')
     for d in df.iloc:
-        mean = d['mean'].replace('; ', '\n').replace(
-            ';', '\n').replace('；', '\n')
         try:
             word = Words.objects.get(word=d['word'])
-            word.mean = mean
+            word.sentence = d['sentence']
+            print(d['word'], word.sentence)
         except:
-            data = {
-                'word': d['word'],
-                'mean': mean,
-            }
-            word = Words.objects.create(**data)
+            pass
+            # data = {
+            #     'word': d['word'],
+            #     'mean': mean,
+            # }
+            # word = Words.objects.create(**data)
         word.save()
 
-        print(d['word'], mean)
         # break

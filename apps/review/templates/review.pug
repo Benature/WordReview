@@ -55,12 +55,10 @@ div.container.flex-column
       div.btn-div
         button.btn.btn-secondary.shadow#btn-forget.jump-btn 不认识
         button.btn.btn-primary.shadow#btn-remember.jump-btn 我记得
-    div.d-flex.justify-content-center(style="margin-top:20px;")
+    div.flex-row.d-flex(style="margin-top:20px;")
       div#echarts-bottom
-    
+      div#tmpl-sentence.hide
 
-
-
-
-input#clipboard(style="position: absolute;top: 0;")
+form
+  input#clipboard(style="position: absolute;top: 0;")
 {% endblock %}
