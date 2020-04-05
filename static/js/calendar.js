@@ -76,8 +76,12 @@ function renderCalendar(data) {
         for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DELTA.length; j++) {
             let next_day = addDays(last_review_date, EBBINGHAUS_DELTA[j]);
             if (dayDelta(next_day, calendar_end) >= 0) { break; }
-            calendar[dayDelta(next_day, calendar_begin) + 1].push(
-                pushCalendarData(list, j, true));
+            let index_tmp = dayDelta(next_day, calendar_begin) + 1;
+            if (index_tmp < 0) {
+                console.log('过期：', pushCalendarData(list, j, true));
+                continue;
+            }
+            calendar[index_tmp].push(pushCalendarData(list, j, true));
             last_review_date = next_day;
         }
         let history = list.review_dates.split(';');
