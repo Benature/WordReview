@@ -28,15 +28,10 @@ div.container.flex-column
       {% else %}
       h4 List {{l.i}}
       {% endif %}
-      a {{l.len}} 
-        //- {% if l.max != 0 %}
-        //- {% if l.min == 0 or l.min == l.max %}
-        //- | [{{l.max}}次]
-        //- {%else%}
-        //- | [{{l.min}}-{{l.max}}次]
-        //- {%endif%}
-        //- {%endif%}
-        | [{{l.times}}次]
+      div
+        a {{l.len}}
+        sub(style="font-size:10px; color: grey;") {{l.del_len}} 
+        a  [{{l.times}}次]
       div.progress(style="width:100%;")
         div.progress-bar(style="width:{{l.rate}}%;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
           | {{l.rate}}%

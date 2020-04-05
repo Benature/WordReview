@@ -98,7 +98,7 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
 
 
 def update_db(Words):
-    df = read_excel('data/再要你命3000整理版.xlsx')
+    df = read_excel('data/xxx.xlsx')
     for d in df.iloc:
         try:
             word = Words.objects.get(word=d['word'])

@@ -32,17 +32,22 @@ $(function () {
     function renderWord(data, read = true) {
         data = data.fields;
         word = data.word;
-        // console.log(data)
+        // console.log(data.panTotalNum, data.panForgetNum, data.panRate)
         console.log(word)
         $('#tmpl-word').text(word);
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
         // console.log(data.panRate);
-        if (data.panTotalNum == data.panForgetNum && data.panRate != null) {
+        if (0 != data.panTotalNum) {
             $('.progress-bar').css("width", (1 - data.panRate) * 100 + "%");
             $('#tmpl-total-num').addClass('d-none');
             $('#tmpl-progress').text((data.panTotalNum - data.panForgetNum) + '/' + data.panTotalNum);
+            if (data.panTotalNum == data.panForgetNum) {
+                $('#tmpl-progress').css('padding-left', '5px');
+            } else {
+                $('#tmpl-progress').css('padding-left', '0');
+            }
             $('#tmpl-total-num').text('');
         } else {
             $('.progress-bar').css("width", "0%");
@@ -74,13 +79,13 @@ $(function () {
         $.tmpl("mean").appendTo($('#tmpl-content'));
 
         // 例句
-        let sentence = data.sentence.replace('\n', '\n').split('\n')
+        let sentence = data.sentence.replace('||', '\n').split('\n')
         $('#tmpl-sentence').empty();
         if (sentence != '') {
             var sentence_content = '';
             for (let i = 0; i < sentence.length; i++) {
-                let eng = sentence[i].match(/[a-z \-,.?!'’…"]+/ig);
-                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》“”、 ]+/g);
+                let eng = sentence[i].match(/[a-z \-,.?!'’…"0-9—]+/ig);
+                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》()“”、 0-9—]+/g);
                 for (let j = eng.length; j >= 0; j--) {
                     if (eng[j] == ' ') { eng.splice(j, 1); }
                 }
@@ -89,13 +94,25 @@ $(function () {
                 }
                 if (eng == null || eng == 'nan') { eng = ''; }
                 if (zh == null) { zh = ''; }
-                sentence_content += '<p class="flex-column d-flex"><a>' + eng + '</a><a class="sentence-zh">' + zh[zh.length - 1] + '</a></p>';
+                sentence_content += '<p class="flex-column d-flex"><a>' + eng.join('\n') + '</a><a class="sentence-zh">' + zh.join('\n') + '</a></p>';
                 console.log(sentence)
                 console.log(eng, zh)
             }
             $.template("sentence", sentence_content);
             $.tmpl("sentence").appendTo($('#tmpl-sentence'));
         }
+
+        // 单词标签
+        $('.icon-flags').children().each(function () {
+            $(this).removeClass('icon-enabled').addClass('icon-disabled');
+        })
+        if (data.flag == 1) {
+            $('.icon-ok').removeClass('icon-disabled').addClass('icon-enabled')
+        } else if (data.flag == -1) {
+            $('.icon-star').removeClass('icon-disabled').addClass('icon-enabled')
+        }
+        // console.log(data.flag)
+
 
         if (read) {
             copy2Clipboard(word, "clipboard");
@@ -223,14 +240,9 @@ $(function () {
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
         let word_tmp = wordArray[wordIndex]
-        w.panHistory += remember ? '1' : '0';
-        w.panTotalNum++;
-        w.panRate = w.panForgetNum / w.panTotalNum;
-        // console.log(remember, w.panHistory)
         if ($('#tmpl-note').val() != word) {
             w.note = $('#tmpl-note').val();
         }
-
         if (!remember) {
             w.panForgetNum++;
             if (repeat) {
@@ -244,6 +256,10 @@ $(function () {
                 wordIndex--;
             }
         }
+        w.panHistory += remember ? '1' : '0';
+        w.panTotalNum++;
+        w.panRate = w.panForgetNum / w.panTotalNum;
+
         // echarts 画图
         currentHistoryX.push(word);
         if (wordCount == 1) {
@@ -485,12 +501,68 @@ $(function () {
 
     $("#tmpl-note").focus(function () { noteFocus = true; });
     $("#tmpl-note").blur(function () { noteFocus = false; });
+
+    // 更新单词的 flag：太简单、重难词
+    $('.icon-flags').on('click', function () {
+        let $icon = $(this).children();
+        let flag = 0;
+        if ($icon.hasClass('icon-star')) {
+            if ($icon.hasClass('icon-disabled')) {
+                flag = -1;
+                layer.msg('将' + word + '设为重难词');
+            } else if ($icon.hasClass('icon-enabled')) {
+                flag = 0;
+                layer.msg('取消设置' + word + '为重难词');
+            } else {
+                console.error('unknown class');
+                console.error($icon);
+            }
+        } else if ($icon.hasClass('icon-ok')) {
+            if ($icon.hasClass('icon-disabled')) {
+                flag = 1;
+                layer.msg('将' + word + '设为太简单');
+            } else if ($icon.hasClass('icon-enabled')) {
+                flag = 0;
+                layer.msg('取消设置' + word + '为太简单');
+            } else {
+                console.error('unknown class');
+                console.error($icon);
+            }
+        } else {
+            console.error('unknown class');
+            console.error($icon);
+        }
+        $.ajax({
+            url: '/review/update_word_flag',
+            type: 'POST',
+            data: {
+                list: wordArray[wordIndex].fields.LIST,
+                book: wordArray[wordIndex].fields.BOOK,
+                word: word,
+                flag: flag,
+            }
+        }).done(function (response) {
+            if (response.status === 200) {
+                if (flag != 0) {
+                    $('.icon-flags').children().each(function () {
+                        $(this).removeClass('icon-enabled').addClass('icon-disabled');
+                    })
+                    $icon.removeClass('icon-disabled').addClass('icon-enabled');
+                } else {
+                    $icon.removeClass('icon-enabled').addClass('icon-disabled');
+                }
+            } else {
+                layer.msg(response.msg);
+            }
+        })
+    })
 })
 
 // 快捷键
 $(document).keyup(function (e) {
     // console.log(noteFocus)
     // console.log(e.keyCode);
+    // console.log(e.ctrlKey, e.altKey);
     if (!noteFocus) {
         if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
             $('#btn-forget').click();
@@ -507,6 +579,12 @@ $(document).keyup(function (e) {
         else if (82 == e.keyCode && !e.shiftKey) { // R
             $('.repeat').click();
         }
+        else if (69 == e.keyCode && !e.shiftKey && e.ctrlKey) { // ctrl + E
+            $('.icon-ok').click();
+        }
+        else if (72 == e.keyCode && !e.shiftKey && e.ctrlKey) { // ctrl + H
+            $('.icon-star').click();
+        }
         else if (78 == e.keyCode && !e.shiftKey) { // N
             // console.log($('#active-note')[0]);
             // $('#active-note').click();
@@ -520,7 +598,7 @@ $(document).keyup(function (e) {
 });
 
 window.onbeforeunload = function (event) {
-    if (wordIndex != wordArray.length) {
+    if (wordIndex != wordArray.length - 1) {
         return "本轮被单词进度将会丢失😣";
     }
 }

@@ -1,8 +1,9 @@
 {% extends "base.pug" %}
 {% block title %}单词复习{% endblock %}
 {% block css %}
+{% load sass_tags %}
 script(src="/static/js/echarts.min.js")
-link(href="/static/css/review.css" rel="stylesheet")
+link(href="{% sass_src 'scss/review.scss' %}" rel="stylesheet" type="text/css")
 script(src="/static/js/review.js")
 {% endblock %}
 
@@ -30,15 +31,23 @@ nav.navbar.navbar-light.bg-light.sticky-top
 
 div.container.flex-column
   div.align-self-center
-    div(style="text-align: center")
+    div.d-flex.justify-content-center(style="text-align: center")
+      div.side-card
       h1#tmpl-word 
+      div.side-card
     div#tmpl-index
     div.d-flex.flex-row
       div.side-card
         div#echarts-left.hide
       div.align-self-center.btn-jump#jump-back &laquo;
       div
-        div#tmpl-last-word
+        div.d-flex.flex-row.justify-content-between
+          div#tmpl-last-word
+          div(style="margin-right: 20px;")
+            div.icon-star-div.icon-flags
+              i.icon-star.icon-disabled
+            div.icon-ok-div.icon-flags
+              i.icon-ok.icon-disabled
         div#meaning-box.rounded.shadow
           div.align-self-center#tmpl-content.d-none.hide
       div.align-self-center.btn-jump#jump-forward &raquo;

@@ -3,6 +3,12 @@ import django.utils.timezone as timezone
 
 import uuid
 
+flag_choices = (
+    (1, '太简单'),
+    (0, 'default'),
+    (-1, '重难词'),
+)
+
 
 class Review(models.Model):
     '''复习单词表'''
@@ -18,6 +24,7 @@ class Review(models.Model):
     BOOK = models.CharField('单词书', max_length=20, default='')
     history = models.CharField('记忆历史', max_length=100,
                                default='')  # 10100101
+    flag = models.IntegerField('tag', default=0, choices=flag_choices)
 
     class Meta:
         db_table = 'review'
@@ -61,6 +68,7 @@ class BookList(models.Model):
         'list 内单词复习次数（分号分隔）set', max_length=100, default='')
     word_num = models.IntegerField('list 内的单词数目', default=0)
     ebbinghaus_counter = models.IntegerField('艾宾浩斯复习次数', default=0)
+    unlearned_num = models.IntegerField('仍需复习单词数', default=-1)
 
     class Meta:
         db_table = 'book_list'
@@ -69,11 +77,6 @@ class BookList(models.Model):
 
 class Words(models.Model):
     '''单纯的单词表'''
-    flag_choices = (
-        (-1, '太简单'),
-        (0, 'default'),
-        (1, '重难词'),
-    )
     word = models.CharField('英文单词', max_length=50, unique=True)
     mean = models.CharField('中文释义', max_length=500, default='')
     note = models.CharField('记忆法', max_length=200, default='')

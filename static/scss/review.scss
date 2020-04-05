@@ -72,6 +72,7 @@
 
 .side-card{
     width: 200px;
+    // min-height: 5rem;
     height: inherit;
 }
 
@@ -105,11 +106,34 @@
     cursor: pointer;
 }
 
-#tmpl-progress{
-    padding-left: 5px;
-}
-
 .sentence-zh{
     color: grey !important;
     font-size: 12px;
+}
+
+
+i{
+    padding-right: 5px;
+    
+}
+
+.icon-disabled{
+    color: #dadada;
+    -webkit-text-stroke: 0.5px #959595;
+}
+
+.icon-star-div{
+    cursor: pointer;
+    .icon-enabled{
+        color: #ffca28;
+        -webkit-text-stroke: 0px;
+    }
+}
+
+.icon-ok-div{
+    cursor: pointer;
+    .icon-enabled{
+        color: #73c991;
+        -webkit-text-stroke: 0px;
+    }
 }

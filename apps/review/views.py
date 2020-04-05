@@ -74,7 +74,6 @@ def review_lists(request):
 
     msg = 'done'
     status = 200
-    # try:
     for LIST in LISTS:
         try:
             ld = Review.objects.filter(BOOK=BOOK, LIST=LIST)  # list data
@@ -94,6 +93,8 @@ def review_lists(request):
             continue
 
         L_db.word_num = len(ld)
+        L_db.unlearned_num = len(Review.objects.filter(
+            BOOK=BOOK, LIST=LIST, flag__lt=1))
         L_db.review_word_counts = ';'.join(
             set([str(t[0]) for t in ld.values_list('total_num')]))
         L_db.list_rate = rate
@@ -124,6 +125,30 @@ def review_lists(request):
         # data = {'msg': msg, 'status': 200}
     # except Exception as e:
     #     data = {'msg': e, 'status': 500}
+    data = {'msg': msg, 'status': status}
+    return JsonResponse(data)
+
+
+@csrf_exempt
+def update_word_flag(request):
+    '''接口：更新单词flag'''
+    post = request.POST
+    msg = 'done'
+    status = 200
+    try:
+        # print(post)
+        words = [
+            Review.objects.get(
+                word=post.get('word'), LIST=post.get('list'), BOOK=post.get('book')),
+            Words.objects.get(word=post.get('word'))
+        ]
+        for word in words:
+            # print(word)
+            word.flag = post.get('flag')
+            word.save()
+    except Exception as e:
+        msg = e
+        status = 501
     data = {'msg': msg, 'status': status}
     return JsonResponse(data)
 
@@ -168,7 +193,7 @@ def get_word(request):
     LIST_li = [int(i) for i in LIST.split('-')]
     sortType = ['乱序', '记忆序']
     if len(LIST_li) == 1:
-        list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK)
+        list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK, flag__lt=1)
         counter = BookList.objects.get(LIST=LIST, BOOK=BOOK).ebbinghaus_counter
         if counter == 0:
             sortType = ['顺序']
@@ -233,10 +258,10 @@ def review(request):
     LIST = request.GET.get('list')
     BOOK = request.GET.get('book')
     if LIST is None or BOOK is None:
-        if LIST is None:
-            LIST = 0
-        if BOOK is None:
-            BOOK = 'qugen10000'
+        # if LIST is None:
+        #     LIST = 0
+        # if BOOK is None:
+        #     BOOK = 'qugen10000'
         return redirect(f'/review/review?list={LIST}&book={BOOK}')
     return render(request, "review.pug", locals())
 
@@ -272,10 +297,17 @@ def homepage(request):
             except Exception as e:
                 print(l, e)
                 continue
+            if ld.unlearned_num == -1:
+                L = ld.word_num
+                del_L = 0
+            else:
+                L = ld.unlearned_num
+                del_L = ld.word_num - ld.unlearned_num
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
             list_info.append({
                 'i': l,
-                'len': ld.word_num,
+                'len': L,
+                'del_len': del_L,
                 'rate': int(ld.list_rate * 100),
                 # 'min': min(total),
                 # 'max': max(total),
