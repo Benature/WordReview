@@ -33,8 +33,10 @@ div.container.flex-column
   div.align-self-center
     div.d-flex.justify-content-center(style="text-align: center")
       div.side-card
-      h1#tmpl-word 
+      div(style="width:300px;margin: 0 36px;").d-flex.justify-content-center
+        div#tmpl-word
       div.side-card
+        //- div#tmpl-break-word.hide
     div#tmpl-index
     div.d-flex.flex-row
       div.side-card
@@ -55,6 +57,7 @@ div.container.flex-column
         div(style="color:grey;text-align:center").hide.d-none
           | Note
         textarea#tmpl-note.form-control.hide.d-none.d-n-note
+        div#tmpl-break-word.hide
     div.progress-div
       div.progress(style="width:250px; background-color: palevioletred")
         div.progress-bar.bg-dodgerblue(role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")

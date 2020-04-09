@@ -64,6 +64,7 @@ class BookList(models.Model):
     list_uuid = models.UUIDField(
         'uuid', default=uuid.uuid4, editable=False, unique=True)
     list_rate = models.FloatField('表记忆率', default=0)
+    recent_list_rate = models.FloatField('近期表记忆率', default=0)
     review_word_counts = models.CharField(
         'list 内单词复习次数（分号分隔）set', max_length=100, default='')
     word_num = models.IntegerField('list 内的单词数目', default=0)
@@ -88,6 +89,7 @@ class Words(models.Model):
     history = models.CharField('记忆历史', max_length=100,
                                default='')  # 10100101
     flag = models.IntegerField('tag', default=0, choices=flag_choices)
+    webster = models.BooleanField('是否被WebsterBuilder收录', default=False)
 
     class Meta:
         db_table = 'words'

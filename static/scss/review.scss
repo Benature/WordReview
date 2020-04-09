@@ -87,7 +87,8 @@
 }
 
 #tmpl-sentence{
-    width: 546px;
+    margin-left: 5px;
+    width: 540px;
 }
 
 #tmpl-note{
@@ -136,4 +137,31 @@ i{
         color: #73c991;
         -webkit-text-stroke: 0px;
     }
+}
+
+.word-block{
+    margin: 0 3px;
+
+    div{
+        text-align: center;
+    }
+
+    .word-explain{
+        font-size: 12px;
+        color: #c46943;
+        // text-align: center;
+    }
+}
+
+#tmpl-note{
+    color: #c46943;
+}
+
+#tmpl-break-word{
+    display: flex;
+    justify-content: center;
+}
+
+.word-display{
+    font-size: 2.5rem;
 }

@@ -97,8 +97,15 @@ def review_lists(request):
             BOOK=BOOK, LIST=LIST, flag__lt=1))
         L_db.review_word_counts = ';'.join(
             set([str(t[0]) for t in ld.values_list('total_num')]))
-        L_db.list_rate = rate
 
+        L_db.list_rate = rate
+        # 计算近期记忆率
+        recent_history = ''
+        for word in ld:
+            recent_history += word.history[-2:]
+        L_db.recent_list_rate = recent_history.count('1') / len(recent_history)
+
+        # 艾宾浩斯时间处理
         if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DELTA):
             c = L_db.ebbinghaus_counter
             should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
@@ -125,6 +132,24 @@ def review_lists(request):
         # data = {'msg': msg, 'status': 200}
     # except Exception as e:
     #     data = {'msg': e, 'status': 500}
+    data = {'msg': msg, 'status': status}
+    return JsonResponse(data)
+
+
+@csrf_exempt
+def update_note(request):
+    '''接口：更新单词note'''
+    post = request.POST
+    msg = 'done'
+    status = 200
+    try:
+        print(post)
+        word = Words.objects.get(word=post.get('word'))
+        word.note = post.get('note')
+        word.save()
+    except Exception as e:
+        msg = e
+        status = 501
     data = {'msg': msg, 'status': status}
     return JsonResponse(data)
 
@@ -201,24 +226,26 @@ def get_word(request):
         list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
     else:
         raise KeyError('LIST_li 长度异常')
-    # word_list = [w[0] for w in list_info.values_list('word')]
-    # word = Words.objects.filter(word__in=word_list)
-    # if len(word) != len(word_list):
-    #     return JsonResponse({"msg": 'Words 数据库内缺少单词', 'status': 404})
+
+    pankeys = {
+        'total_num': 'panTotalNum',
+        'forget_num': 'panForgetNum',
+        'rate': 'panRate',
+        'history': 'panHistory',
+    }
+
     list_info = ormToJson(list_info)
     for l in list_info:
         l = l['fields']
         try:
-            w = Words.objects.get(word=l['word'])
+            w = ormToJson([Words.objects.get(word=l['word'])])[0]['fields']
         except Words.DoesNotExist:
             return JsonResponse({"msg": f"Word not found:{l['word']}", 'status': 404})
-        l['panTotalNum'] = w.total_num
-        l['panForgetNum'] = w.forget_num
-        l['panRate'] = w.rate
-        l['panHistory'] = w.history
-        l['mean'] = w.mean
-        l['note'] = w.note
-        l['sentence'] = w.sentence
+
+        for old, pan in pankeys.items():
+            w.update({pan: w.pop(old)})
+        l.update(w)
+
     data = {
         'data': list_info,
         'status': 200,
@@ -309,6 +336,7 @@ def homepage(request):
                 'len': L,
                 'del_len': del_L,
                 'rate': int(ld.list_rate * 100),
+                'recent_rate': int(ld.recent_list_rate * 100),
                 # 'min': min(total),
                 # 'max': max(total),
                 'times': ld.ebbinghaus_counter,

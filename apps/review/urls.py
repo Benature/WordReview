@@ -18,5 +18,6 @@ urlpatterns = [
     path('review/review_a_word', views.review_a_word, name='获取单词'),
     path('review/review_list_finish', views.review_lists, name='复习结束'),
     path('review/update_word_flag', views.update_word_flag, name='更新单词flag'),
+    path('review/update_note', views.update_note, name='更新单词note'),
     # path('import-database/', views.import_db, name='导入数据库'),
 ]

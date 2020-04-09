@@ -110,16 +110,34 @@ python manage.py migrate
 |    查看释义    |   `空格`    | 复习页面 |
 |     我记得     | `Shift + →` | 复习页面 |
 |     不认识     | `Shift + ←` | 复习页面 |
-|   设为重难词   | `ctrl + H`  | 复习页面 |
-|   设为太简单   | `ctrl + E`  | 复习页面 |
+|   设为重难词   | `Shift + H` | 复习页面 |
+|   设为太简单   | `Shift + E` | 复习页面 |
 |  触发重现模式  |     `R`     | 复习页面 |
 | 进入笔记输入框 |     `N`     | 复习页面 |
 | 跳转到日历页面 |     `C`     |   主页   |
 
+### 词根词缀词源拆词渲染
+
+eg: 以`detain`为例
+
+```
+de=down
+tain
+```
+
 ---
+
+[TODO 清单](https://www.notion.so/benature/WordReview-fa7e264c1e2048639586af4eb952374f)（有点杂乱）
 
 ### 更新日志
 
+- feature: 新增预习状态 @04-08
+- update:  优化获取单词键值对处理 @04-08
+- feature: 新增 [WebsterVocabularyBuilder](https://www.zhihu.com/question/27538740) 是否收录字段 @04-08
+- fix:     日历页面任务过期太久引发页面渲染失败 @04-05
+- update:  `note` 光标离焦后自动更新，不必点击`我记得`或`不认识` @04-05
+- feature: 主页显示近期记忆率 @04-05
+- feature: 词根词缀词源拆词渲染 @04-05
 - feature: `太简单`与`重难词`标记 @04-05
 - feature: 离开`review`页面前询问（防止手误离开页面） @04-02
 - feature: 增加 **例句** 显示 @04-02
@@ -128,7 +146,7 @@ python manage.py migrate
 - update:  增加添加笔记快捷键`N` @03-24
 - update:  重现模式在 `背词数目==已背单词+50` 后自动关闭一次（防止无脑过词） @03-24
 - update:  增加重现模式快捷键`R` @03-18
-- update:  note 输入框无视快捷键 @03-18
+- update:  `note` 输入框无视快捷键 @03-18
 - update:  重现模式在背词数目超过词表长度 50 次后自动关闭一次（防止无脑过词） @03-17
 - update:  历史曲线 X 轴 label 从数字改为单词 @03-01
 - feature: 背单词的重现模式([pr#1](https://github.com/Benature/WordReview/pull/1)) @02-29

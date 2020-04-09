@@ -97,13 +97,33 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
     init_db_booklist(BookList, Review, BOOK, begin_index)
 
 
+# def update_db(Words):
+#     df = read_excel('data/xxx.xlsx')
+#     for d in df.iloc:
+#         try:
+#             word = Words.objects.get(word=d['word'])
+#             word.sentence = d['sentence']
+#             print(d['word'], word.sentence)
+#         except:
+#             pass
+#             # data = {
+#             #     'word': d['word'],
+#             #     'mean': mean,
+#             # }
+#             # word = Words.objects.create(**data)
+#         word.save()
+#         # break
+
 def update_db(Words):
-    df = read_excel('data/xxx.xlsx')
-    for d in df.iloc:
+    count = 0
+    with open('data/Webster.txt', 'r') as f:
+        words = f.read().split('\n')
+    for w in words:
         try:
-            word = Words.objects.get(word=d['word'])
-            word.sentence = d['sentence']
-            print(d['word'], word.sentence)
+            word = Words.objects.get(word=w)
+            word.webster = True
+            count += 1
+            print(w, count)
         except:
             pass
             # data = {
