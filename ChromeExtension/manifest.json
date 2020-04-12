@@ -1,0 +1,54 @@
+{
+  "name": "WordReview",
+  "version": "0.0.1",
+  "description": "WordReview 补充功能：记忆之沙助记法显示",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "tabs",
+    "http://www.wordsand.cn/"
+  ],
+  "background": {
+    "scripts": [
+      "js/jquery-3.4.1.min.js",
+      "js/background.js"
+    ],
+    "css": [
+      "css/base.css"
+    ],
+    "persistent": false
+  },
+  "page_action": {
+    "default_icon": "img/vocabulary.png",
+    "default_title": "木一背单词",
+    "default_popup": "popup.html",
+    "permissions": [
+      "declarativeContent"
+    ]
+  },
+  "icons": {
+    "16": "img/vocabulary.png",
+    "32": "img/vocabulary.png",
+    "48": "img/vocabulary.png",
+    "128": "img/vocabulary.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://127.0.0.1/*"
+      ],
+      "js": [
+        "js/jquery-3.4.1.min.js",
+        "js/content-script.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "manifest_version": 2
+}
