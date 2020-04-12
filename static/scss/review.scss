@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-#tmpl-index{
+#tmpl-index, #tmpl-phonetic{
     text-align: center;
     color: grey;
     font-size: 13px;
@@ -71,7 +71,7 @@
 }
 
 .side-card{
-    width: 200px;
+    width: 220px;
     // min-height: 5rem;
     height: inherit;
 }
@@ -92,10 +92,13 @@
 }
 
 #tmpl-note{
+    z-index: -1;
     width: 90%;
-    height: 76%;
+    // height: 100%;
     margin: 22px 0px 0px 20px;
     padding: 10px 10px;
+    color: #c46943;
+    min-height: 200px;
     /* border: 0; */
 }
 
@@ -146,22 +149,26 @@ i{
         text-align: center;
     }
 
+    .word-break{
+        font-size: 20px;
+    }
     .word-explain{
-        font-size: 12px;
+        font-size: 16px;
         color: #c46943;
         // text-align: center;
     }
 }
 
-#tmpl-note{
-    color: #c46943;
-}
-
-#tmpl-break-word{
+.break-words{
     display: flex;
     justify-content: center;
+    flex-direction: row;
 }
 
 .word-display{
     font-size: 2.5rem;
+}
+
+.mnemonic-explain{
+    font-size: 10pt;
 }

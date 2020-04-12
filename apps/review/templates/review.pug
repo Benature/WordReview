@@ -31,45 +31,63 @@ nav.navbar.navbar-light.bg-light.sticky-top
 
 div.container.flex-column
   div.align-self-center
-    div.d-flex.justify-content-center(style="text-align: center")
-      div.side-card
-      div(style="width:300px;margin: 0 36px;").d-flex.justify-content-center
-        div#tmpl-word
-      div.side-card
-        //- div#tmpl-break-word.hide
-    div#tmpl-index
+    //- div.d-flex.justify-content-center(style="text-align: center")
+    //-   div.side-card
+    //-   //- div(style="width:300px;margin: 0 36px;").d-flex.justify-content-center
+    //-   //-   div#tmpl-word
+    //-   div.side-card
+        
     div.d-flex.flex-row
-      div.side-card
-        div#echarts-left.hide
-      div.align-self-center.btn-jump#jump-back &laquo;
+      //- left side card
+      div.side-card.d-flex.flex-column.justify-content-between
+        div
+          div#echarts-left.hide
+        div
+          div#echarts-bottom
+
+      //- middle card
       div
-        div.d-flex.flex-row.justify-content-between
-          div#tmpl-last-word
-          div(style="margin-right: 20px;")
-            div.icon-star-div.icon-flags
-              i.icon-star.icon-disabled
-            div.icon-ok-div.icon-flags
-              i.icon-ok.icon-disabled
-        div#meaning-box.rounded.shadow
-          div.align-self-center#tmpl-content.d-none.hide
-      div.align-self-center.btn-jump#jump-forward &raquo;
+        div(style="width:300px;margin: 0 36px;").d-flex.justify-content-center.flex-column
+          div#tmpl-word.text-center
+          div#tmpl-phonetic
+          div#tmpl-index
+        div.d-flex.flex-row
+          div.align-self-center.btn-jump#jump-back &laquo;
+          div
+            div.d-flex.flex-row.justify-content-between
+              div#tmpl-last-word
+              div(style="margin-right: 20px;")
+                div.icon-star-div.icon-flags
+                  i.icon-star.icon-disabled
+                div.icon-ok-div.icon-flags
+                  i.icon-ok.icon-disabled
+            div#meaning-box.rounded.shadow
+              div.align-self-center#tmpl-content.hide
+          div.align-self-center.btn-jump#jump-forward(style="margin-right: 5px;") &raquo;
+        
+        //- progress bar
+        div.progress-div
+          div.progress(style="width:250px; background-color: palevioletred")
+            div.progress-bar.bg-dodgerblue(role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
+              a#tmpl-progress
+            div#tmpl-total-num
+        div.d-flex.justify-content-center
+          div.btn-div
+            button.btn.btn-secondary.shadow#btn-forget.jump-btn 不认识
+            button.btn.btn-primary.shadow#btn-remember.jump-btn 我记得
+
+      //- right side card: NOTE
       div.side-card.justify-content-center#active-note
-        div(style="color:grey;text-align:center").hide.d-none
+        div#tmpl-mnemonic.hide
+        div(style="color:grey;text-align:center").hide
           | Note
-        textarea#tmpl-note.form-control.hide.d-none.d-n-note
-        div#tmpl-break-word.hide
-    div.progress-div
-      div.progress(style="width:250px; background-color: palevioletred")
-        div.progress-bar.bg-dodgerblue(role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100")
-          a#tmpl-progress
-        div#tmpl-total-num
-    div.d-flex.justify-content-center
-      div.btn-div
-        button.btn.btn-secondary.shadow#btn-forget.jump-btn 不认识
-        button.btn.btn-primary.shadow#btn-remember.jump-btn 我记得
-    div.flex-row.d-flex(style="margin-top:20px;")
-      div#echarts-bottom
-      div#tmpl-sentence.hide
+        div#tmpl-break-word.hide.break-words
+        textarea#tmpl-note.form-control.hide.d-n-note
+    //- bottom
+    div.justify-content-center.d-flex.flex-column(style="margin-top:20px;width=540px")
+      div#tmpl-sentence.hide.align-self-center
+      div#word-sand.hide.align-self-center(style="font-size:12px;width=540px;")
+      //- iframe(stc="http://baidu.comdict.cn/mini.php?q=idle")
 
 form
   input#clipboard(style="position: absolute;top: 0;")

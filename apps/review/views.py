@@ -21,7 +21,13 @@ def index(request):
 
 
 def temp(request):
-    # update_db(Words)
+    # out = Words.objects.filter(word__icontains='amiable')
+    # for w in out:
+    #     print(w.word, ".")
+    #     print(w.word.count(' '))
+    #     print(w.id)
+    # print(out)
+    update_db(Words)
     # if config.init_db_mode:
     #     from apps.review.src.init_db import (
     #         import_word, init_db_words, init_db_booklist, init_db_books)
@@ -196,7 +202,7 @@ def review_a_word(request):
         word_dbs = [word]
     else:
         word_dbs = [word, word_in_list]
-    print(post.get('word'), post.get('repeat'), word_dbs)
+    # print(post.get('word'), post.get('repeat'), word_dbs)
 
     for w in word_dbs:
         w.total_num += 1

@@ -22,6 +22,7 @@ if database_type == 'mysql':
             'PASSWORD': 'tg_word2020',
             'HOST':  'localhost',
             'PORT': '',
+            'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
 elif database_type == 'sqlite':

@@ -114,23 +114,54 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
 #         word.save()
 #         # break
 
-def update_db(Words):
-    count = 0
-    with open('data/Webster.txt', 'r') as f:
-        words = f.read().split('\n')
-    for w in words:
-        try:
-            word = Words.objects.get(word=w)
-            word.webster = True
-            count += 1
-            print(w, count)
-        except:
-            pass
-            # data = {
-            #     'word': d['word'],
-            #     'mean': mean,
-            # }
-            # word = Words.objects.create(**data)
-        word.save()
+# def update_db(Words):
+#     count = 0
+#     with open('data/Webster.txt', 'r') as f:
+#         words = f.read().split('\n')
+#     for w in words:
+#         try:
+#             word = Words.objects.get(word=w)
+#             word.webster = True
+#             count += 1
+#             print(w, count)
+#         except:
+#             pass
+#             # data = {
+#             #     'word': d['word'],
+#             #     'mean': mean,
+#             # }
+#             # word = Words.objects.create(**data)
+#         word.save()
 
+#         # break
+
+def update_db(Words):
+    fail = 0
+    df = read_excel('data/助记.xlsx')
+    df = df.fillna('')
+    for data in df.iloc:
+        print(data['word'], end='|')
         # break
+        try:
+            word = Words.objects.get(word=data['word'])
+        except:
+            print(data['word'])
+            print('\nunfound word', data['word'])
+            fail += 1
+            # break
+            continue
+
+        mnemonic = []
+        for k in ['根', '注', '联', '记', '派', '参', '源', '义', '近', '反']:
+            if data[k] != '':
+                mnemonic.append(f'【{k}】{data[k]}')
+        try:
+            word.mnemonic = '\n'.join(mnemonic)
+            word.phonetic = data['phonetic']
+            word.save()
+        except:
+            print(mnemonic)
+            fail += 1
+        print(word.word)
+        # break
+    print('fail', fail)

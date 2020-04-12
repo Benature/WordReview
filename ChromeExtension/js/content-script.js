@@ -13,6 +13,8 @@ function renderWordSand(word_now) {
                     .replace(/<center>[\s\S]+?<\/center>/, '')
                     .replace(/<font.*?>/, '<font>');
             }
+        } else {
+            console.error('word sand 失败', word_now)
         }
     });
     word = word_now;
@@ -27,11 +29,11 @@ $(function () {
             (32 == e.keyCode || 191 == e.keyCode)) {
             setTimeout(function () {
                 let word_now = $('#tmpl-word').text()
-                console.log('crx', word_now)
+                // console.log('crx', word_now)
                 if (word_now != word) {
                     renderWordSand(word_now)
                 }
-            }, 100);// 先等待原始页面渲染
+            }, 500);// 先等待原始页面渲染
         }
         // setTimeout(function () {
         //     chrome.storage.sync.get({wordsand: 'Failed',}, function (items) {console.log(items);});

@@ -29,29 +29,37 @@ function compareField(att, direct) {
 $(function () {
 
     /**
+     * 渲染拆解单词内容
+     */
+    function renderBreakContents(break_content, explain_content) {
+        break_content = break_content.replace(/\s/g, '');
+        explain_content = explain_content.replace(/\s/g, '');
+        let word_break = document.createElement('div')
+        word_break.setAttribute('class', 'word-break');
+        word_break.innerText = break_content;
+        let word_explain = document.createElement('div')
+        word_explain.setAttribute('class', 'word-explain');
+        word_explain.innerText = explain_content;
+
+        let word_block = document.createElement('span')
+        word_block.setAttribute('class', 'word-block');
+        word_block.appendChild(word_break);
+        word_block.appendChild(word_explain);
+        return word_block;
+    }
+
+    /**
      * 渲染拆解单词 
      */
     function renderBreakWord(text) {
-        let tmpl_break_word = document.getElementById('tmpl-break-word')
+        let tmpl_break_word = document.getElementById('tmpl-break-word');
         tmpl_break_word.innerHTML = '';
         let notes = text.split('\n')
         for (let i = 0; i < notes.length; i++) {
             let note_break = notes[i].split('=');
             if (word.indexOf(note_break[0]) == -1 || (word == note_break[0] && notes[0].indexOf('=') == -1)) { continue; }
-
-            let word_block = document.createElement('span');
-            word_block.setAttribute('class', 'word-block');
-            let word_break = document.createElement('div');
-            word_break.innerText = note_break[0];
-            // word_break.setAttribute('class', 'text-center');
-            let word_explain = document.createElement('div');
-            word_explain.innerText = note_break.length == 1 ? '' : note_break[1];
-            word_explain.setAttribute('class', 'word-explain')
-            // console.log(notes[i]);
-
-            word_block.appendChild(word_break)
-            word_block.appendChild(word_explain)
-            tmpl_break_word.appendChild(word_block);
+            tmpl_break_word.appendChild(
+                renderBreakContents(note_break[0], note_break.length == 1 ? '' : note_break[1]));
         }
     }
     /**
@@ -63,9 +71,12 @@ $(function () {
         data = data.fields;
         word = data.word;
         // console.log(data.panTotalNum, data.panForgetNum, data.panRate)
-        console.log(word)
-        $('#tmpl-word')[0].innerHTML = '<a class="word-display">' + word + '</a>' +
-            (data.webster ? ' <a style="color: red;">  𝓦</a>' : '');
+        console.log(word);
+        // console.log(data);
+        $('#tmpl-word')[0].innerHTML = '<a class="word-display">' + word + '</a>';
+        $('#tmpl-phonetic').text(data.phonetic);
+        $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
+            ' [' + wordIndex + '/' + wordArray.length + ']');
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
@@ -86,8 +97,7 @@ $(function () {
             $('#tmpl-progress').text('');
             $('#tmpl-total-num').text(data.panTotalNum);
         }
-        $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
-            ' [' + wordIndex + '/' + wordArray.length + ']');
+
 
         // note
         note = data.note;
@@ -102,9 +112,43 @@ $(function () {
         // 词根词缀拆解
         renderBreakWord(note);
 
+        // 助记法
+        let tmpl_mnemonic = document.getElementById('tmpl-mnemonic');
+        var break_pattern = /^([a-z-\(\)\s]+)/g;
+        tmpl_mnemonic.innerHTML = '';
+        data.mnemonic.split('\n').forEach(function (mem) {
+            let type = mem.match(/【.+】/g);
+            type = (type == null) ? '' : type;
+            mem = mem.replace(type, '');
+
+            if (break_pattern.test(mem)) {
+                let word_block = document.createElement('div');
+                word_block.setAttribute('class', 'break-words');
+
+                while (true) {
+                    if (/^([a-z\(\)\s-]+)/g.test(mem)) {
+                        if (/^([a-z-\(\),\s]+)\s\[(.+?)\]/g.test(mem)) {
+                            mem = mem.replace(RegExp.lastMatch, '')
+                            word_block.appendChild(renderBreakContents(RegExp.$1, RegExp.$2));//顺序一换影响 RegExp 的值，必须最后
+                        } else {
+                            mem = mem.replace(RegExp.lastMatch, '')
+                            word_block.appendChild(renderBreakContents(RegExp.lastMatch, ''));
+                        }
+                        mem = mem.replace(/^[\s+]*/, '');
+                    } else {
+                        break;
+                    }
+                }
+                tmpl_mnemonic.appendChild(word_block);
+            }
+            mem = mem.replace(/^([\s+,]*)/g, '');
+            tmpl_mnemonic.innerHTML += '<p class="mnemonic-explain">' + type + mem + '</p>';
+        })
+        document.getElementById('word-sand').innerHTML = ''
+
         // 中文释义处理
         let means = data.mean.split('\n')
-        var mean_content = '';
+        var mean_content = data.webster ? '<a style="color: red;">  𝓦</a>' : '';
         for (let i = 0; i < means.length; i++) {
             mean_content += '<p>' + means[i] + '</p>'
         }
@@ -118,22 +162,36 @@ $(function () {
         if (sentence != '') {
             var sentence_content = '';
             for (let i = 0; i < sentence.length; i++) {
-                let eng = sentence[i].match(/[a-z \-,.?!'’“”…"0-9—]+/ig);
-                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》()“”、 0-9—]+/g);
-                for (let j = eng.length; j >= 0; j--) {
-                    if (eng[j] == ' ') { eng.splice(j, 1); }
+                let eng = sentence[i].match(/^[a-z \-,.?!'’“”…"0-9—]+/ig);
+                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》()“”、 0-9—]+$/g);
+                if (eng == null || eng == 'nan' || eng == []) { eng = ''; } else { eng = eng[0]; }
+                if (zh == null || eng == []) { zh = ''; } else { zh = zh[0]; }
+                for (let j = 0; j < 3; j++) {
+                    let word_tmp = word.slice(0, word.length - j);
+                    // if (eng.indexOf(word_tmp) != -1) {
+                    //     let eng_tmp = eng.split(word_tmp);
+                    //     console.log(eng_tmp)
+                    //     eng = eng_tmp[0].slice(0, eng_tmp.length - word_tmp.length + 1) +
+                    //         ' </span><span style="color:red;">' + word_tmp +
+                    //         eng_tmp.slice(1, eng_tmp.length).join(word_tmp).replace(' ', '</span><span> ');
+                    //     console.log(eng_tmp.slice(1, eng_tmp.length).join(word_tmp))
+                    //     break
+                    // }
+                    // eval("")
+                    // let word_pattern = new 
+                    let eng_tmp = eng.match(RegExp("\\s([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
+                        // word_tmp.slice(1, word_tmp.length) + "[a-z,\.;\'\"]{0,3})\\s", "g"));
+                        word_tmp.slice(1, word_tmp.length) + "(es|s|ed|d|ing|ng|))\\s", "g"));
+                    if (eng_tmp != null) {
+                        eng_tmp = Array.from(new Set(eng_tmp))
+                        eng_tmp.forEach(function (mat) {
+                            eng = eng.replace(RegExp(mat, "g"), '</span><span style="color:red;">' + mat + '</span><span>')
+                        })
+                    }
                 }
-                for (let j = zh.length; j >= 0; j--) {
-                    if (zh[j] == ' ') { zh.splice(j, 1); }
-                }
-                if (eng == null || eng == 'nan') { eng = ''; }
-                if (zh == null) { zh = ''; }
-                sentence_content += '<p class="flex-column d-flex"><a>' + eng.join('\n') + '</a><a class="sentence-zh">' + zh.join('\n') + '</a></p>';
-                console.log(sentence)
-                console.log(eng, zh)
+                sentence_content += '<p class="flex-column d-flex"><span><span>' + eng + '</span></span><a class="sentence-zh">' + zh + '</a></p>';
             }
-            $.template("sentence", sentence_content);
-            $.tmpl("sentence").appendTo($('#tmpl-sentence'));
+            document.getElementById('tmpl-sentence').innerHTML = sentence_content;
         }
 
         // 单词标签
@@ -276,14 +334,21 @@ $(function () {
         if ($('#tmpl-note').val() != word) {
             w.note = $('#tmpl-note').val();
         }
-        if (!remember) {
+        if (!remember) { // 这个词不记得
             w.panForgetNum++;
-            if (repeatMode) {
+            if (word_tmp.repeat == null) {
+                word_tmp.repeat = 1;
+            } else {
+                word_tmp.repeat++;
+            }
+
+            if ((repeatMode && word_tmp.repeat < 3) || word_tmp.repeat == 1) {
                 if (wordIndex != wordArray.length - 1) {
                     wordArray.splice(wordIndex, 1);
                     let index_tmp = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
                     index_tmp += Math.min(wordArray.length - wordIndex - 1, 5); // 防止过快重现
-                    word_tmp.repeat = true;
+                    // console.log(index_tmp)
+                    // word_tmp.repeat = true;
                     wordArray.splice(index_tmp, 0, word_tmp);
                 }
                 wordIndex--;
@@ -398,8 +463,8 @@ $(function () {
                 word: word,
                 list: wordArray[wordIndex].fields.LIST,
                 book: book,
-                note: (note == note_now || note_now == word) ? false : note_now,
-                repeat: wordArray[wordIndex].repeat == true ? true : false,
+                note: (note == note_now || note_now == word) ? false : $.trim(note_now),
+                repeat: wordArray[wordIndex].repeat != null ? true : false,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -621,17 +686,21 @@ $(function () {
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
-                if (!previewMode) {
-                    $('#btn-forget').click();
-                } else {
+                if (previewMode) {
                     layer.msg('当前处于预习模式，不是复习')
+                } else if ($('#tmpl-content').hasClass('d-none')) {
+                    console.log('急啥呢')
+                } else {
+                    $('#btn-forget').click();
                 }
             }
             else if (39 == e.keyCode && e.shiftKey) { // shift + right arrow
-                if (!previewMode) {
-                    $('#btn-remember').click();
+                if (previewMode) {
+                    layer.msg('当前处于预习模式，不是复习')
+                } else if ($('#tmpl-content').hasClass('d-none')) {
+                    console.log('急啥呢')
                 } else {
-                    layer.msg('当前处于预习模式，不是复b习')
+                    $('#btn-remember').click();
                 }
             }
             else if (188 == e.keyCode && !e.shiftKey) { // <
@@ -659,7 +728,7 @@ $(function () {
             else if (32 == e.keyCode || 191 == e.keyCode/*|| 13 == e.keyCode*/) { // blank or /
                 $('#meaning-box').click();
             }
-            else if (84 == e.keyCode) { // T
+            else if (84 == e.keyCode || 86 == e.keyCode) { // T or V
                 window.open('http://www.wordsand.cn/lookup.asp?word=' + word);
             }
             else if (80 == e.keyCode) { // P
@@ -687,6 +756,6 @@ window.onbeforeunload = function (event) {
     if ((wordIndex == 0 && wordArray.length == rawWordLength) || previewMode) {
         console.log('拜拜')
     } else if (wordIndex != wordArray.length - 1) {
-        return "本轮被单词进度将会丢失😣";
+        return "本轮背单词进度将会丢失😣";
     }
 }

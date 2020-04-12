@@ -90,6 +90,8 @@ class Words(models.Model):
                                default='')  # 10100101
     flag = models.IntegerField('tag', default=0, choices=flag_choices)
     webster = models.BooleanField('是否被WebsterBuilder收录', default=False)
+    mnemonic = models.CharField('助记法', max_length=500, default='')
+    phonetic = models.CharField('音标', max_length=50, default='')
 
     class Meta:
         db_table = 'words'
