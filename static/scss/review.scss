@@ -142,6 +142,15 @@ i{
     }
 }
 
+.icon-circle-div{
+    font-size: 13px;
+    cursor: pointer;
+    .icon-enabled{
+        color: #73c991;
+        -webkit-text-stroke: 0px;
+    }
+}
+
 .word-block{
     margin: 0 3px;
 
@@ -172,3 +181,4 @@ i{
 .mnemonic-explain{
     font-size: 10pt;
 }
+

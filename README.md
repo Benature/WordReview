@@ -54,7 +54,7 @@ Django + MySQL + Pug + JS
 
 <p align="center">单词复习页</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo1.png" width="70%"/></a>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo2.png" width="70%"/></a>
 </p>
 </br>
 <p align="center">艾宾浩斯日历(略丑求不喷)</p>
@@ -109,6 +109,7 @@ python manage.py migrate
 |          操作          |          快捷键          |   页面   |   状态   |
 | :--------------------: | :----------------------: | :------: | :------: |
 |       设为重难词       |       `Shift + H`        | 复习页面 |   全局   |
+|       设为已掌握       |       `Shift + G`        | 复习页面 |   全局   |
 |       设为太简单       |       `Shift + E`        | 复习页面 |   全局   |
 |     进入笔记输入框     |           `N`            | 复习页面 |   全局   |
 | 查看助记法（记忆之沙） |        `T` / `V`         | 复习页面 |   全局   |
@@ -123,12 +124,23 @@ python manage.py migrate
 
 ### 词根词缀词源拆词渲染
 
-eg: 以`detain`为例
+eg: 以`detain`为例，其中等号`=`是标记符号。
 
 ```
 de=down
 tain
 ```
+
+### List 的记忆率
+
+- 蓝条：历史记忆率，对 List 内单词的总记忆率取平均
+- 绿条：上轮记忆率，按 List 内单词的 **最新两次** 记忆情况就散平均记忆率
+
+### 单词的`flag`
+
+- 太简单：✅打钩，下次背词不再出现，统计记忆率时视为 `1`
+- 已掌握：🟢绿灯，下次背词仍然出现，统计记忆率时视为 `1`
+- 重难词：⭐️标星
 
 ---
 
@@ -137,6 +149,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 单词的`flag`新增`已掌握` @04-13
   - feature: Chrome Extension 谷歌浏览器插件：记忆之沙助记法显示 @04-12
   - update:  错不过三：不认识三次后强制不再背该词 @04-11
   - update:  无论状态，错一次后需重背一次该词 @04-11

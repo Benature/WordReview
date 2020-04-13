@@ -171,7 +171,7 @@ $(function () {
                     let word_tmp = word.slice(0, word.length - j);
                     let eng_tmp = eng.match(RegExp("[\\s]*([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
                         word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
-                        "*(|es|s|ed|d|ing|ng|ous))[\\s,\\.]*", "g"));
+                        "*(es|s|ed|d|ing|ng|ous|))[\\s,\\.]*", "g"));
                     if (eng_tmp != null) {
                         // console.log(eng_tmp)
                         eng_tmp = Array.from(new Set(eng_tmp))
@@ -190,12 +190,19 @@ $(function () {
         $('.icon-flags').children().each(function () {
             $(this).removeClass('icon-enabled').addClass('icon-disabled');
         })
-        if (data.flag == 1) {
-            $('.icon-ok').removeClass('icon-disabled').addClass('icon-enabled')
-        } else if (data.flag == -1) {
-            $('.icon-star').removeClass('icon-disabled').addClass('icon-enabled')
+        switch (data.flag) {
+            case 2:
+                $('.icon-ok').removeClass('icon-disabled').addClass('icon-enabled');
+                break;
+            case 1:
+                $('.icon-circle').removeClass('icon-disabled').addClass('icon-enabled');
+                break;
+            case -1:
+                $('.icon-star').removeClass('icon-disabled').addClass('icon-enabled');
+                break;
+            default:
+                break;
         }
-        // console.log(data.flag)
 
 
         if (copy) {
@@ -625,25 +632,37 @@ $(function () {
         if ($icon.hasClass('icon-star')) {
             if ($icon.hasClass('icon-disabled')) {
                 flag = -1;
-                layer.msg('将' + word + '设为重难词');
+                layer.msg('⭐️将' + word + '设为重难词');
             } else if ($icon.hasClass('icon-enabled')) {
                 flag = 0;
-                layer.msg('取消设置' + word + '为重难词');
+                layer.msg('❌取消设置' + word + '为重难词');
             } else {
                 console.error('unknown class');
                 console.error($icon);
             }
         } else if ($icon.hasClass('icon-ok')) {
             if ($icon.hasClass('icon-disabled')) {
-                flag = 1;
-                layer.msg('将' + word + '设为太简单');
+                flag = 2;
+                layer.msg('✅将' + word + '设为太简单');
             } else if ($icon.hasClass('icon-enabled')) {
                 flag = 0;
-                layer.msg('取消设置' + word + '为太简单');
+                layer.msg('❌取消设置' + word + '为太简单');
             } else {
                 console.error('unknown class');
                 console.error($icon);
             }
+        } else if ($icon.hasClass('icon-circle')) {
+            if ($icon.hasClass('icon-disabled')) {
+                flag = 1;
+                layer.msg('🟢将' + word + '设为已掌握');
+            } else if ($icon.hasClass('icon-enabled')) {
+                flag = 0;
+                layer.msg('❌取消设置' + word + '为已掌握');
+            } else {
+                console.error('unknown class');
+                console.error($icon);
+            }
+
         } else {
             console.error('unknown class');
             console.error($icon);
@@ -677,7 +696,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        // console.log(e.keyCode);
+        console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
@@ -715,6 +734,9 @@ $(function () {
             }
             else if (72 == e.keyCode && e.shiftKey && !e.ctrlKey) { // shift + H
                 $('.icon-star').click();
+            }
+            else if (71 == e.keyCode && e.shiftKey && !e.ctrlKey) { // shift + G
+                $('.icon-circle').click();
             }
             else if ((78 == e.keyCode || 13 == e.keyCode) && !e.shiftKey) { // N or enter
                 $('.hide').removeClass('d-n-note');

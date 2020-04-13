@@ -82,15 +82,20 @@ def review_lists(request):
     status = 200
     for LIST in LISTS:
         try:
-            ld = Review.objects.filter(BOOK=BOOK, LIST=LIST)  # list data
+            ld = Review.objects.filter(
+                BOOK=BOOK, LIST=LIST, flag__lt=1)  # list data
+            ld_pass = Review.objects.filter(
+                BOOK=BOOK, LIST=LIST, flag__gt=0)  # list data
             L_db = BookList.objects.get(BOOK=BOOK, LIST=LIST)
         except Exception as e:
             msg = f'获取数据异常：{e}'
             status = 501
             break
 
+        L_db.word_num = len(ld) + len(ld_pass)
+
         rate = sum([r[0] if r[0] != -1 else 1 for r in ld.values_list('rate')
-                    ]) / len(ld)
+                    ]) / L_db.word_num
         rate = 1 - rate if rate != 0.0 else 0
 
         if rate == 0:
@@ -98,9 +103,7 @@ def review_lists(request):
             msg = '你怕是还没背过这个List'
             continue
 
-        L_db.word_num = len(ld)
-        L_db.unlearned_num = len(Review.objects.filter(
-            BOOK=BOOK, LIST=LIST, flag__lt=1))
+        L_db.unlearned_num = len(ld)
         L_db.review_word_counts = ';'.join(
             set([str(t[0]) for t in ld.values_list('total_num')]))
 
@@ -224,7 +227,7 @@ def get_word(request):
     LIST_li = [int(i) for i in LIST.split('-')]
     sortType = ['乱序', '记忆序']
     if len(LIST_li) == 1:
-        list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK, flag__lt=1)
+        list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK, flag__lt=2)
         counter = BookList.objects.get(LIST=LIST, BOOK=BOOK).ebbinghaus_counter
         if counter == 0:
             sortType = ['顺序']
