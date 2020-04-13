@@ -1,6 +1,6 @@
 {
   "name": "WordReview",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "WordReview 补充功能：记忆之沙助记法显示",
   "permissions": [
     "activeTab",

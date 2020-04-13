@@ -73,6 +73,8 @@ $(function () {
         // console.log(data.panTotalNum, data.panForgetNum, data.panRate)
         console.log(word);
         // console.log(data);
+        document.getElementById('word-sand').innerHTML = '';
+        // console.log(document.getElementById('word-sand'))
         $('#tmpl-word')[0].innerHTML = '<a class="word-display">' + word + '</a>';
         $('#tmpl-phonetic').text(data.phonetic);
         $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
@@ -114,7 +116,7 @@ $(function () {
 
         // 助记法
         let tmpl_mnemonic = document.getElementById('tmpl-mnemonic');
-        var break_pattern = /^([a-z-\(\)\s]+)/g;
+        var break_pattern = /^([a-z-\(\)\s]+[^\.])/g;
         tmpl_mnemonic.innerHTML = '';
         data.mnemonic.split('\n').forEach(function (mem) {
             let type = mem.match(/【.+】/g);
@@ -126,7 +128,7 @@ $(function () {
                 word_block.setAttribute('class', 'break-words');
 
                 while (true) {
-                    if (/^([a-z\(\)\s-]+)/g.test(mem)) {
+                    if (/^([a-z\s-]+|[a-z\s-]*\([a-z\s-]*\)[a-z\s-]*)/g.test(mem)) {
                         if (/^([a-z-\(\),\s]+)\s\[(.+?)\]/g.test(mem)) {
                             mem = mem.replace(RegExp.lastMatch, '')
                             word_block.appendChild(renderBreakContents(RegExp.$1, RegExp.$2));//顺序一换影响 RegExp 的值，必须最后
@@ -144,7 +146,6 @@ $(function () {
             mem = mem.replace(/^([\s+,]*)/g, '');
             tmpl_mnemonic.innerHTML += '<p class="mnemonic-explain">' + type + mem + '</p>';
         })
-        document.getElementById('word-sand').innerHTML = ''
 
         // 中文释义处理
         let means = data.mean.split('\n')
@@ -168,25 +169,16 @@ $(function () {
                 if (zh == null || eng == []) { zh = ''; } else { zh = zh[0]; }
                 for (let j = 0; j < 3; j++) {
                     let word_tmp = word.slice(0, word.length - j);
-                    // if (eng.indexOf(word_tmp) != -1) {
-                    //     let eng_tmp = eng.split(word_tmp);
-                    //     console.log(eng_tmp)
-                    //     eng = eng_tmp[0].slice(0, eng_tmp.length - word_tmp.length + 1) +
-                    //         ' </span><span style="color:red;">' + word_tmp +
-                    //         eng_tmp.slice(1, eng_tmp.length).join(word_tmp).replace(' ', '</span><span> ');
-                    //     console.log(eng_tmp.slice(1, eng_tmp.length).join(word_tmp))
-                    //     break
-                    // }
-                    // eval("")
-                    // let word_pattern = new 
-                    let eng_tmp = eng.match(RegExp("\\s([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
-                        // word_tmp.slice(1, word_tmp.length) + "[a-z,\.;\'\"]{0,3})\\s", "g"));
-                        word_tmp.slice(1, word_tmp.length) + "(es|s|ed|d|ing|ng|))\\s", "g"));
+                    let eng_tmp = eng.match(RegExp("[\\s]*([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
+                        word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
+                        "*(|es|s|ed|d|ing|ng|ous))[\\s,\\.]*", "g"));
                     if (eng_tmp != null) {
+                        // console.log(eng_tmp)
                         eng_tmp = Array.from(new Set(eng_tmp))
                         eng_tmp.forEach(function (mat) {
                             eng = eng.replace(RegExp(mat, "g"), '</span><span style="color:red;">' + mat + '</span><span>')
                         })
+                        break;
                     }
                 }
                 sentence_content += '<p class="flex-column d-flex"><span><span>' + eng + '</span></span><a class="sentence-zh">' + zh + '</a></p>';
@@ -339,6 +331,7 @@ $(function () {
             if (word_tmp.repeat == null) {
                 word_tmp.repeat = 1;
             } else {
+                console.log(word_tmp.repeat)
                 word_tmp.repeat++;
             }
 
@@ -352,6 +345,8 @@ $(function () {
                     wordArray.splice(index_tmp, 0, word_tmp);
                 }
                 wordIndex--;
+            } else if (word_tmp.repeat == 3) {
+                layer.msg('😡错不过三')
             }
         }
         w.panHistory += remember ? '1' : '0';
@@ -732,7 +727,13 @@ $(function () {
                 window.open('http://www.wordsand.cn/lookup.asp?word=' + word);
             }
             else if (80 == e.keyCode) { // P
-                previewMode = true;
+                if (!previewMode) {
+                    previewMode = true;
+                    layer.msg('学习/预习模式');
+                } else {
+                    previewMode = false;
+                    layer.msg('恢复到复习模式');
+                }
             }
 
             if (previewMode) {

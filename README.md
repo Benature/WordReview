@@ -5,6 +5,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Benature/WordReview)
 ![GitHub stars](https://img.shields.io/github/stars/Benature/WordReview?style=flat)
 ![GitHub stars](https://img.shields.io/github/forks/Benature/WordReview?style=flat)
+![GitHub issues](https://img.shields.io/github/issues/Benature/WordReview)
 ![GitHub](https://img.shields.io/github/license/Benature/WordReview)
 
 Django + MySQL + Pug + JS
@@ -56,7 +57,7 @@ Django + MySQL + Pug + JS
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo1.png" width="70%"/></a>
 </p>
 </br>
-<p align="center">艾宾浩斯日历(还没改的很好看)</p>
+<p align="center">艾宾浩斯日历(略丑求不喷)</p>
 <p align="center">
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="60%"/></a>
 </p>
@@ -65,9 +66,10 @@ Django + MySQL + Pug + JS
 <p align="center">
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="60%"/></a>
 </p>
+<p align="center">（蓝条是历史记忆率，绿条是上一轮的记忆率）</p>
 </br>
 
-背单词方法我主要参考[这种方法](https://www.bilibili.com/video/av46223252/)。
+背单词方法我主要参考[这种方法](https://www.bilibili.com/video/av46223252/)，也是这个项目的想法源起。
 
 ## 安装
 

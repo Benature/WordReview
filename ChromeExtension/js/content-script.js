@@ -20,23 +20,27 @@ function renderWordSand(word_now) {
     word = word_now;
 }
 
-renderWordSand()
+function updateWordSand(delay = 500) {
+    setTimeout(function () {
+        let word_now = $('#tmpl-word').text()
+        console.log('crx', word_now)
+        if (word_now != word) {
+            renderWordSand(word_now)
+        }
+    }, delay);// 先等待原始页面渲染
+}
+
+// 第一个单词渲染
+updateWordSand(1500);
 
 $(function () {
     $(document).keyup(function (e) {
-        if ((188 == e.keyCode && !e.shiftKey) ||
-            (190 == e.keyCode && !e.shiftKey) ||
-            (32 == e.keyCode || 191 == e.keyCode)) {
-            setTimeout(function () {
-                let word_now = $('#tmpl-word').text()
-                // console.log('crx', word_now)
-                if (word_now != word) {
-                    renderWordSand(word_now)
-                }
-            }, 500);// 先等待原始页面渲染
+        if ((188 == e.keyCode && !e.shiftKey) ||     // <
+            (190 == e.keyCode && !e.shiftKey) ||     // >
+            (37 == e.keyCode && e.shiftKey) ||       // shift + left arrow
+            (39 == e.keyCode && e.shiftKey) ||       // shift + right arrow
+            (32 == e.keyCode || 191 == e.keyCode)) { // blank or /
+            updateWordSand();
         }
-        // setTimeout(function () {
-        //     chrome.storage.sync.get({wordsand: 'Failed',}, function (items) {console.log(items);});
-        // }, 1000)
     })
 })
