@@ -91,15 +91,26 @@
     width: 540px;
 }
 
+
+
 #tmpl-note{
     z-index: -1;
-    width: 90%;
-    // height: 100%;
     margin: 22px 0px 0px 20px;
     padding: 10px 10px;
     color: #c46943;
-    min-height: 100px;
-    /* border: 0; */
+    font-size: 12px; 
+
+    width: 90%; 
+    min-height: 50px; 
+    max-height: 150px;
+    _height: 120px; 
+    outline: 0; 
+    border: 1px solid #a0b3d6; 
+    border-radius: .25rem;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    _overflow-y: visible;
 }
 
 .d-n-note{

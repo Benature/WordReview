@@ -29,6 +29,31 @@ function compareField(att, direct) {
 
 $(function () {
 
+    function noteText(text = null, tagName = 'tmpl-note') {
+        let node = document.getElementById(tagName)
+        switch (node.tagName) {
+            case 'DIV':
+                if (text != null) {
+                    node.innerText = text;
+                } else {
+                    return node.innerText;
+                }
+                break;
+            case 'TEXTAREA':
+                if (text != null) {
+                    $('#' + tagName).val(text);
+                } else {
+                    return $('#' + tagName).val();
+                }
+                break
+            default:
+                break;
+        }
+        console.log(noteText());
+
+    }
+
+    noteText()
     /**
      * 渲染拆解单词内容
      */
@@ -184,7 +209,8 @@ $(function () {
 
         // note
         $('#tmpl-note').addClass('d-n-note');
-        $('#tmpl-note').val(($('#tmpl-break-word').text() == '') ? word : note);
+        noteText(($('#tmpl-break-word').text() == '') ? word : note);
+        // $('#tmpl-note')[0].innerText = ($('#tmpl-break-word').text() == '') ? word : note;
 
         // 中文释义处理
         let means = data.mean.split('\n')
@@ -370,8 +396,8 @@ $(function () {
     function hotUpdate(remember) {
         let w = wordArray[wordIndex].fields;
         let word_tmp = wordArray[wordIndex]
-        if ($('#tmpl-note').val() != word) {
-            w.note = $('#tmpl-note').val();
+        if (noteText() != word) {
+            w.note = noteText();
         }
         if (!remember) { // 这个词不记得
             w.panForgetNum++;
@@ -496,7 +522,7 @@ $(function () {
         } else if ($(this).text() == '不认识') {
             remember = false;
         }
-        let note_now = $('#tmpl-note').val();
+        let note_now = noteText();
         $.ajax({
             url: '/review/review_a_word',
             type: 'POST',
@@ -643,9 +669,9 @@ $(function () {
     });
     $("#tmpl-note").blur(function () {
         noteFocus = false;
-        let note_now = $('#tmpl-note').val();
+        let note_now = noteText();
         // let note_pre = note;
-        // note = $('#tmpl-note').val();
+        // note = noteText();
         renderBreakWord(note_now);
         if (note_now != note) {
             $.ajax({
@@ -782,7 +808,17 @@ $(function () {
             else if ((78 == e.keyCode || 13 == e.keyCode) && !e.shiftKey) { // N or enter
                 $('.hide').removeClass('d-n-note');
                 // $('#tmpl-note').removeClass('d-n-note');
-                $('#tmpl-note').select();
+                let noteNode = document.getElementById("tmpl-note");
+                // let range = document.createRange();
+                // let len = noteNode.childNodes.length;
+                // range.setStart(noteNode, len);
+                // range.setEnd(noteNode, len);
+                // getSelection().addRange(range);
+                noteNode.focus();
+                // noteNode.selection.setRangeAtEndOf(len);
+                // range.moveToElementText(noteNode);
+                // range.select();
+                // $('#tmpl-note').select();
             }
             else if (32 == e.keyCode || 191 == e.keyCode/*|| 13 == e.keyCode*/) { // blank or /
                 $('#meaning-box').click();
@@ -809,7 +845,6 @@ $(function () {
                     wordIndex = Math.floor((wordIndex - 1) / 10) * 10;
                     renderWord(wordArray[wordIndex]);
                     $('#meaning-box').click();
-
                 }
                 else if (190 == e.keyCode && e.shiftKey) { // shift + >
                     wordIndex = Math.ceil((wordIndex + 1) / 10) * 10;

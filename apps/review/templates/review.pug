@@ -86,11 +86,12 @@ div.container.flex-column
             hr
             a Note
           div#tmpl-break-word.hide
-          textarea#tmpl-note.form-control.d-n-note.hide
+          div#tmpl-note.d-n-note.hide(contentEditable="true")
+          //- textarea#tmpl-note.form-control.d-n-note.hide
     //- bottom
     div.justify-content-center.d-flex.flex-column(style="margin-top:20px;width=540px")
-      div#tmpl-sentence.hide.align-self-center
-      div#word-sand.hide.align-self-center(style="font-size:12px;width:540px;")
+      div.hide#tmpl-sentence.align-self-center
+      div.hide#word-sand.align-self-center(style="font-size:12px;width:540px;")
       //- iframe(stc="http://baidu.comdict.cn/mini.php?q=idle")
 
 form
