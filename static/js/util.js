@@ -13,7 +13,6 @@ function copy2Clipboard(content, idN) {
     } else {
         console.error('复制失败');
     }
-
 }
 
 function readText(word) {

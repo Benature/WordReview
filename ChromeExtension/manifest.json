@@ -1,6 +1,6 @@
 {
   "name": "WordReview",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "WordReview 补充功能：记忆之沙助记法显示",
   "permissions": [
     "activeTab",
@@ -40,6 +40,7 @@
       ],
       "js": [
         "js/jquery-3.4.1.min.js",
+        "js/util.js",
         "js/content-script.js"
       ],
       "run_at": "document_start"

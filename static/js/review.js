@@ -11,11 +11,12 @@ var note = '';
 var begin_index;
 
 var repeatMode = true;
-var previewMode = false;
+var previewMode = true;
 
 var currentHistoryX = [''];
 var currentHistoryY = [0];
 var noteFocus = false;
+
 
 function compareField(att, direct) {
     return function (a, b) {
@@ -32,6 +33,7 @@ $(function () {
      * 渲染拆解单词内容
      */
     function renderBreakContents(break_content, explain_content) {
+        console.log(break_content, explain_content)
         break_content = break_content.replace(/\s/g, '');
         explain_content = explain_content.replace(/\s/g, '');
         let word_break = document.createElement('div')
@@ -49,17 +51,72 @@ $(function () {
     }
 
     /**
+     * 一行语句生成拆词
+     */
+    function renderBreakFromOneLine(mem, fatherNode,
+        regBreakPattern, regOnlyWord, regWordExplain, regReplace,
+        finalFunc = function (m) { }) {
+        if (regBreakPattern.test(mem)) {
+            let word_block = document.createElement('div');
+            word_block.setAttribute('class', 'break-words');
+
+            while (true) {
+                if (regOnlyWord.test(mem)) {
+                    if (regWordExplain.test(mem)) {
+                        mem = mem.replace(RegExp.lastMatch, '')
+                        word_block.appendChild(renderBreakContents(RegExp.$1, RegExp.$2));//顺序一换影响 RegExp 的值，必须最后
+                    } else {
+                        mem = mem.replace(RegExp.lastMatch, '')
+                        word_block.appendChild(renderBreakContents(RegExp.lastMatch, ''));
+                    }
+                    mem = mem.replace(regReplace, '');
+                } else {
+                    break;
+                }
+            }
+            fatherNode.appendChild(word_block);
+            finalFunc(mem);
+        }
+    }
+
+    /**
      * 渲染拆解单词 
      */
     function renderBreakWord(text) {
         let tmpl_break_word = document.getElementById('tmpl-break-word');
         tmpl_break_word.innerHTML = '';
         let notes = text.split('\n')
+        let noteMnemonic = false;
         for (let i = 0; i < notes.length; i++) {
             let note_break = notes[i].split('=');
-            if (word.indexOf(note_break[0]) == -1 || (word == note_break[0] && notes[0].indexOf('=') == -1)) { continue; }
-            tmpl_break_word.appendChild(
+            if (note_break.length == 1 && note_break[0].indexOf('＋') != -1) {
+                renderBreakFromOneLine(note_break[0], tmpl_break_word,
+                    /^[a-z]+/g, /^([a-z\s-]+)/g, /^([a-z-\(\),\s]+)\s*（(.+?)）/g, /^[\s＋]*/,
+                    function (mem) {
+                        mem = mem.replace(/^([\s+,]*)/g, '');
+                        tmpl_break_word.innerHTML += '<p class="note-mnemonic-explain">' + mem + '</p>';
+                    })
+                continue;
+            }
+            if (word == note_break[0]) { continue; }
+            if (word.indexOf(note_break[0]) == -1) {
+                if (noteMnemonic != false) {
+                    tmpl_break_word.appendChild(noteMnemonic);
+                }
+                noteMnemonic = false;
+                tmpl_break_word.innerHTML += '<p class="note-mnemonic-explain">' + notes[i] + '</p>';
+                continue;
+            }
+
+            if (noteMnemonic == false) {
+                noteMnemonic = document.createElement('div');
+                noteMnemonic.setAttribute('class', 'break-words');
+            }
+            noteMnemonic.appendChild(
                 renderBreakContents(note_break[0], note_break.length == 1 ? '' : note_break[1]));
+        }
+        if (noteMnemonic != false) {
+            tmpl_break_word.appendChild(noteMnemonic);
         }
     }
     /**
@@ -101,51 +158,33 @@ $(function () {
         }
 
 
-        // note
-        note = data.note;
-        if (data.note.length == 0) {
-            $('#tmpl-note').addClass('d-n-note');
-            $('#tmpl-note').val(word);
-        } else {
-            $('#tmpl-note').removeClass('d-n-note');
-            $('#tmpl-note').val(note);
-        }
 
-        // 词根词缀拆解
-        renderBreakWord(note);
 
         // 助记法
         let tmpl_mnemonic = document.getElementById('tmpl-mnemonic');
-        var break_pattern = /^([a-z-\(\)\s]+[^\.])/g;
+
         tmpl_mnemonic.innerHTML = '';
         data.mnemonic.split('\n').forEach(function (mem) {
             let type = mem.match(/【.+】/g);
             type = (type == null) ? '' : type;
             mem = mem.replace(type, '');
 
-            if (break_pattern.test(mem)) {
-                let word_block = document.createElement('div');
-                word_block.setAttribute('class', 'break-words');
+            renderBreakFromOneLine(mem, tmpl_mnemonic,
+                /^([a-z-\(\)\s]+)[^\.]/g, /^([a-z\s-]+|[a-z\s-]*\([a-z\s-]*\)[a-z\s-]*)/g,
+                /^([a-z-\(\),\s]+)\s\[(.+?)\]/g, /^[\s+]*/)
 
-                while (true) {
-                    if (/^([a-z\s-]+|[a-z\s-]*\([a-z\s-]*\)[a-z\s-]*)/g.test(mem)) {
-                        if (/^([a-z-\(\),\s]+)\s\[(.+?)\]/g.test(mem)) {
-                            mem = mem.replace(RegExp.lastMatch, '')
-                            word_block.appendChild(renderBreakContents(RegExp.$1, RegExp.$2));//顺序一换影响 RegExp 的值，必须最后
-                        } else {
-                            mem = mem.replace(RegExp.lastMatch, '')
-                            word_block.appendChild(renderBreakContents(RegExp.lastMatch, ''));
-                        }
-                        mem = mem.replace(/^[\s+]*/, '');
-                    } else {
-                        break;
-                    }
-                }
-                tmpl_mnemonic.appendChild(word_block);
-            }
             mem = mem.replace(/^([\s+,]*)/g, '');
             tmpl_mnemonic.innerHTML += '<p class="mnemonic-explain">' + type + mem + '</p>';
         })
+
+        note = data.note;
+
+        // Note区词根词缀拆解
+        renderBreakWord(note);
+
+        // note
+        $('#tmpl-note').addClass('d-n-note');
+        $('#tmpl-note').val(($('#tmpl-break-word').text() == '') ? word : note);
 
         // 中文释义处理
         let means = data.mean.split('\n')
@@ -321,7 +360,8 @@ $(function () {
     })
     $('#active-note').on('click', function (e) {
         if ($('#tmpl-note').hasClass('d-n-note')) {
-            $('.hide').removeClass('d-n-note');
+            // $('.hide').removeClass('d-n-note');
+            $('#tmpl-note').removeClass('d-n-note');
             $('#tmpl-note').select();
         }
     })
@@ -623,6 +663,7 @@ $(function () {
                 }
             })
         }
+        $(this).addClass('d-n-note');
     });
 
     // 更新单词的 flag：太简单、重难词
@@ -696,7 +737,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
@@ -740,6 +781,7 @@ $(function () {
             }
             else if ((78 == e.keyCode || 13 == e.keyCode) && !e.shiftKey) { // N or enter
                 $('.hide').removeClass('d-n-note');
+                // $('#tmpl-note').removeClass('d-n-note');
                 $('#tmpl-note').select();
             }
             else if (32 == e.keyCode || 191 == e.keyCode/*|| 13 == e.keyCode*/) { // blank or /
@@ -755,6 +797,10 @@ $(function () {
                 } else {
                     previewMode = false;
                     layer.msg('恢复到复习模式');
+                }
+            } else if (67 == e.keyCode) { // C
+                if (/<font.*?>([\s\S]*)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
+                    copy2Clipboard(RegExp.$1, "clipboard");
                 }
             }
 

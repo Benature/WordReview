@@ -1,6 +1,6 @@
 var word = '';
-
-var baseUrl = "http://www.wordsand.cn/lookup.asp?word=abandon";
+var noteFocus = false;
+var content = "";
 
 function renderWordSand(word_now) {
     chrome.runtime.sendMessage({
@@ -9,9 +9,10 @@ function renderWordSand(word_now) {
     }, function (response) {
         if (response.status == 'done') {
             if (/<td.*valign.*width.*bgcolor.*>([\s\S]*?)<\/td>/g.test(response.content)) {
-                document.getElementById('word-sand').innerHTML = RegExp.$1
+                content = RegExp.$1
                     .replace(/<center>[\s\S]+?<\/center>/, '')
                     .replace(/<font.*?>/, '<font>');
+                document.getElementById('word-sand').innerHTML = content;
             }
         } else {
             console.error('word sand 失败', word_now)
@@ -43,4 +44,13 @@ $(function () {
             updateWordSand();
         }
     })
+})
+
+$(document).ready(function () {
+    $("#tmpl-note").focus(function () {
+        noteFocus = true;
+    });
+    $("#tmpl-note").blur(function () {
+        noteFocus = false;
+    });
 })

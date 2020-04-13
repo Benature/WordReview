@@ -79,12 +79,14 @@ div.container.flex-column
             button.btn.btn-primary.shadow#btn-remember.jump-btn 我记得
 
       //- right side card: NOTE
-      div.side-card.justify-content-center#active-note
-        div#tmpl-mnemonic.hide
-        div(style="color:grey;text-align:center").hide
-          | Note
-        div#tmpl-break-word.hide.break-words
-        textarea#tmpl-note.form-control.hide.d-n-note
+      div.side-card.justify-content-center
+        #active-note
+          div#tmpl-mnemonic.hide
+          div(style="color:grey;text-align:center").hide.d-none
+            hr
+            a Note
+          div#tmpl-break-word.hide
+          textarea#tmpl-note.form-control.d-n-note.hide
     //- bottom
     div.justify-content-center.d-flex.flex-column(style="margin-top:20px;width=540px")
       div#tmpl-sentence.hide.align-self-center
