@@ -49,6 +49,10 @@ Django + MySQL + Pug + JS
 - ······
 
 </details>
+</br>
+
+此项目主要是将`Excel背单词`方法给 App 化，更符合 ~~（我个人）~~ 用户操作习惯。  
+第一次听说`Excel背单词`这个方法是看了[红专学姐](https://www.zhihu.com/people/you-hong-you-zhuan-ai-dang-wu-si-qing-nian)的[文章](https://zhuanlan.zhihu.com/p/100104481)，后来在[B站](https://www.bilibili.com/video/av46223252/)看到了更详细的讲解，几天后这个项目便诞生了。
 
 </br>
 
@@ -66,11 +70,16 @@ Django + MySQL + Pug + JS
 <p align="center">
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="60%"/></a>
 </p>
-<p align="center">（蓝条是历史记忆率，绿条是上一轮的记忆率）</p>
+<p align="center">
+（蓝条是历史记忆率，绿条是上一轮的记忆率）
+</p>
+
+*关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%86%E7%8E%87)*
+
 </br>
 
-此项目主要是将`Excel背单词`方法给 App 化，更符合 ~~（我个人）~~ 用户操作习惯。  
-第一次听说`Excel背单词`这个方法是看了[红专学姐](https://www.zhihu.com/people/you-hong-you-zhuan-ai-dang-wu-si-qing-nian)的[文章](https://zhuanlan.zhihu.com/p/100104481)，后来在[B站](https://www.bilibili.com/video/av46223252/)看到了更详细的讲解，几天后这个项目便诞生了。
+
+
 
 ## 安装
 
@@ -109,20 +118,20 @@ python manage.py migrate
 
 |          操作          |          快捷键          |   页面   |      状态      |
 | :--------------------: | :----------------------: | :------: | :------------: |
-|       设为重难词       |       `Shift + H`        | 复习页面 |      全局      |
-|       设为已掌握       |       `Shift + G`        | 复习页面 |      全局      |
-|       设为太简单       |       `Shift + E`        | 复习页面 |      全局      |
-|     进入笔记输入框     |           `N`            | 复习页面 |      全局      |
-| 查看助记法（记忆之沙） |        `T` / `V`         | 复习页面 |      全局      |
+|       设为重难词       |    `Shift + H` (Hard)    | 复习页面 |      全局      |
+|       设为已掌握       |    `Shift + G` (Get)     | 复习页面 |      全局      |
+|       设为太简单       |    `Shift + E` (Easy)    | 复习页面 |      全局      |
+|     进入笔记输入框     |        `N` (Note)        | 复习页面 |      全局      |
+| 查看助记法（记忆之沙） | `T` (Tips) / `V` (View)  | 复习页面 |      全局      |
 |      词卡前后切换      |         `<`、`>`         | 复习页面 |      全局      |
 |      List前后切换      | `Shift + <`、`Shift + >` | 复习页面 |    学习状态    |
 |        查看释义        |          `空格`          | 复习页面 |    复习状态    |
-|     切换至学习状态     |           `P`            | 复习页面 |    复习状态    |
-|      触发重现模式      |           `R`            | 复习页面 |    复习状态    |
+|     切换至学习状态     |      `P` (Preview)       | 复习页面 |    复习状态    |
+|      触发重现模式      |       `R` (Repeat)       | 复习页面 |    复习状态    |
 |         我记得         |       `Shift + →`        | 复习页面 |    复习状态    |
 |         不认识         |       `Shift + ←`        | 复习页面 |    复习状态    |
-|  复制`WordSand`助记法  |           `C`            | 复习页面 | 安装Chrome插件 |
-|     跳转到日历页面     |           `C`            |   主页   |       -        |
+|  复制`WordSand`助记法  |        `C` (Copy)        | 复习页面 | 安装Chrome插件 |
+|     跳转到日历页面     |      `C` (Calendar)      |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 

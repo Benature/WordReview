@@ -99,6 +99,7 @@
     padding: 10px 10px;
     color: #c46943;
     font-size: 12px; 
+    cursor: text;
 
     width: 90%; 
     min-height: 50px; 
@@ -119,7 +120,7 @@
 
 #active-note{
     cursor: pointer;
-    min-height: 320px;
+    min-height: 250px;
 }
 
 .sentence-zh{

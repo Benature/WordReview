@@ -11,7 +11,7 @@ var note = '';
 var begin_index;
 
 var repeatMode = true;
-var previewMode = true;
+var previewMode = false;
 
 var currentHistoryX = [''];
 var currentHistoryY = [0];
@@ -34,9 +34,13 @@ $(function () {
         switch (node.tagName) {
             case 'DIV':
                 if (text != null) {
-                    node.innerText = text;
+                    if (text.indexOf('\n') != -1) {
+                        node.innerHTML = text.replace(/\n/g, '</div><div>').replace('</div>', '') + '</div>';
+                    } else {
+                        node.innerText = text;
+                    }
                 } else {
-                    return node.innerText;
+                    return node.innerHTML.replace(/<(div|br|span)[a-zA-Z]*?>/g, '\n').replace(/<\/(div|br|span)>/g, '');
                 }
                 break;
             case 'TEXTAREA':
@@ -49,18 +53,15 @@ $(function () {
             default:
                 break;
         }
-        console.log(noteText());
-
+        // console.log(noteText());
     }
 
-    noteText()
     /**
      * 渲染拆解单词内容
      */
     function renderBreakContents(break_content, explain_content) {
-        console.log(break_content, explain_content)
-        break_content = break_content.replace(/\s/g, '');
-        explain_content = explain_content.replace(/\s/g, '');
+        break_content = break_content.replace(/(^\s|\s$)/g, '');
+        explain_content = explain_content.replace(/(^\s|\s$)/g, '');
         let word_break = document.createElement('div')
         word_break.setAttribute('class', 'word-break');
         word_break.innerText = break_content;
@@ -77,31 +78,38 @@ $(function () {
 
     /**
      * 一行语句生成拆词
+     * @param {String} mem 匹配字符串
+     * @param {DOM} fatherNode 父节点
+     * @param {RegExp} regBreakPattern 
+     * @param {function} regOnlyWordFunc 
+     * @param {function} regWordExplainFunc 
+     * @param {RegExp} regReplace 
+     * @param {function} finalFunc 
      */
     function renderBreakFromOneLine(mem, fatherNode,
-        regBreakPattern, regOnlyWord, regWordExplain, regReplace,
-        finalFunc = function (m) { }) {
+        regBreakPattern, regOnlyWordFunc, regWordExplainFunc, regReplace,
+        finalFunc = function (m) { return m; }) {
         if (regBreakPattern.test(mem)) {
             let word_block = document.createElement('div');
             word_block.setAttribute('class', 'break-words');
-
             while (true) {
-                if (regOnlyWord.test(mem)) {
-                    if (regWordExplain.test(mem)) {
+                if (regOnlyWordFunc(mem)) {
+                    if (regWordExplainFunc(mem)) {
                         mem = mem.replace(RegExp.lastMatch, '')
                         word_block.appendChild(renderBreakContents(RegExp.$1, RegExp.$2));//顺序一换影响 RegExp 的值，必须最后
                     } else {
                         mem = mem.replace(RegExp.lastMatch, '')
                         word_block.appendChild(renderBreakContents(RegExp.lastMatch, ''));
                     }
-                    mem = mem.replace(regReplace, '');
+                    mem = mem.replace(regReplace, '')
                 } else {
                     break;
                 }
             }
             fatherNode.appendChild(word_block);
-            finalFunc(mem);
+            mem = finalFunc(mem);
         }
+        return mem;
     }
 
     /**
@@ -114,16 +122,23 @@ $(function () {
         let noteMnemonic = false;
         for (let i = 0; i < notes.length; i++) {
             let note_break = notes[i].split('=');
+
+            // word sand
             if (note_break.length == 1 && note_break[0].indexOf('＋') != -1) {
                 renderBreakFromOneLine(note_break[0], tmpl_break_word,
-                    /^[a-z]+/g, /^([a-z\s-]+)/g, /^([a-z-\(\),\s]+)\s*（(.+?)）/g, /^[\s＋]*/,
+                    /^[a-z]+/g,
+                    function (m) { return /^([a-z\s-]+)/g.test(m); },
+                    function (m) { return /^([a-z-\(\),\s]+)\s*（(.+?)）/g.test(m); },
+                    /^[\s＋]*/,
                     function (mem) {
                         mem = mem.replace(/^([\s+,]*)/g, '');
                         tmpl_break_word.innerHTML += '<p class="note-mnemonic-explain">' + mem + '</p>';
+                        return mem;
                     })
                 continue;
             }
-            if (word == note_break[0]) { continue; }
+
+            if (word == notes[i]) { continue; }
             if (word.indexOf(note_break[0]) == -1) {
                 if (noteMnemonic != false) {
                     tmpl_break_word.appendChild(noteMnemonic);
@@ -193,11 +208,13 @@ $(function () {
             let type = mem.match(/【.+】/g);
             type = (type == null) ? '' : type;
             mem = mem.replace(type, '');
-
-            renderBreakFromOneLine(mem, tmpl_mnemonic,
-                /^([a-z-\(\)\s]+)[^\.]/g, /^([a-z\s-]+|[a-z\s-]*\([a-z\s-]*\)[a-z\s-]*)/g,
-                /^([a-z-\(\),\s]+)\s\[(.+?)\]/g, /^[\s+]*/)
-
+            mem = renderBreakFromOneLine(mem, tmpl_mnemonic,
+                /^([a-z-\(\)\s]+)[^\.]/g,
+                function (m) { return /^([a-z\s-]+|[a-z\s-]*\([a-z\s-]*\)[a-z\s-]*)/g.test(m); },
+                function (m) { return /^([a-z-\(\),\s]+)\s\[(.+?)\]/g.test(m); },
+                // function (m) { return m.replace(/^[\s+]*/, ''); }
+                /^[\s+]*/
+            )
             mem = mem.replace(/^([\s+,]*)/g, '');
             tmpl_mnemonic.innerHTML += '<p class="mnemonic-explain">' + type + mem + '</p>';
         })
@@ -209,7 +226,7 @@ $(function () {
 
         // note
         $('#tmpl-note').addClass('d-n-note');
-        noteText(($('#tmpl-break-word').text() == '') ? word : note);
+        noteText((note == '') ? word : note);
         // $('#tmpl-note')[0].innerText = ($('#tmpl-break-word').text() == '') ? word : note;
 
         // 中文释义处理
@@ -236,7 +253,7 @@ $(function () {
                     let word_tmp = word.slice(0, word.length - j);
                     let eng_tmp = eng.match(RegExp("[\\s]*([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
                         word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
-                        "*(es|s|ed|d|ing|ng|ous|))[\\s,\\.]*", "g"));
+                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))[\\s,\\.]*", "g"));
                     if (eng_tmp != null) {
                         // console.log(eng_tmp)
                         eng_tmp = Array.from(new Set(eng_tmp))
@@ -374,6 +391,9 @@ $(function () {
                     }
                 })
             }
+            if (previewMode) {
+                $('#meaning-box').click();
+            }
         } else {
             layer.msg(response.msg)
         }
@@ -388,7 +408,8 @@ $(function () {
         if ($('#tmpl-note').hasClass('d-n-note')) {
             // $('.hide').removeClass('d-n-note');
             $('#tmpl-note').removeClass('d-n-note');
-            $('#tmpl-note').select();
+            // $('#tmpl-note').select();
+            document.getElementById("tmpl-note").focus();
         }
     })
 
@@ -670,6 +691,7 @@ $(function () {
     $("#tmpl-note").blur(function () {
         noteFocus = false;
         let note_now = noteText();
+        console.log(note_now);
         // let note_pre = note;
         // note = noteText();
         renderBreakWord(note_now);
@@ -683,7 +705,7 @@ $(function () {
                 }
             }).done(function (response) {
                 if (response.status === 200) {
-                    wordArray[wordIndex].fields.note = note;
+                    wordArray[wordIndex].fields.note = note_now;
                 } else {
                     layer.msg(response.msg);
                 }
@@ -837,6 +859,8 @@ $(function () {
             } else if (67 == e.keyCode) { // C
                 if (/<font.*?>([\s\S]*)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
                     copy2Clipboard(RegExp.$1, "clipboard");
+                    $('.hide').removeClass('d-n-note');
+                    document.getElementById("tmpl-note").focus();
                 }
             }
 
