@@ -21,6 +21,10 @@ style
 
 {% block content %}
 div.container.flex-column
+  div.text-center
+    a(style="color:black;" href="https://github.com/Benature/WordReview") 
+      i.icon-github
+      | &nbsp;Github: Benature
   a(style="text-align:end;" href="/calendar/") 艾宾浩斯复习日历
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
@@ -45,5 +49,9 @@ div.container.flex-column
     {% endfor %}
   {% endfor %}
   a(style="text-align:end;margin-top:30px" href="/import/") 我要导入新的单词书
-
+  hr
+  div.text-center(style="margin-bottom: 130px;")
+    a(style="color:black;" href="https://github.com/Benature/WordReview/issues") 
+      i.icon-github
+      | &nbsp;意见反馈
 {% endblock %}

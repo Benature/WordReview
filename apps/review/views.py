@@ -198,6 +198,7 @@ def spider_dict_mini(request):
     })
 
 
+@csrf_exempt
 def review_a_word(request):
     '''接口：在数据库更新单词记忆情况'''
     post = request.POST

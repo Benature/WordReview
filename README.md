@@ -160,6 +160,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 对<http://dict.cn/mini.php>的后端爬虫 API ([Issue#2](https://github.com/Benature/WordReview/issues/2)) @04-15
   - update:  Note 区高度自适应 @04-13
   - update:  修改 Note 区显示渲染逻辑 @04-13
   - feature: 对记忆之沙内容进行快捷键复制 @04-13
@@ -191,7 +192,7 @@ tain
   - update:  重现模式在背词数目超过词表长度 50 次后自动关闭一次（防止无脑过词） @03-17
   - update:  历史曲线 X 轴 label 从数字改为单词 @03-01
 - 2020.02
-  - feature: 背单词的重现模式([pr#1](https://github.com/Benature/WordReview/pull/1)) @02-29
+  - feature: 背单词的重现模式 ([PR#1](https://github.com/Benature/WordReview/pull/1)) @02-29
   - release: 打包可执行文件 @02-28
   - feature: 新增导入单词本页面 @02-27
   - feature: 笔记框默认隐藏，点击显示（增加有无笔记之对比） @02-27
