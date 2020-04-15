@@ -162,16 +162,15 @@ $(function () {
     /**
      * 渲染单词 页面
      * @param {object} data 单词数据
-     * @param {bool} copy 是否朗读
+     * @param {bool} copy 是否复制
      */
     function renderWord(data, copy = true) {
         data = data.fields;
         word = data.word;
-        // console.log(data.panTotalNum, data.panForgetNum, data.panRate)
         console.log(word);
-        // console.log(data);
-        document.getElementById('word-sand').innerHTML = '';
-        // console.log(document.getElementById('word-sand'))
+
+        $('#tmpl-sentence').empty().css('max-width', '50%');
+        $('#word-sand').empty().css('display', 'none');
         $('#tmpl-word')[0].innerHTML = '<a class="word-display">' + word + '</a>';
         $('#tmpl-phonetic').text(data.phonetic);
         $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
@@ -238,50 +237,6 @@ $(function () {
         $.template("mean", mean_content);
         $('#tmpl-content').empty();
         $.tmpl("mean").appendTo($('#tmpl-content'));
-
-        // 例句
-        let sentence = data.sentence.replace('‖', '\n').replace('||', '\n').split('\n')
-        $('#tmpl-sentence').empty();
-        if (sentence != '') {
-            var sentence_content = '';
-            for (let i = 0; i < sentence.length; i++) {
-                let eng = sentence[i].match(/^[a-z \-,.?!'’“”…"0-9—]+/ig);
-                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》()“”、 0-9—]+$/g);
-                if (eng == null || eng == 'nan' || eng == []) { eng = ''; } else { eng = eng[0]; }
-                if (zh == null || eng == []) { zh = ''; } else { zh = zh[0]; }
-                for (let j = 0; j < 3; j++) {
-                    let word_tmp = word.slice(0, word.length - j);
-                    let eng_tmp = eng.match(RegExp("[\\s]*?([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
-                        word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
-                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))(?=[\\s,\\.])*", "g"));
-                    if (eng_tmp != null) {
-                        // console.log(eng_tmp)
-                        eng_tmp = Array.from(new Set(eng_tmp))
-                        eng_tmp.forEach(function (mat) {
-                            eng = eng.replace(RegExp(mat, "g"), '</span><span style="color:red;">' + mat + '</span><span>')
-                        })
-                        break;
-                    }
-                }
-                sentence_content += '<p class="flex-column d-flex"><span><span>' + eng + '</span></span><a class="sentence-zh">' + zh + '</a></p>';
-            }
-            document.getElementById('tmpl-sentence').innerHTML = sentence_content;
-        } else {
-            console.log('ss')
-            $.ajax({
-                url: '/review/spider/dict_mini',
-                type: 'POST',
-                data: {
-                    word: word,
-                }
-            }).done(function (response) {
-                if (response.status === 200) {
-                    document.getElementById('tmpl-sentence').innerHTML = response.data;
-                } else {
-                    layer.msg(response.msg)
-                }
-            })
-        }
 
         // 单词标签
         $('.icon-flags').children().each(function () {
@@ -379,6 +334,48 @@ $(function () {
         };
         myChart.setOption(option);
         $('#echarts-left').addClass('d-none');
+
+        // 例句
+        let sentence = data.sentence.replace('‖', '\n').replace('||', '\n').split('\n');
+        if (sentence != '') {
+            var sentence_content = '';
+            for (let i = 0; i < sentence.length; i++) {
+                let eng = sentence[i].match(/^[a-z \-,.?!'’“”…"0-9—]+/ig);
+                let zh = sentence[i].match(/[\u4e00-\u9fa5【】：，。《》()“”、 0-9—]+$/g);
+                if (eng == null || eng == 'nan' || eng == []) { eng = ''; } else { eng = eng[0]; }
+                if (zh == null || eng == []) { zh = ''; } else { zh = zh[0]; }
+                for (let j = 0; j < 3; j++) {
+                    let word_tmp = word.slice(0, word.length - j);
+                    let eng_tmp = eng.match(RegExp("[\\s]*?([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
+                        word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
+                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))(?=[\\s,\\.])*", "g"));
+                    if (eng_tmp != null) {
+                        // console.log(eng_tmp)
+                        eng_tmp = Array.from(new Set(eng_tmp))
+                        eng_tmp.forEach(function (mat) {
+                            eng = eng.replace(RegExp(mat, "g"), '</span><span style="color:red;">' + mat + '</span><span>')
+                        })
+                        break;
+                    }
+                }
+                sentence_content += '<p class="flex-column d-flex"><span><span>' + eng + '</span></span><a class="sentence-zh">' + zh + '</a></p>';
+            }
+            document.getElementById('tmpl-sentence').innerHTML = sentence_content;
+        } else if (data.sentence == '') {
+            $.ajax({
+                url: '/review/spider/dict_mini',
+                type: 'POST',
+                data: {
+                    word: word,
+                }
+            }).done(function (response) {
+                if (response.status === 200) {
+                    document.getElementById('tmpl-sentence').innerHTML += response.data;
+                } else {
+                    layer.msg(response.msg)
+                }
+            })
+        }
     }
 
     function selectWord() {
@@ -387,32 +384,37 @@ $(function () {
     // =============================================================
     //                          页面初始渲染
     // =============================================================
-    $.ajax({
-        url: '/review/get_word',
-        type: 'GET',
-        data: {
-            list: getQueryString('list'),
-            book: book,
-        }
-    }).done(function (response) {
-        if (response.status === 200) {
-            wordArray = response.data;
-            begin_index = response.begin_index;
-            rawWordLength = wordArray.length;
-            for (let i = 0; i < response.sort.length; i++) {
-                $('.sort-array').each(function () {
-                    if ($(this).text() == response.sort[i]) {
-                        $(this).click();
-                    }
-                })
+    try {
+        $.ajax({
+            url: '/review/get_word',
+            type: 'GET',
+            data: {
+                list: getQueryString('list'),
+                book: book,
             }
-            if (previewMode) {
-                $('#meaning-box').click();
+        }).done(function (response) {
+            if (response.status === 200) {
+                wordArray = response.data;
+                begin_index = response.begin_index;
+                rawWordLength = wordArray.length;
+                for (let i = 0; i < response.sort.length; i++) {
+                    $('.sort-array').each(function () {
+                        if ($(this).text() == response.sort[i]) {
+                            $(this).click();
+                        }
+                    })
+                }
+                if (previewMode) {
+                    $('#meaning-box').click();
+                }
+            } else {
+                layer.msg(response.msg)
             }
-        } else {
-            layer.msg(response.msg)
-        }
-    })
+        })
+    } catch (error) {
+        console.error(error)
+    }
+
 
 
     $('#meaning-box').on('click', function (e) {

@@ -13,6 +13,10 @@ function renderWordSand(word_now) {
                     .replace(/<center>[\s\S]+?<\/center>/, '')
                     .replace(/<font.*?>/, '<font>');
                 document.getElementById('word-sand').innerHTML = content;
+                if ($.trim($('#word-sand').text()) != '') {
+                    $('#word-sand').css('display', '');
+                    $('#tmpl-sentence').css('max-width', '400px');
+                }
             }
         } else {
             console.error('word sand 失败', word_now)

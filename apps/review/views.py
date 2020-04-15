@@ -27,7 +27,7 @@ def temp(request):
     #     print(w.word.count(' '))
     #     print(w.id)
     # print(out)
-    update_db(Words)
+    # update_db(Words)
     # if config.init_db_mode:
     #     from apps.review.src.init_db import (
     #         import_word, init_db_words, init_db_booklist, init_db_books)
