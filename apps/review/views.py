@@ -8,7 +8,7 @@ from apps.review.models import Review, BookList, Words, Books
 from apps.src.util import ormToJson, valueList
 import config
 from apps.review.src.init_db import init_db, update_db
-
+from apps.review.src.spider import crawl_dict_mini
 
 from datetime import datetime, timedelta
 
@@ -188,6 +188,16 @@ def update_word_flag(request):
 
 
 @csrf_exempt
+def spider_dict_mini(request):
+    '''API: spider to crawl http://dict.cn/mini.php'''
+    status, data = crawl_dict_mini(request.POST.get('word'))
+    print(status, data)
+    return JsonResponse({
+        'status': status,
+        'data': data,
+    })
+
+
 def review_a_word(request):
     '''接口：在数据库更新单词记忆情况'''
     post = request.POST
@@ -241,6 +251,7 @@ def get_word(request):
         'forget_num': 'panForgetNum',
         'rate': 'panRate',
         'history': 'panHistory',
+        'flag': 'panFlag',
     }
 
     list_info = ormToJson(list_info)

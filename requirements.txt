@@ -8,3 +8,6 @@ pypugjs==5.8.1
 django-compressor
 xlrd
 pandas
+requests
+bs4
+lxml

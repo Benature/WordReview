@@ -40,7 +40,7 @@ $(function () {
                         node.innerText = text;
                     }
                 } else {
-                    return node.innerHTML.replace(/<(div|br|span)[a-zA-Z]*?>/g, '\n').replace(/<\/(div|br|span)>/g, '');
+                    return node.innerHTML.replace(/<(div|br|span).*?>/g, '\n').replace(/<\/(div|br|span)>/g, '');
                 }
                 break;
             case 'TEXTAREA':
@@ -251,9 +251,9 @@ $(function () {
                 if (zh == null || eng == []) { zh = ''; } else { zh = zh[0]; }
                 for (let j = 0; j < 3; j++) {
                     let word_tmp = word.slice(0, word.length - j);
-                    let eng_tmp = eng.match(RegExp("[\\s]*([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
+                    let eng_tmp = eng.match(RegExp("[\\s]*?([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
                         word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
-                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))[\\s,\\.]*", "g"));
+                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))(?=[\\s,\\.])*", "g"));
                     if (eng_tmp != null) {
                         // console.log(eng_tmp)
                         eng_tmp = Array.from(new Set(eng_tmp))
@@ -266,6 +266,21 @@ $(function () {
                 sentence_content += '<p class="flex-column d-flex"><span><span>' + eng + '</span></span><a class="sentence-zh">' + zh + '</a></p>';
             }
             document.getElementById('tmpl-sentence').innerHTML = sentence_content;
+        } else {
+            console.log('ss')
+            $.ajax({
+                url: '/review/spider/dict_mini',
+                type: 'POST',
+                data: {
+                    word: word,
+                }
+            }).done(function (response) {
+                if (response.status === 200) {
+                    document.getElementById('tmpl-sentence').innerHTML = response.data;
+                } else {
+                    layer.msg(response.msg)
+                }
+            })
         }
 
         // 单词标签
