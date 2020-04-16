@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>单词复习</title>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <link href="./static/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="./static/css/font-awesome.min.css" rel="stylesheet">
+  <link href="./static/css/base.css" rel="stylesheet">
+  <script src="./static/jquery/jquery-3.4.1.min.js"></script>
+  <script src="./static/jquery/jquery.tmpl.min.js"></script>
+  <script src="./static/layer/layer.js"></script>
+  <link rel="stylesheet" href="./static/layer/theme/default/layer.css" id="layuicss-layer">
+  <script src="./static/js/util.js"></script>
+
+
+  <script src="./static/js/echarts.min.js"></script>
+  <link href="./staticsfile/scss/review.css" rel="stylesheet" type="text/css">
+  <script src="./static/js/review.js"></script>
+  <script src="./doc/demo.js"></script>
+
+</head>
+
+<body id="dummybodyid" data-gr-c-s-loaded="true" class="vn-highlighter-context vsc-initialized">
+
+  <nav class="navbar navbar-light bg-light sticky-top"><a href="http://127.0.0.1:8022/review/" class="navbar-brand"><img
+        src="./static/media/muyi.png" height="30" alt="" class="d-inline-block align-top">&nbsp; Word Review</a>
+    <div class="d-flex flex-row">
+      <div style="margin-right: 40px;" class="d-flex flex-row justify-content-center">
+        <input id="jump-index" class="form-control">
+        <button id="btn-quick-jump" class="btn">跳转</button>
+      </div>
+      <div class="navbar-nav ml-auto flex-row">
+        <li style="margin-right:20px;" class="nav-item"><a class="nav-link repeat cur-p">重现模式:开</a>
+        </li>
+        <li class="nav-item"><a class="nav-link sort-array">顺序</a>
+        </li>
+        <li class="nav-item"><a class="nav-link sort-array">乱序</a>
+        </li>
+        <li class="nav-item"><a class="nav-link sort-array">记忆序</a>
+        </li>
+        <li class="nav-item"><a class="nav-link sort-array">次数序</a>
+        </li>
+      </div>
+    </div>
+  </nav>
+  <div class="container flex-column">
+    <div class="align-self-center">
+      <div class="d-flex flex-row">
+        <div class="side-card d-flex flex-column justify-content-between">
+          <div>
+            <div id="echarts-left" class="hide"></div>
+          </div>
+          <div>
+            <div id="echarts-bottom"></div>
+          </div>
+        </div>
+        <div>
+          <div style="width:300px;margin: 0 36px;" class="d-flex justify-content-center flex-column">
+            <div id="tmpl-word" class="text-center"></div>
+            <div id="tmpl-phonetic"></div>
+            <div id="tmpl-index"></div>
+          </div>
+          <div class="d-flex flex-row">
+            <div id="jump-back" class="align-self-center btn-jump">«</div>
+            <div>
+              <div class="d-flex flex-row justify-content-between">
+                <div id="tmpl-last-word"></div>
+                <div style="margin-right: 20px;">
+                  <div class="icon-flags icon-star-div"><i class="icon-star icon-disabled"></i>
+                  </div>
+                  <div class="icon-flags icon-circle-div"><i class="icon-circle icon-disabled"></i>
+                  </div>
+                  <div class="icon-flags icon-ok-div"><i class="icon-ok icon-disabled"></i>
+                  </div>
+                </div>
+              </div>
+              <div id="meaning-box" class="rounded shadow">
+                <div id="tmpl-content" class="align-self-center hide"></div>
+              </div>
+            </div>
+            <div id="jump-forward" style="margin-right: 5px;" class="align-self-center btn-jump">»</div>
+          </div>
+          <div class="progress-div">
+            <div style="width:250px; background-color: palevioletred" class="progress">
+              <div role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                class="progress-bar bg-dodgerblue"><a id="tmpl-progress"></a>
+              </div>
+              <div id="tmpl-total-num"></div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="btn-div">
+              <button id="btn-forget" class="btn btn-secondary shadow jump-btn-fake">不认识</button>
+              <button id="btn-remember" class="btn btn-primary shadow jump-btn-fake">我记得</button>
+            </div>
+          </div>
+        </div>
+        <div class="side-card justify-content-center">
+          <div id="active-note">
+            <div id="tmpl-mnemonic" class="hide"></div>
+            <div style="color:grey;text-align:center" class="hide d-none">
+              <hr><a>Note</a>
+            </div>
+            <div id="tmpl-break-word" class="hide"></div>
+            <div id="tmpl-note" contenteditable="true" class="d-n-note hide"></div>
+          </div>
+        </div>
+      </div>
+      <div id="bottom-box" style="margin-top:20px;" class="d-flex flex-row justify-content-center">
+        <div id="tmpl-sentence" style="max-width: 400px;" class="hide"></div>
+        <div id="word-sand" style="font-size:12px;max-width: 400px;" class="hide"></div>
+      </div>
+    </div>
+  </div>
+  <form>
+    <input id="clipboard" style="position: absolute;top: 0;">
+  </form>
+
+
+</body>
+
+</html>
