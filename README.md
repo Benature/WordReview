@@ -16,7 +16,7 @@ Django + MySQL + Pug + JS
 
 简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)，欢迎康康。
 
-还有一个[在线试玩](https://benature.github.io/WordReviewDemo/)，可以先感受一下。
+还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。
 
 如果觉得还不错的话，不如给个 stars🌟呗(￣▽￣)~*
 
