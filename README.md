@@ -90,7 +90,15 @@ Django + MySQL + Pug + JS
 
 ## 安装
 
-安装指引写的有点长，请点击[这里](doc/install.md)查看，数据库初始化看[这里](doc/database_init.md)。
+命令行输入
+
+```shell
+git clone https://github.com/Benature/WordReview.git
+```
+
+或者点击右上角的`Clone or Download`的绿色按钮。
+
+详细的安装指引写的有点长，请点击[这里](doc/install.md)查看，数据库初始化看[这里](doc/database_init.md)。
 
 如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者 email(<wbenedict@163.com>) 或者私戳我 (●ﾟωﾟ●)
 
@@ -161,6 +169,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 命令行启动后自动打开浏览器 ([Issue#4](https://github.com/Benature/WordReview/issues/4)) @04-16
   - feature: 新增[在线预览](https://benature.github.io/WordReview/) @04-16
   - feature: 对<http://dict.cn/mini.php>的后端爬虫 API ([Issue#2](https://github.com/Benature/WordReview/issues/2)) @04-15
   - update:  Note 区高度自适应 @04-13

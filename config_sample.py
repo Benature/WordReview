@@ -7,6 +7,7 @@ import os
 # 使用数据库类型：`mysql`、`sqlite`
 database_type = 'sqlite'
 
+auto_open_browser = True
 
 # ======================================================
 #                      数据库使用配置

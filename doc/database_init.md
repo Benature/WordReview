@@ -53,14 +53,14 @@ excel_path = 'data/sample.xlsx'
 
 打开 <localhost:8000/temp/>，当你网页加载完成，说明数据库导入结束了，或者你也可以看下 terminal，原始代码是导入一个单词都打印出来了，你可以看到哗啦啦的一片。
 
-关于导入的文件格式，请参考[这个文件](https://github.com/Benature/WordReview/raw/ben/data/sample.xlsx)，或者在线预览看[这里](../data/sample/sample.csv)。注意表头要一致哦，区分大小写。
+关于导入的文件格式，请参考[这个文件](https://github.com/Benature/WordReview/raw/ben/data/sample/sample.xlsx)，或者在线预览看[这里](../data/sample/sample.csv)。注意表头要一致哦，区分大小写。
 
 <!-- 结束后再把那几行给注释了，以后用不着了。 -->
 
 <!-- **Warning: 只能跑一次，跑多次数据库内容就重复了！** -->
 
 
->上面方法仅支持基础字段，如果想增加导入的信息（如音标、例句等），可以在`apps/review/src/init_db.py`参考代码并修改，或者也可以联系我来帮你加，推荐[提 issue](https://github.com/Benature/WordReview/issues)来反馈。
+>上面方法仅支持基础字段，如果想增加导入的信息（如音标、例句等），可以在`apps/review/src/init_db.py`参考代码并修改，或者也可以联系我来帮你加，推荐通过 [Issue](https://github.com/Benature/WordReview/issues) 来反馈。
 
 ---
 
@@ -68,3 +68,5 @@ excel_path = 'data/sample.xlsx'
 - [IELTS 绿皮书](https://blog.csdn.net/M_sdn/article/details/85532520?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
 - [要你命 3000](https://github.com/skywind3000/ECDICT)
 - [TOEFL 曲根单词](https://github.com/yihui-he/TOEFL-10000-0)
+
+欢迎大家补充
