@@ -20,6 +20,11 @@ Django + MySQL + Pug + JS
 
 如果觉得还不错的话，不如给个 stars🌟呗(￣▽￣)~*
 
+[前言](#前言)  
+[安装指引](#安装)  
+[使用说明](#使用)  
+[更新日志](#更新日志)  
+
 ## 前言
 
 <b><details><summary>前言有点啰嗦（先收起来）</summary></b>
@@ -85,15 +90,9 @@ Django + MySQL + Pug + JS
 
 ## 安装
 
-```shell
-git clone https://github.com/Benature/WordReview.git
-```
+安装指引写的有点长，请点击[这里](doc/install.md)查看，数据库初始化看[这里](doc/database_init.md)。
 
-复制一份`./config_sample.py`文件，改名为`./config.py`
-
-其余安装指引请看[这里](doc/install.md)，数据库初始化看[这里](doc/database_init.md)。
-
-文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
+如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者 email(<wbenedict@163.com>) 或者私戳我 (●ﾟωﾟ●)
 
 >如果你实在不想折腾配置的话，可以在[这里](https://github.com/Benature/WordReview/releases)直接安装可执行文件。（不推荐）
 
@@ -162,6 +161,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 新增[在线预览](https://benature.github.io/WordReview/) @04-16
   - feature: 对<http://dict.cn/mini.php>的后端爬虫 API ([Issue#2](https://github.com/Benature/WordReview/issues/2)) @04-15
   - update:  Note 区高度自适应 @04-13
   - update:  修改 Note 区显示渲染逻辑 @04-13

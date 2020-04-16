@@ -196,9 +196,6 @@ $(function () {
             $('#tmpl-total-num').text(data.panTotalNum);
         }
 
-
-
-
         // 助记法
         let tmpl_mnemonic = document.getElementById('tmpl-mnemonic');
 
@@ -348,7 +345,7 @@ $(function () {
                     let word_tmp = word.slice(0, word.length - j);
                     let eng_tmp = eng.match(RegExp("[\\s]*?([" + word_tmp[0] + word_tmp[0].toUpperCase() + "]" +
                         word_tmp.slice(1, word_tmp.length) + word_tmp[word_tmp.length - 1] +
-                        "*(ies|es|s|ied|ed|d|ing|ng|ous|))(?=[\\s,\\.])*", "g"));
+                        "*(ies|es|s|ied|ed|d|ing|ng|ous|al|))(?=[\\s,\\.])*", "g"));
                     if (eng_tmp != null) {
                         // console.log(eng_tmp)
                         eng_tmp = Array.from(new Set(eng_tmp))

@@ -1,4 +1,5 @@
->文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者私戳我 (●ﾟωﾟ●)
+>文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者 email(<wbenedict@163.com>) 或者私戳我 (●ﾟωﾟ●)
+>不要不好意思，什么问题都可以问，大家都有刚开始的时候嘛
 
 # 1. 当然是先克隆代码啦
 
@@ -6,7 +7,16 @@
 git clone https://github.com/Benature/WordReview.git
 ```
 
-然后复制一份项目根目录下的`config_sample.py`文件，更名为`config.py`
+<b><details><summary>🙋提问：这个 `git` 是什么东西？</summary></b>
+
+如果你不知道 git 是什么，请到[此处](https://git-scm.com/downloads)下载安装。
+
+关于安装的选项，可以自行搜索`win/mac 安装 git`等字样，找一篇点击量高的博客参考即可。
+
+</details>
+</br>
+
+进入项目文件夹内，复制一份`./config_sample.py`文件，改名为`./config.py`。
 
 # 2. Python 环境
 
@@ -68,7 +78,7 @@ pip: command not found
 
 # 3. 数据库
 
-二选一即可
+二选一即可（小白推荐`sqlite`）
 
 ## 3.1. 选择一：sqlite3
 
@@ -190,34 +200,59 @@ conda activate tgword # 小白跳过
 ```
 
 1. 数据库迁移
+  
+  ```shell
+  python manage.py makemigrations
+  python manage.py migrate
+  ```
+
+2. 运行 server
+  
+  ```shell
+  python manage.py runserver
+  ```
+
+3. debug 🤦‍♂️  
+  然后大概率会报错👇，因为有个包有问题（实名甩锅）
+  
+  ```error
+  mysqlclient 1.3.13 or newer is required;
+  ```
+  
+  根据自己情况修改`/path/to/xxxconda`部分，修改文件
+  
+  ```shell
+  vim /path/to/xxxconda/lib/python3.7/site-packages/django/db/backends/mysql/  base.py
+  ```
+  
+  >这里用的是`vim`编辑器（mac 自带但 windows 不自带的），选择你顺手的编辑器就可以了，不一  定要在命令行操作。
+  
+  找到下面两行，注释之
+  
+  ```python
+  #if version < (1, 3, 13):
+  #    raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required;   you have %s.' % Database.__version__)
+  ```
+
+4. 开始背单词！
+
+  ```shell
+  conda activate <venvName> # 小白流程不用这条命令
+  python manage.py runserver
+  ```
+
+  打开[localhost:8000](localhost:8000/)，开始背单词之旅吧 🤓
+
+当然在此之前你大概需要导入单词数据，那么请看[这里](./database_init.md)
+
+---
+
+当你想要更新代码的时候，请
 
 ```shell
+git pull
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-2. 运行 server
-
-```shell
-python manage.py runserver
-```
-
-3. debug 🤦‍♂️  
-然后大概率会报错👇，因为有个包有问题（实名甩锅）
-
-```error
-mysqlclient 1.3.13 or newer is required;
-```
-
-根据自己情况修改`/path/to/xxxconda`部分，修改文件
-
-```shell
-vim /path/to/xxxconda/lib/python3.7/site-packages/django/db/backends/mysql/base.py
-```
-
-找到下面两行，注释之
-
-```python
-#if version < (1, 3, 13):
-#    raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required; you have %s.' % Database.__version__)
-```
+更多说明请回到[这里](https://github.com/Benature/WordReview#%E4%BD%BF%E7%94%A8)查看
