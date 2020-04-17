@@ -66,7 +66,9 @@ excel_path = 'data/sample.xlsx'
 
 一些资源整合：
 - [IELTS 绿皮书](https://blog.csdn.net/M_sdn/article/details/85532520?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
-- [要你命 3000](https://github.com/skywind3000/ECDICT)
+- [再要你命三千](https://github.com/liurui39660/3000)
 - [TOEFL 曲根单词](https://github.com/yihui-he/TOEFL-10000-0)
+- [一个强大开源中英字典](https://github.com/skywind3000/ECDICT)
+
 
 欢迎大家补充

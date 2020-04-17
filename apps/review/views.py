@@ -191,7 +191,6 @@ def update_word_flag(request):
 def spider_dict_mini(request):
     '''API: spider to crawl http://dict.cn/mini.php'''
     status, data = crawl_dict_mini(request.POST.get('word'))
-    print(status, data)
     return JsonResponse({
         'status': status,
         'data': data,

@@ -6,6 +6,7 @@
 ![GitHub stars](https://img.shields.io/github/stars/Benature/WordReview?style=flat)
 ![GitHub stars](https://img.shields.io/github/forks/Benature/WordReview?style=flat)
 ![GitHub issues](https://img.shields.io/github/issues/Benature/WordReview)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/Benature/WordReview)
 ![GitHub](https://img.shields.io/github/license/Benature/WordReview)
 
 Django + MySQL + Pug + JS

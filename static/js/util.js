@@ -15,7 +15,15 @@ function copy2Clipboard(content, idN) {
     }
 }
 
-function readText(word) {
-    let speechInstance = new SpeechSynthesisUtterance(word);
-    speechSynthesis.speak(speechInstance);
+function readText(word, source = 'baidu') {
+    if (source == 'baidu') {
+        document.getElementById('bd-tts').innerHTML =
+            '<audio id="bd-tts-audio" autoplay="autoplay">' +
+            '<source src="http://tts.baidu.com/text2audio?lan=en&ie=UTF-8&spd=3&text=' +
+            word + '" type="audio/mpeg"><embed id="tts_embed_id" height="0" width="0" src=""></audio>';
+        document.getElementById('bd-tts-audio').play();
+    } else if (source == 'browser') {
+        let speechInstance = new SpeechSynthesisUtterance(word);
+        speechSynthesis.speak(speechInstance);
+    }
 }
