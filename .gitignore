@@ -14,12 +14,12 @@ logs/
 /media/
 
 # config
-/config.py
+/config.conf
 
 # PyInstaller
 /build/
 /dist/
-/*.spec
+*.spec
 
 # local
 data/
@@ -27,3 +27,4 @@ data/
 /backup/
 /pypi/
 WordReview.wiki/
+*_ig.*

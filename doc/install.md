@@ -85,14 +85,14 @@ pip: command not found
 
 `config.py`文件下，找到下面这个变量，定义为`sqlite`。（默认就是这个，一般不用动了）
 
-```python
+```conf
 # 使用数据库类型：`mysql`、`sqlite`
-database_type = 'sqlite'
+db_type = sqlite
 ```
 
->不过我是用 MySQL 的，如果想直接操作数据库的话，主要靠你自己百度的，你来问我我也是去百度的。  
->当然，只要你操作正常，一般没必要去直接操作数据库的。  
->再其实，就算要直接操作数据库，也可以借助 GUI 工具，工具有哪些可以[自己找找看](https://www.bing.com/search?q=sqlite+GUI)。
+<!-- >不过我是用 MySQL 的，如果想直接操作数据库的话，主要靠你自己百度的，你来问我我也是去百度的。  
+>当然，只要你操作正常，一般没必要去直接操作数据库的。   -->
+>如果需要直接操作数据库，可以借助 GUI 工具，工具有哪些可以[在这里找找看](https://www.bing.com/search?q=sqlite+GUI)。
 
 ## 3.2. 选择二：MySQL
 
@@ -182,9 +182,9 @@ flush privileges; -- 刷新系统权限表
 
 `config.py`文件下，找到下面这个变量，定义为`mysql`。（默认就是这个，一般不用动了）
 
-```python
+```conf
 # 使用数据库类型：`mysql`、`sqlite`
-database_type = 'mysql'
+db_type = mysql
 ```
 
 </details>

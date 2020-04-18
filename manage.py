@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from config import auto_open_browser
+from config import config
 
 BASE_DIR = os.path.abspath(__file__)
 sys.path.append(os.path.join(BASE_DIR, "pypi"))
@@ -74,7 +74,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    if Is_child_processing() and auto_open_browser:
+    if Is_child_processing() and config.getboolean('custom', 'auto_open_browser'):
         import threading
         t = threading.Thread(
             target=enable_browser_with_delay, args=(sys.argv, 1))

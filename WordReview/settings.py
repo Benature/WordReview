@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
-import config
+from config import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -89,22 +89,28 @@ WSGI_APPLICATION = 'WordReview.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = config.DATABASES
-# {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     # }
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'tg_word_db',                         # database name
-#         'USER': 'tg_word_user',                          # user name
-#         'PASSWORD': 'tg_word2020',                  # user pwd
-#         'HOST':  'localhost',  # '116.62.12.178',
-#         'PORT': '',
-#     }
-# }
-
+db_type = config.get('custom', 'db_type')
+if db_type == 'mysql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config.get('mysql', 'mysql_name', fallback='word_db'),
+            'USER': config.get('mysql', 'mysql_user', fallback='word_user'),
+            'PASSWORD': config.get('mysql', 'mysql_password', fallback='word2020'),
+            'HOST':  config.get('mysql', 'mysql_host', fallback='localhost'),
+            'PORT': config.get('mysql', 'mysql_port', fallback=''),
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
+    }
+elif db_type == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    raise ValueError(f'请选择正确的数据库：`mysql`、`sqlite`，而非{db_type}')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

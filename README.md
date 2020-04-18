@@ -1,23 +1,24 @@
-<a href="https://benature.github.io/"><img src="./static/media/muyi.png" height="200" align="right"></a>
+<a href="https://benature.github.io/WordReview/"><img src="./static/media/muyi.png" height="200" align="right"></a>
 
 # Word Review 单词复习
 
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Benature/WordReview)
 ![GitHub stars](https://img.shields.io/github/stars/Benature/WordReview?style=flat)
 ![GitHub stars](https://img.shields.io/github/forks/Benature/WordReview?style=flat)
 ![GitHub issues](https://img.shields.io/github/issues/Benature/WordReview)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/Benature/WordReview)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Benature/WordReview)
 ![GitHub](https://img.shields.io/github/license/Benature/WordReview)
 
 Django + MySQL + Pug + JS
 
 - Python 3.7+
 - Django 3
-- Mysql 8
+- Mysql 8 / sqlite 3
 
-简单录了一个 DEMO 视频，上传到了[B站](https://www.bilibili.com/video/av90579311/)，欢迎康康。
+二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://www.bilibili.com/video/av90579311/)（BV 号：**BV1q7411w7r9**），欢迎康康。
 
 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。
+>在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
 
 如果觉得还不错的话，不如给个 stars🌟呗(￣▽￣)~*
 
@@ -155,7 +156,7 @@ tain
 ### List 的记忆率
 
 - 蓝条：历史记忆率，对 List 内单词的总记忆率取平均
-- 绿条：上轮记忆率，按 List 内单词的 **最新两次** 记忆情况就散平均记忆率
+- 绿条：上轮记忆率，按 List 内单词的 **最新两次** 记忆情况计算平均记忆率
 
 ### 单词的`flag`
 
@@ -170,6 +171,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - update:  配置文件更换为`.conf`文件（以支持默认参数） @04-18
   - feature: 命令行启动后自动打开浏览器 ([Issue#4](https://github.com/Benature/WordReview/issues/4)) @04-16
   - feature: 新增[在线预览](https://benature.github.io/WordReview/) @04-16
   - feature: 对<http://dict.cn/mini.php>的后端爬虫 API ([Issue#2](https://github.com/Benature/WordReview/issues/2)) @04-15
