@@ -16,7 +16,7 @@ git clone https://github.com/Benature/WordReview.git
 </details>
 </br>
 
-进入项目文件夹内，复制一份`./config_sample.py`文件，改名为`./config.py`。
+进入项目文件夹内，复制一份`./config_sample.conf`文件，改名为`./config.conf`。
 
 # 2. Python 环境
 
@@ -24,7 +24,7 @@ git clone https://github.com/Benature/WordReview.git
 
 1. Install `Miniconda` (recommanded) or `Anaconda` at first.
 2. create a virtual environment  
-  名字随便定，这里以`tgword`为例
+  名字随便定，这里以`word`为例
 
 ```shell
 conda create -n tgword python=3
@@ -35,10 +35,10 @@ conda create -n tgword python=3
 3. activate the environment
 
 ```shell
-source activate tgword 
+source activate word 
 ```
 
-此时命令行左边应该有显示`(tgword)`
+此时命令行左边应该有显示`(word)`
 
 4. install requirements
 

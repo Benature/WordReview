@@ -375,9 +375,6 @@ $(function () {
         }
     }
 
-    function selectWord() {
-        return ++wordIndex;
-    }
     // =============================================================
     //                          页面初始渲染
     // =============================================================
@@ -575,7 +572,7 @@ $(function () {
                 wordCount++;
                 hotUpdate(remember);
                 if (wordIndex != wordArray.length - 1) {
-                    wordIndex = selectWord();
+                    wordIndex++;
                     $('.hide').addClass('d-none')
                     renderWord(wordArray[wordIndex]);
                 } else {
@@ -673,6 +670,8 @@ $(function () {
                 default:
                     console.error('未知' + text);
             }
+            $('.sort-array').removeClass('enabled');
+            $(this).addClass('enabled');
             $('.hide').addClass('d-none');
             sortMode = text;
             console.log(text);
@@ -688,10 +687,12 @@ $(function () {
         if ($(this).text() == '重现模式:关') {
             repeatMode = true
             $(this).text('重现模式:开')
+                .addClass('enabled');
             layer.msg('重现模式已开')
         } else if ($(this).text() == '重现模式:开') {
             repeatMode = false
             $(this).text('重现模式:关')
+                .removeClass('enabled');
             layer.msg('重现模式已关')
         } else {
             layer.msg('未知选择：' + $(this).text())

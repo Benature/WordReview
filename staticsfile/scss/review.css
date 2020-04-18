@@ -138,7 +138,10 @@ i {
     font-size: 20px; }
   .word-block .word-explain {
     font-size: 16px;
-    color: #c46943; }
+    color: #c46943;
+    background: #f3f4f4;
+    border-radius: 0.25rem;
+    padding: 0px 2px; }
 
 .break-words {
   display: flex;
@@ -154,5 +157,8 @@ i {
 #bottom-box div {
   width: 100%;
   margin: 0px 5px; }
+
+.nav-item .enabled {
+  color: black !important; }
 
 /*# sourceMappingURL=review.css.map */
