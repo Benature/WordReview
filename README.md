@@ -70,19 +70,14 @@ Django + MySQL + Pug + JS
   <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo2.png" width="70%"/></a>
 </p>
 </br>
-<p align="center">艾宾浩斯日历(略丑求不喷)</p>
+<p align="center">艾宾浩斯日历 & 主页</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="60%"/></a>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="45%"/></a>
+  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="47%"/></a>
 </p>
 </br>
-<p align="center">主页</p>
-<p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="60%"/></a>
-</p>
-<p align="center">
-（蓝条是历史记忆率，绿条是上一轮的记忆率）
-</p>
 
+*蓝条是历史记忆率，绿条是上一轮的记忆率*  
 *关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%86%E7%8E%87)*
 
 </br>
