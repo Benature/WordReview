@@ -17,6 +17,14 @@ Django + MySQL + Pug + JS
 
 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://www.bilibili.com/video/av90579311/)（BV 号：**BV1q7411w7r9**），欢迎康康。
 
+---
+
+【百度网盘】对于不熟悉这个网站的同学，请收下这个网盘链接：:<https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA>，密码：l3g6。  
+导入数据库操作请看下文（或[这里](doc/database_init.md)）。  
+另：国内打开这个网页可能回稍慢，请耐心一些 dbq
+
+---
+
 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。
 >在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
 
@@ -74,7 +82,7 @@ git clone https://github.com/Benature/WordReview.git
 
 如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者 email(<wbenedict@163.com>) 或者私戳我 (●ﾟωﾟ●)
 
->如果你实在不想折腾配置的话，可以在[这里](https://github.com/Benature/WordReview/releases)直接安装可执行文件。（不推荐）
+>如果你实在不想折腾配置的话，可以在[这里](https://github.com/Benature/WordReview/releases)直接安装可执行文件。（但不推荐）
 
 <!-- 链接:https://pan.baidu.com/s/1XiyI7DPxrd_mRsuvMeJwQg  密码:0hhe -->
 

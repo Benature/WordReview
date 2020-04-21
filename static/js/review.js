@@ -1,5 +1,5 @@
 var word;
-var rawWordLength;
+// var rawWordLength;
 var wordCount = 0; // 本次复习的计数
 var book = getQueryString('book');
 var wordArray;
@@ -17,6 +17,7 @@ var currentHistoryX = [''];
 var currentHistoryY = [0];
 var noteFocus = false;
 
+var operationHistory = { word: null, index: null }
 
 function compareField(att, direct) {
     return function (a, b) {
@@ -53,7 +54,6 @@ $(function () {
             default:
                 break;
         }
-        // console.log(noteText());
     }
 
     /**
@@ -390,7 +390,7 @@ $(function () {
             if (response.status === 200) {
                 wordArray = response.data;
                 begin_index = response.begin_index;
-                rawWordLength = wordArray.length;
+                // rawWordLength = wordArray.length;
                 for (let i = 0; i < response.sort.length; i++) {
                     $('.sort-array').each(function () {
                         if ($(this).text() == response.sort[i]) {
@@ -896,7 +896,7 @@ $(function () {
 })
 
 window.onbeforeunload = function (event) {
-    if ((wordIndex == 0 && wordArray.length == rawWordLength) || previewMode) {
+    if ((wordCount == 0 || wordIndex == wordArray.length - 1) || previewMode) {
         console.log('拜拜')
     } else if (wordIndex != wordArray.length - 1) {
         return "本轮背单词进度将会丢失😣";
