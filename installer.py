@@ -59,7 +59,7 @@ dict_tree = Tree(get_pandas_path(), prefix='pandas', excludes=["*.pyc"])
 a.datas += dict_tree
 a.binaries = filter(lambda x: 'pandas' not in x[0], a.binaries)
 '''
-if platform.architecture()[1] == 'WindowsPE':
+if True or platform.architecture()[1] == 'WindowsPE':
     spec += '''def get_numpy_path():
     import numpy
     return numpy.__path__[0]
