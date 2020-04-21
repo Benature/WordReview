@@ -70,5 +70,6 @@ excel_path = 'data/sample.xlsx'
 - [TOEFL 曲根单词](https://github.com/yihui-he/TOEFL-10000-0)
 - [一个强大开源中英字典](https://github.com/skywind3000/ECDICT)
 
+>如果🔍搜索资料有困难的话，可以在 [Issue](https://github.com/Benature/WordReview/issues) 说一下，我可以试着帮忙找下。
 
 欢迎大家补充
