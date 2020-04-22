@@ -18,7 +18,7 @@ Django + MySQL + Pug + JS
 ---
 
 - DEMO
-  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://www.bilibili.com/video/av90579311/)（BV 号：**BV1q7411w7r9**），欢迎康康。
+  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（BV 号：**BV1q7411w7r9**），欢迎康康。
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
     在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
 - 【百度网盘】
@@ -48,13 +48,13 @@ Django + MySQL + Pug + JS
 
 <p align="center">单词复习页</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo2.png" width="70%"/></a>
+  <a href="https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA"><img src="https://i.loli.net/2020/04/22/NvbTWkYVEgKysiq.gif" width="70%"/></a>
 </p>
 </br>
 <p align="center">艾宾浩斯日历 & 主页</p>
 <p align="center">
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_calendar.png" width="45%"/></a>
-  <a href="https://www.bilibili.com/video/av90579311/"><img src="./doc/img/demo_homepage.png" width="47%"/></a>
+  <a href="https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA"><img src="https://mmbiz.qpic.cn/mmbiz_png/9Qko6AjFLJdWC8mmC154CmyorfPV5WRHibAXfZGR0mvIK64kKUQ6Z3iaqwibsgBeeaAmL2heNOSoEZ52XBFkMvy7A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" width="45%"/></a>
+  <a href="https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA"><img src="https://mmbiz.qpic.cn/mmbiz_png/9Qko6AjFLJdWC8mmC154CmyorfPV5WRHal8icL0XqQQwTqTiatlE7icuEO9XOFU6BvZnc0dpiazo3hHicySRMsW11DA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" width="47%"/></a>
 </p>
 </br>
 
@@ -62,9 +62,6 @@ Django + MySQL + Pug + JS
 *关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%86%E7%8E%87)*
 
 </br>
-
-
-
 
 ## 安装
 
@@ -150,6 +147,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - fix:     0.2.0 版本 dmg 报错 @04-21
   - release: version 0.2.0 @04-19
   - update:  导航栏样式增加激活状态(`.enabled`) @04-18
   - update:  配置文件更换为`.conf`文件（以支持默认参数） @04-18
