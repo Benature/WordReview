@@ -159,6 +159,7 @@ $(function () {
             tmpl_break_word.appendChild(noteMnemonic);
         }
     }
+
     /**
      * 渲染单词 页面
      * @param {object} data 单词数据
@@ -252,6 +253,22 @@ $(function () {
             default:
                 break;
         }
+
+        // 相关词
+        if (data.derivative != '') {
+            $('#tmpl-derivative').text('【派】' + data.derivative);
+        }
+        if (data.antonym != '') {
+            $('#tmpl-antonym').text('【反】' + data.antonym);
+        }
+        if (data.synonym != '') {
+            $('#tmpl-synonym').text('【近】' + data.synonym);
+        }
+        // $('#tmpl-derivative').text('【近】' + data.derivative);
+        console.log(data.derivative)
+        console.log(data.antonym)
+        console.log(data)
+
 
 
         if (copy) {

@@ -1,3 +1,4 @@
+import pandas as pd
 from pandas import read_excel
 # import pandas as pd
 import config
@@ -97,71 +98,28 @@ def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, Bo
     init_db_booklist(BookList, Review, BOOK, begin_index)
 
 
-# def update_db(Words):
-#     df = read_excel('data/xxx.xlsx')
-#     for d in df.iloc:
-#         try:
-#             word = Words.objects.get(word=d['word'])
-#             word.sentence = d['sentence']
-#             print(d['word'], word.sentence)
-#         except:
-#             pass
-#             # data = {
-#             #     'word': d['word'],
-#             #     'mean': mean,
-#             # }
-#             # word = Words.objects.create(**data)
-#         word.save()
-#         # break
-
-# def update_db(Words):
-#     count = 0
-#     with open('data/Webster.txt', 'r') as f:
-#         words = f.read().split('\n')
-#     for w in words:
-#         try:
-#             word = Words.objects.get(word=w)
-#             word.webster = True
-#             count += 1
-#             print(w, count)
-#         except:
-#             pass
-#             # data = {
-#             #     'word': d['word'],
-#             #     'mean': mean,
-#             # }
-#             # word = Words.objects.create(**data)
-#         word.save()
-
-#         # break
-
 def update_db(Words):
-    fail = 0
-    df = read_excel('data/助记.xlsx')
+    fail = []
+    df = pd.read_csv('data/xxxx.csv')
     df = df.fillna('')
-    for data in df.iloc:
-        print(data['word'], end='|')
+    for i, data in enumerate(df.iloc):
+        # if i < 2500:
+        #     continue
+        print(i, data['word'], end='|')
         # break
         try:
             word = Words.objects.get(word=data['word'])
         except:
             print(data['word'])
             print('\nunfound word', data['word'])
-            fail += 1
+            fail.append(data['word'])
             # break
             continue
-
-        mnemonic = []
-        for k in ['根', '注', '联', '记', '派', '参', '源', '义', '近', '反']:
-            if data[k] != '':
-                mnemonic.append(f'【{k}】{data[k]}')
-        try:
-            word.mnemonic = '\n'.join(mnemonic)
-            word.phonetic = data['phonetic']
-            word.save()
-        except:
-            print(mnemonic)
-            fail += 1
+        word.antonym = data['antonym']
+        word.synonym = data['synonyms']
+        word.derivative = data['derivative']
+        word.save()
         print(word.word)
         # break
-    print('fail', fail)
+    print('fail counts', len(fail), '/', len(df))
+    print(set(fail))

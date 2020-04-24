@@ -161,4 +161,13 @@ i {
 .nav-item .enabled {
   color: black !important; }
 
+#tmpl-derivative {
+  color: grey; }
+
+#tmpl-antonym {
+  color: palevioletred; }
+
+#tmpl-synonym {
+  color: dodgerblue; }
+
 /*# sourceMappingURL=review.css.map */

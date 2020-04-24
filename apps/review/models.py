@@ -92,6 +92,9 @@ class Words(models.Model):
     webster = models.BooleanField('是否被WebsterBuilder收录', default=False)
     mnemonic = models.CharField('助记法', max_length=500, default='')
     phonetic = models.CharField('音标', max_length=50, default='')
+    antonym = models.CharField('反义词', max_length=500, default='')
+    synonym = models.CharField('近义词', max_length=800, default='')
+    derivative = models.CharField('派生词', max_length=300, default='')
 
     class Meta:
         db_table = 'words'

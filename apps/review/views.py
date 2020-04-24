@@ -21,23 +21,13 @@ def index(request):
 
 
 def temp(request):
-    # out = Words.objects.filter(word__icontains='amiable')
+    # out = Words.objects.filter(word__icontains='abandon')
     # for w in out:
     #     print(w.word, ".")
     #     print(w.word.count(' '))
     #     print(w.id)
     # print(out)
-    # update_db(Words)
-    # if config.init_db_mode:
-    #     from apps.review.src.init_db import (
-    #         import_word, init_db_words, init_db_booklist, init_db_books)
-    #     init_db_books(Books)
-    #     import_word(Review, BookList, Words)
-    #     init_db_words(Review, Words)
-    #     init_db_booklist(BookList, Review)
-    #     return HttpResponse('数据库初始化结束，请记得去 config.py 中将 init_db_mode 变量改为 Flase！')
-    # else:
-    #     return HttpResponse('如果需要导入数据库，请去 config.py 中将 init_db_mode 变量改为 True。\n平时请不用访问这个网址')
+    update_db(Words)
     return render(request, "homepage.pug")
 
 

@@ -22,7 +22,7 @@ Django + MySQL + Pug + JS
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
     在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
 - **【百度网盘】**
-  - 对于不熟悉这个网站的同学，可以直接去网盘使用：<https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA>，密码：l3g6。    
+  - 对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。    
   - 导入数据库操作请看下文（或[这里](doc/database_init.md)）。    
   - 另：国内打开这个网页可能回稍慢，请耐心一些 dbq
 - 资瓷一下呗  
@@ -40,9 +40,10 @@ Django + MySQL + Pug + JS
 此项目主要是将`Excel背单词`方法给 App 化，更符合用户操作习惯。  
 第一次听说`Excel背单词`这个方法是看了[红专学姐](https://www.zhihu.com/people/you-hong-you-zhuan-ai-dang-wu-si-qing-nian)的[文章](https://zhuanlan.zhihu.com/p/100104481)，后来在[B站](https://www.bilibili.com/video/av46223252/)看到了更详细的讲解，几天后这个项目便诞生了。
 
-功能特性太多，写在这就太长了，新开一页写[特性说明](https://www.notion.so/benature/Word-Review-0f56c8a9131b4ae3b6d9a6fda5c4e655)。
+第一篇[介绍推送](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)微信公众号「恰好恰好」上发送了，这里就先不展开讲了。
 
-第一篇介绍推送[在此](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（微信公众号：恰好恰好）。
+功能特性太多，写在这就太长了，新开一页写[特性说明](https://www.notion.so/benature/Word-Review-0f56c8a9131b4ae3b6d9a6fda5c4e655)（更新中）。
+
 
 </br>
 
@@ -147,6 +148,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 新增`近`、`反`、`派`词字段与渲染 @04-24
   - fix:     0.2.0 版本 dmg 报错 @04-21
   - release: version 0.2.0 @04-19
   - update:  导航栏样式增加激活状态(`.enabled`) @04-18
