@@ -257,12 +257,18 @@ $(function () {
         // 相关词
         if (data.derivative != '') {
             $('#tmpl-derivative').text('【派】' + data.derivative);
+        } else {
+            $('#tmpl-derivative').text('');
         }
         if (data.antonym != '') {
             $('#tmpl-antonym').text('【反】' + data.antonym);
+        } else {
+            $('#tmpl-antonym').text('');
         }
         if (data.synonym != '') {
             $('#tmpl-synonym').text('【近】' + data.synonym);
+        } else {
+            $('#tmpl-synonym').text('');
         }
         // $('#tmpl-derivative').text('【近】' + data.derivative);
         console.log(data.derivative)

@@ -12,8 +12,11 @@ from apps.review.src.spider import crawl_dict_mini
 
 from datetime import datetime, timedelta
 
-EBBINGHAUS_DAYS = [1, 2, 4, 7, 15, 30]
-EBBINGHAUS_DELTA = [0, 1, 2, 3, 8, 15]
+EBBINGHAUS_DAYS = [0, 1, 2, 4, 7, 15, 30]
+# EBBINGHAUS_DAYS = [0] + [EBBINGHAUS_DAYS[i] - EBBINGHAUS_DAYS[i-1]
+#                           for i in range(1, len(EBBINGHAUS_DAYS))]
+# print(EBBINGHAUS_DAYS)
+# EBBINGHAUS_DAYS = [0, 1, 2, 3, 8, 15]
 
 
 def index(request):
@@ -105,10 +108,10 @@ def review_lists(request):
         L_db.recent_list_rate = recent_history.count('1') / len(recent_history)
 
         # 艾宾浩斯时间处理
-        if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DELTA):
+        if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DAYS):
             c = L_db.ebbinghaus_counter
             should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
-                                                 ) + timedelta(days=EBBINGHAUS_DELTA[c])
+                                                 ) + timedelta(days=EBBINGHAUS_DAYS[c])
             # print(should_next_date)
             if (today - should_next_date).days >= 0:
                 # 今天 不早于 理论下一天
@@ -275,7 +278,7 @@ def get_calendar_data(request):
             'begin_index': 1 if b.begin_index == 0 else 0,
         }
     # db = BookList.objects.filter(~Q(ebbinghaus_counter=0))
-    db = BookList.objects.filter(ebbinghaus_counter__range=[1, 6])
+    db = BookList.objects.filter(ebbinghaus_counter__gt=0)
     data = ormToJson(db)
     for d in data:
         d = d['fields']
@@ -284,7 +287,7 @@ def get_calendar_data(request):
 
     data = {
         'data': data,
-        'EBBINGHAUS_DELTA': EBBINGHAUS_DELTA,
+        'EBBINGHAUS_DAYS': EBBINGHAUS_DAYS,
         'status': 200,
     }
     return JsonResponse(data)

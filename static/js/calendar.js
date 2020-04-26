@@ -1,4 +1,4 @@
-var EBBINGHAUS_DELTA;
+var EBBINGHAUS_DAYS;
 var today;
 var calendar_begin;
 var calendar_end;
@@ -73,8 +73,8 @@ function renderCalendar(data) {
     for (let i = 0; i < data.length; i++) {
         list = data[i].fields;
         let last_review_date = new Date(list.last_review_date);
-        for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DELTA.length; j++) {
-            let next_day = addDays(last_review_date, EBBINGHAUS_DELTA[j]);
+        for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DAYS.length; j++) {
+            let next_day = addDays(last_review_date, EBBINGHAUS_DAYS[j]);
             if (dayDelta(next_day, calendar_end) >= 0) { break; }
             let index_tmp = dayDelta(next_day, calendar_begin) + 1;
             if (index_tmp < 0) {
@@ -104,7 +104,7 @@ $(function () {
         data: {}
     }).done(function (response) {
         if (response.status === 200) {
-            EBBINGHAUS_DELTA = response.EBBINGHAUS_DELTA;
+            EBBINGHAUS_DAYS = response.EBBINGHAUS_DAYS;
             renderCalendar(response.data);
         }
     })
