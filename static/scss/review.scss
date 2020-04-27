@@ -89,6 +89,11 @@
 #tmpl-sentence{
     margin-left: 5px;
     width: 540px;
+    #s{
+        em{
+            color: red;
+        }
+    }
 }
 
 

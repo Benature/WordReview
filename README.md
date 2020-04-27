@@ -148,8 +148,9 @@ tain
 ### 更新日志
 
 - 2020.04
+  - update:  <http://dict.cn/mini.php>接口例句红色高亮（[Issue#7](https://github.com/Benature/WordReview/issues/7#issuecomment-620127755)） @04-28
   - fix:     `font awesome` 路径错误（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
-  - test:    网页导入数据库支持例句、助记法、音标、近、反、派词（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
+  - update:    网页导入数据库支持例句、助记法、音标、近、反、派词（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
   - fix:     艾宾浩斯日历安排采用《杨鹏 17 天》形式 @04-26
   - feature: 新增`近`、`反`、`派`词字段与渲染 @04-24
   - fix:     0.2.0 版本 dmg 报错 @04-21

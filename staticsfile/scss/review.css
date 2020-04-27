@@ -73,6 +73,8 @@
 #tmpl-sentence {
   margin-left: 5px;
   width: 540px; }
+  #tmpl-sentence #s em {
+    color: red; }
 
 #tmpl-note {
   z-index: -1;
