@@ -77,7 +77,7 @@ def init_db_words(Review, Words, df):
                 'mean': dr['mean'],
             }
             for key in ['sentence', 'mnemonic', 'phonetic', 'antonym', 'synonym', 'derivative']:
-                if key in dr.columns:
+                if key in df.columns:
                     data[key] = dr[key]
             word = Words.objects.create(**data)
             print(word.word)
