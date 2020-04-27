@@ -126,15 +126,19 @@ print('copy file config.conf')
 # with open(os.path.join(dist_path, 'config.conf'), 'w') as f:
 #     f.write(conf)
 
-copyfile(os.path.join(pathex, r'staticsfile\scss\review.css'),
-         os.path.join(dist_path, r'staticsfile\scss\review.css'))
+copyfile(os.path.join(pathex, 'staticsfile/scss/review.css'),
+         os.path.join(dist_path, 'staticsfile/scss/review.css'))
 
-pug_path = os.path.join(dist_path, r'apps\review\templates\import_db.pug')
+pug_path = os.path.join(dist_path, 'apps/review/templates/review.pug')
 with open(pug_path, 'r') as f:
     pug = f.read()
 with open(pug_path, 'w') as f:
-    f.write(pug.replace('''link(href="{% sass_src 'scss/review.scss' %}" rel="stylesheet" type="text/css")
-script(src="/static/js/review.js")''', '''link(href="/static/scss/review.css" rel="stylesheet" type="text/css")''').replace("{% load sass_tags %}", "//- {% load sass_tags %}"))
+    f.write(pug.replace(
+        '''link(href="{% sass_src 'scss/review.scss' %}" rel="stylesheet" type="text/css")''',
+        '''link(href="/static/scss/review.css" rel="stylesheet" type="text/css")'''
+    ).replace(
+        "{% load sass_tags %}",
+        "//- {% load sass_tags %}"))
 
 # print("begin remove useless files, in order to reduce package size")
 

@@ -10,6 +10,6 @@ def crawl_dict_mini(word):
         out = re.sub(r'<body.*?>|</body>', '',
                      str(soup.select('body')[0])).strip('\n ')
         out = '<div style= "font-size:12px;">' + out + '</div>'
-        return 200, out
+        return 200, str(out)
     except Exception as e:
         return 505, e
