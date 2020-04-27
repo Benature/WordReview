@@ -2,10 +2,31 @@
 
 导入数据的方法有以下两种：
 
-- [网页版的导入说明，另开一页，请点这里。](https://www.notion.so/benature/Word-Review-98fd460445ff44868d53c8739ff9793a)
-- 自定义导入需要编写代码，参考`apps/review/src/init_db.py`，然后打开 <localhost:8000/temp/>，当你网页加载完成，说明数据库导入结束了，或者你也可以看下 terminal，原始代码是导入一个单词都打印出来了，你可以看到哗啦啦的一片（不要多次访问这个页面，否则重复导入数据）。
+## 网页导入
 
 关于导入的文件格式，请参考[这个文件](https://github.com/Benature/WordReview/raw/ben/data/sample/sample.xlsx)，或者在线预览看[这里](../data/sample/sample.csv)。注意表头要一致哦，区分大小写。
+
+|    表头    |    含义    | 必/选  |
+| :--------: | :--------: | :----: |
+|    List    | List 序号  |  必填  |
+|    Unit    | Unit 序号  |  必填  |
+|   Index    | Index 序号 |  必填  |
+|    word    |  英文单词  |  必填  |
+|    mean    |  单词释义  |  必填  |
+|  mnemonic  |   助记法   | *选填* |
+|  phonetic  |    音标    | *选填* |
+|  antonym   |   反义词   | *选填* |
+|  synonym   |   近义词   | *选填* |
+| derivative |   派生词   | *选填* |
+
+[网页版的导入的具体说明，另开一页，请点这里。](https://www.notion.so/benature/Word-Review-98fd460445ff44868d53c8739ff9793a)
+
+
+## 自定义导入 / 更新
+
+自定义导入需要编写代码，参考`apps/review/src/init_db.py`，然后打开 <localhost:8000/temp/>，当你网页加载完成，说明数据库导入结束了，或者你也可以看下 terminal，原始代码是导入一个单词都打印出来了，你可以看到哗啦啦的一片（不要多次访问这个页面，否则重复导入数据）。
+
+
 
 <!-- 结束后再把那几行给注释了，以后用不着了。 -->
 

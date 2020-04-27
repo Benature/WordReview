@@ -104,22 +104,22 @@ python manage.py migrate
 
 ### 快捷键
 
-|          操作          |          快捷键          |   页面   |      状态      |
-| :--------------------: | :----------------------: | :------: | :------------: |
-|       设为重难词       |    `Shift + H` (Hard)    | 复习页面 |      全局      |
-|       设为已掌握       |    `Shift + G` (Get)     | 复习页面 |      全局      |
-|       设为太简单       |    `Shift + E` (Easy)    | 复习页面 |      全局      |
-|     进入笔记输入框     |        `N` (Note)        | 复习页面 |      全局      |
-| 查看助记法（记忆之沙） | `T` (Tips) / `V` (View)  | 复习页面 |      全局      |
-|      词卡前后切换      |         `<`、`>`         | 复习页面 |      全局      |
-|      List前后切换      | `Shift + <`、`Shift + >` | 复习页面 |    学习状态    |
-|        查看释义        |          `空格`          | 复习页面 |    复习状态    |
-|     切换至学习状态     |      `P` (Preview)       | 复习页面 |    复习状态    |
-|      触发重现模式      |       `R` (Repeat)       | 复习页面 |    复习状态    |
-|         我记得         |       `Shift + →`        | 复习页面 |    复习状态    |
-|         不认识         |       `Shift + ←`        | 复习页面 |    复习状态    |
-|  复制`WordSand`助记法  |        `C` (Copy)        | 复习页面 | 安装Chrome插件 |
-|     跳转到日历页面     |      `C` (Calendar)      |   主页   |       -        |
+|          操作          |                            快捷键                            |   页面   |      状态      |
+| :--------------------: | :----------------------------------------------------------: | :------: | :------------: |
+|       设为重难词       |             <kbd>Shift</kbd>+<kbd>H</kbd> (Hard)             | 复习页面 |      全局      |
+|       设为已掌握       |             <kbd>Shift</kbd>+<kbd>G</kbd> (Get)              | 复习页面 |      全局      |
+|       设为太简单       |             <kbd>Shift</kbd>+<kbd>E</kbd> (Easy)             | 复习页面 |      全局      |
+|     进入笔记输入框     |                     <kbd>N</kbd> (Note)                      | 复习页面 |      全局      |
+| 查看助记法（记忆之沙） |          <kbd>T</kbd> (Tips) / <kbd>V</kbd> (View)           | 复习页面 |      全局      |
+|      词卡前后切换      |                  <kbd><</kbd>、<kbd>></kbd>                  | 复习页面 |      全局      |
+|      List前后切换      | <kbd>Shift</kbd>+<kbd><</kbd>、<kbd>Shift</kbd>+<kbd>></kbd> | 复习页面 |    学习状态    |
+|        查看释义        |                       <kbd>空格</kbd>                        | 复习页面 |    复习状态    |
+|     切换至学习状态     |                    <kbd>P</kbd> (Preview)                    | 复习页面 |    复习状态    |
+|      触发重现模式      |                    <kbd>R</kbd> (Repeat)                     | 复习页面 |    复习状态    |
+|         我记得         |                <kbd>Shift</kbd>+<kbd>→</kbd>                 | 复习页面 |    复习状态    |
+|         不认识         |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
+|  复制`WordSand`助记法  |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
+|     跳转到日历页面     |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 
@@ -148,6 +148,8 @@ tain
 ### 更新日志
 
 - 2020.04
+  - fix:     `font awesome` 路径错误（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
+  - test:    网页导入数据库支持例句、助记法、音标、近、反、派词（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
   - fix:     艾宾浩斯日历安排采用《杨鹏 17 天》形式 @04-26
   - feature: 新增`近`、`反`、`派`词字段与渲染 @04-24
   - fix:     0.2.0 版本 dmg 报错 @04-21

@@ -69,12 +69,16 @@ def init_db_words(Review, Words, df):
         dr = df.iloc[i]
         try:
             word = Words.objects.get(word=dr['word'])
+            print('skip because word already exists', dr['word'])
             continue
         except:
             data = {
                 'word': dr['word'],
                 'mean': dr['mean'],
             }
+            for key in ['sentence', 'mnemonic', 'phonetic', 'antonym', 'synonym', 'derivative']:
+                if key in dr.columns:
+                    data[key] = dr[key]
             word = Words.objects.create(**data)
             print(word.word)
             word.save()

@@ -73,6 +73,10 @@ pip: command not found
 <!-- - 其他你 handle 不了的报错
   那就退而求其次跑下面这个吧 -->
 
+- 如果看到报错提示需要 Visual Studio 依赖
+
+可以考虑参考[这位同学](https://github.com/Benature/WordReview/issues/6#issuecomment-619561082)的经验。
+
 </details>
 
 
