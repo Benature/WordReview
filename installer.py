@@ -1,6 +1,8 @@
 import subprocess
 import platform
 import os
+from shutil import copyfile
+
 pathex = os.path.dirname(os.path.abspath(__file__))
 print(pathex)
 spec = '''# -*- mode: python ; coding: utf-8 -*-
@@ -112,17 +114,29 @@ with open(os.path.join(pathex, spec_name+'.spec'), 'w') as f:
 
 res = subprocess.call(
     "pyinstaller --clean --noconfirm WordReview_D.spec", shell=True)
-
 if res == 1:
     os._exit(0)
 
 dist_path = os.path.join(pathex, f'dist/{spec_name}')
-with open(os.path.join(pathex, 'config_sample.conf'), 'r') as f:
-    conf = f.read()
-with open(os.path.join(dist_path, 'config.conf'), 'w') as f:
-    f.write(conf)
+copyfile(os.path.join(pathex, 'config_sample.conf'),
+         os.path.join(dist_path, 'config.conf'))
+print('copy file config.conf')
+# with open(os.path.join(pathex, 'config_sample.conf'), 'r') as f:
+#     conf = f.read()
+# with open(os.path.join(dist_path, 'config.conf'), 'w') as f:
+#     f.write(conf)
 
-print("begin remove useless files, in order to reduce package size")
+copyfile(os.path.join(pathex, r'staticsfile\scss\review.css'),
+         os.path.join(dist_path, r'staticsfile\scss\review.css'))
+
+pug_path = os.path.join(dist_path, r'apps\review\templates\import_db.pug')
+with open(pug_path, 'r') as f:
+    pug = f.read()
+with open(pug_path, 'w') as f:
+    f.write(pug.replace('''link(href="{% sass_src 'scss/review.scss' %}" rel="stylesheet" type="text/css")
+script(src="/static/js/review.js")''', '''link(href="/static/scss/review.css" rel="stylesheet" type="text/css")''').replace("{% load sass_tags %}", "//- {% load sass_tags %}"))
+
+# print("begin remove useless files, in order to reduce package size")
 
 # for useless in ['libblas.3.dylib', 'libcblas.3.dylib', 'liblapack.3.dylib']:
 #     subprocess.call(f"rm {os.path.join(dist_path, useless)}", shell=True)
