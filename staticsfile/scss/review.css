@@ -100,7 +100,7 @@
 
 #active-note {
   cursor: pointer;
-  min-height: 250px; }
+  min-height: 150px; }
 
 .sentence-zh {
   color: grey !important;

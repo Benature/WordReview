@@ -13,6 +13,7 @@ function copy2Clipboard(content, idN) {
     } else {
         console.error('复制失败');
     }
+    input.blur();
 }
 
 function readText(word, source = 'baidu') {

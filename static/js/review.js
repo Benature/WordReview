@@ -823,7 +823,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        // console.log(e.keyCode);
+        console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
@@ -885,6 +885,12 @@ $(function () {
             }
             else if (84 == e.keyCode || 86 == e.keyCode) { // T or V
                 window.open('http://www.wordsand.cn/lookup.asp?word=' + word);
+            }
+            else if (77 == e.keyCode) { // M
+                window.open('https://mnemonicdictionary.com/?word=' + word);
+            }
+            else if (83 == e.keyCode) { // S
+                window.open('https://www.thesaurus.com/browse/' + word + '?s=t');
             }
             else if (80 == e.keyCode) { // P
                 if (!previewMode) {

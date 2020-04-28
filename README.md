@@ -92,7 +92,6 @@ python manage.py runserver
 ```
 
 默认情况下会自动在默认浏览器打开<localhost:8000/>，开始背单词之旅吧 🤓
->如果您没有修改过配置但不能自动打开浏览器，请[提交 issue 反馈](https://github.com/Benature/WordReview/issues)。
 
 当您想要更新代码的时候，请
 
@@ -102,24 +101,28 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+如果您想在源码更新/新的 release 发布时候得到通知，可以点击网页右上方的`Watch`。
+
 ### 快捷键
 
-|          操作          |                            快捷键                            |   页面   |      状态      |
-| :--------------------: | :----------------------------------------------------------: | :------: | :------------: |
-|       设为重难词       |             <kbd>Shift</kbd>+<kbd>H</kbd> (Hard)             | 复习页面 |      全局      |
-|       设为已掌握       |             <kbd>Shift</kbd>+<kbd>G</kbd> (Get)              | 复习页面 |      全局      |
-|       设为太简单       |             <kbd>Shift</kbd>+<kbd>E</kbd> (Easy)             | 复习页面 |      全局      |
-|     进入笔记输入框     |                     <kbd>N</kbd> (Note)                      | 复习页面 |      全局      |
-| 查看助记法（记忆之沙） |          <kbd>T</kbd> (Tips) / <kbd>V</kbd> (View)           | 复习页面 |      全局      |
-|      词卡前后切换      |                  <kbd><</kbd>、<kbd>></kbd>                  | 复习页面 |      全局      |
-|      List前后切换      | <kbd>Shift</kbd>+<kbd><</kbd>、<kbd>Shift</kbd>+<kbd>></kbd> | 复习页面 |    学习状态    |
-|        查看释义        |                       <kbd>空格</kbd>                        | 复习页面 |    复习状态    |
-|     切换至学习状态     |                    <kbd>P</kbd> (Preview)                    | 复习页面 |    复习状态    |
-|      触发重现模式      |                    <kbd>R</kbd> (Repeat)                     | 复习页面 |    复习状态    |
-|         我记得         |                <kbd>Shift</kbd>+<kbd>→</kbd>                 | 复习页面 |    复习状态    |
-|         不认识         |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
-|  复制`WordSand`助记法  |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
-|     跳转到日历页面     |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
+|         操作         |                            快捷键                            |   页面   |      状态      |
+| :------------------: | :----------------------------------------------------------: | :------: | :------------: |
+|      设为重难词      |             <kbd>Shift</kbd>+<kbd>H</kbd> (Hard)             | 复习页面 |      全局      |
+|      设为已掌握      |             <kbd>Shift</kbd>+<kbd>G</kbd> (Get)              | 复习页面 |      全局      |
+|      设为太简单      |             <kbd>Shift</kbd>+<kbd>E</kbd> (Easy)             | 复习页面 |      全局      |
+|    进入笔记输入框    |                     <kbd>N</kbd> (Note)                      | 复习页面 |      全局      |
+| 跳转查看助记法（中） |          <kbd>T</kbd> (Tips) / <kbd>V</kbd> (View)           | 复习页面 |      全局      |
+| 跳转查看助记法（英） |                   <kbd>M</kbd> (Mnemonic)                    | 复习页面 |      全局      |
+|    跳转查看近义词    |                   <kbd>S</kbd> (Synonyms)                    | 复习页面 |      全局      |
+|     词卡前后切换     |                  <kbd><</kbd>、<kbd>></kbd>                  | 复习页面 |      全局      |
+|     List前后切换     | <kbd>Shift</kbd>+<kbd><</kbd>、<kbd>Shift</kbd>+<kbd>></kbd> | 复习页面 |    学习状态    |
+|       查看释义       |                       <kbd>空格</kbd>                        | 复习页面 |    复习状态    |
+|    切换至学习状态    |                    <kbd>P</kbd> (Preview)                    | 复习页面 |    复习状态    |
+|     触发重现模式     |                    <kbd>R</kbd> (Repeat)                     | 复习页面 |    复习状态    |
+|        我记得        |                <kbd>Shift</kbd>+<kbd>→</kbd>                 | 复习页面 |    复习状态    |
+|        不认识        |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
+| 复制`WordSand`助记法 |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
+|    跳转到日历页面    |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 
@@ -148,6 +151,8 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: 新增两个单词网页（助记、近义词）跳转 @04-28
+  - update:  剪贴板复制后自动离焦`input` @04-28
   - update:  <http://dict.cn/mini.php>接口例句红色高亮（[Issue#7](https://github.com/Benature/WordReview/issues/7#issuecomment-620127755)） @04-28
   - fix:     `font awesome` 路径错误（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
   - update:    网页导入数据库支持例句、助记法、音标、近、反、派词（[Issue#7](https://github.com/Benature/WordReview/issues/7)） @04-27
