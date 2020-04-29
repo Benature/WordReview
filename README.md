@@ -101,7 +101,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-如果您想在源码更新/新的 release 发布时候得到通知，可以点击网页右上方的`Watch`。
+如果您想获取即时的统治（如新的 release 发布），可以点击网页右上方的`Watch`。
 
 ### 快捷键
 
@@ -151,6 +151,7 @@ tain
 ### 更新日志
 
 - 2020.04
+  - feature: wiki quote 每日名言（主页） @04-29
   - feature: 新增两个单词网页（助记、近义词）跳转 @04-28
   - update:  剪贴板复制后自动离焦`input` @04-28
   - update:  <http://dict.cn/mini.php>接口例句红色高亮（[Issue#7](https://github.com/Benature/WordReview/issues/7#issuecomment-620127755)） @04-28

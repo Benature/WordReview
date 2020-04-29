@@ -1,6 +1,7 @@
 {% extends "base.pug" %}
 {% block title %}复习主页{% endblock %}
 {% block css %}
+script(src="/static/js/homepage.js")
 script $(function () {$('.list-block').on('click', function (e) {document.location.href = $(this).attr('href');})});
   |  $(document).keyup(function (e) {if (67 == e.keyCode) {document.location = '/calendar/';}});
 style
@@ -17,6 +18,11 @@ style
   |     font-size: 10px;
   |     height: 13px;
   | }
+  | #tmpl-qotd{
+  |   display: flex;
+  |   align-self: center;
+  |   width: 80%;
+  | }
 {% endblock %}
 
 {% block content %}
@@ -26,6 +32,7 @@ div.container.flex-column
       i.icon-github
       | &nbsp;Github: Benature
   a(style="text-align:end;" href="/calendar/") 艾宾浩斯复习日历
+  #tmpl-qotd
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
   div.d-flex.flex-wrap

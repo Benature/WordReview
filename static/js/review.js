@@ -27,6 +27,7 @@ function compareField(att, direct) {
     }
 }
 
+var tmp;
 
 $(function () {
 
