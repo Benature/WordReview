@@ -150,8 +150,10 @@ tain
 
 ### 更新日志
 
+- 2020.05
+  - feature: `相关词`栏内对近期复习单词做高亮 @05-05
 - 2020.04
-  - feature: wiki quote 每日名言（主页） @04-29
+  - feature: wiki quote 每日名言（主页）<https://en.wikiquote.org/wiki/Wikiquote:Quote_of_the_day> @04-29
   - feature: 新增两个单词网页（助记、近义词）跳转 @04-28
   - update:  剪贴板复制后自动离焦`input` @04-28
   - update:  <http://dict.cn/mini.php>接口例句红色高亮（[Issue#7](https://github.com/Benature/WordReview/issues/7#issuecomment-620127755)） @04-28

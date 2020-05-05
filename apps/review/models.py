@@ -78,6 +78,7 @@ class BookList(models.Model):
 
 class Words(models.Model):
     '''单纯的单词表'''
+    modify_time = models.DateTimeField('上次修改时间', auto_now=True)
     word = models.CharField('英文单词', max_length=50, unique=True)
     mean = models.CharField('中文释义', max_length=500, default='')
     note = models.CharField('记忆法', max_length=200, default='')

@@ -10,13 +10,11 @@ import config
 from apps.review.src.init_db import init_db, update_db
 from apps.review.src.spider import crawl_dict_mini
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+
+Delay_Hours = 4
 
 EBBINGHAUS_DAYS = [0, 1, 2, 4, 7, 15, 30]
-# EBBINGHAUS_DAYS = [0] + [EBBINGHAUS_DAYS[i] - EBBINGHAUS_DAYS[i-1]
-#                           for i in range(1, len(EBBINGHAUS_DAYS))]
-# print(EBBINGHAUS_DAYS)
-# EBBINGHAUS_DAYS = [0, 1, 2, 3, 8, 15]
 
 
 def index(request):
@@ -63,7 +61,7 @@ def import_db(request):
 def review_lists(request):
     '''接口：复习完成 list，更新 book_list'''
     post = request.POST
-    today = datetime.now() - timedelta(hours=4)  # 熬夜情况
+    today = datetime.now() - timedelta(hours=Delay_Hours)  # 熬夜情况
     today_str = today.strftime('%Y-%m-%d')
 
     LISTS = [int(i) for i in post.get('list').split('-')]
@@ -259,11 +257,16 @@ def get_word(request):
             w.update({pan: w.pop(old)})
         l.update(w)
 
+    yesterday = datetime.now() - timedelta(days=1, hours=Delay_Hours)
+    recent_words = Words.objects.filter(modify_time__gt=date(
+        yesterday.year, yesterday.month, yesterday.day)).values_list('word')
+
     data = {
         'data': list_info,
         'status': 200,
         'sort': sortType,
         'begin_index': int(Books.objects.get(BOOK=BOOK).begin_index == 0),
+        'recent_words': [rw[0] for rw in recent_words],
     }
     return JsonResponse(data)
 

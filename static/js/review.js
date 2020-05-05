@@ -9,6 +9,7 @@ var remember = true; // 这个单词是否记住了
 var sortMode = ''; //排序模式
 var note = '';
 var begin_index;
+var recentReviewedWordsArray;
 
 var repeatMode = true;
 var previewMode = false;
@@ -29,7 +30,10 @@ function compareField(att, direct) {
 
 var tmp;
 
+
+
 $(function () {
+    var relatedWords = [{ en: "derivative", zh: "派" }, { en: "antonym", zh: "反" }, { en: "synonym", zh: "近" }]
 
     function noteText(text = null, tagName = 'tmpl-note') {
         let node = document.getElementById(tagName)
@@ -125,12 +129,12 @@ $(function () {
             let note_break = notes[i].split('=');
 
             // word sand
-            if (note_break.length == 1 && note_break[0].indexOf('＋') != -1) {
+            if (note_break.length == 1 && (note_break[0].indexOf('＋') != -1 || note_break[0].indexOf('+') != -1)) {
                 renderBreakFromOneLine(note_break[0], tmpl_break_word,
                     /^[a-z]+/g,
                     function (m) { return /^([a-z\s-]+)/g.test(m); },
                     function (m) { return /^([a-z-\(\),\s]+)\s*（(.+?)）/g.test(m); },
-                    /^[\s＋]*/,
+                    /^[\s(＋|+)]*/,
                     function (mem) {
                         mem = mem.replace(/^([\s+,]*)/g, '');
                         tmpl_break_word.innerHTML += '<p class="note-mnemonic-explain">' + mem + '</p>';
@@ -256,26 +260,25 @@ $(function () {
         }
 
         // 相关词
-        if (data.derivative != '') {
-            $('#tmpl-derivative').text('【派】' + data.derivative);
-        } else {
-            $('#tmpl-derivative').text('');
-        }
-        if (data.antonym != '') {
-            $('#tmpl-antonym').text('【反】' + data.antonym);
-        } else {
-            $('#tmpl-antonym').text('');
-        }
-        if (data.synonym != '') {
-            $('#tmpl-synonym').text('【近】' + data.synonym);
-        } else {
-            $('#tmpl-synonym').text('');
-        }
-        // $('#tmpl-derivative').text('【近】' + data.derivative);
-        console.log(data.derivative)
-        console.log(data.antonym)
-        console.log(data)
-
+        relatedWords.forEach((rw) => {
+            let relatedWordsContent = data[rw.en];
+            let relatedWordArrayTemp = data[rw.en].match(/[a-zA-Z-]+/g)
+            if (relatedWordArrayTemp != null) {
+                let overlapWords = relatedWordArrayTemp.filter((w) => {
+                    return recentReviewedWordsArray.includes(w)
+                })
+                console.log(overlapWords)
+                overlapWords.forEach((w) => {
+                    relatedWordsContent = relatedWordsContent.replace(w, "<span class='recent'>" + w + "</span>");
+                    console.log(relatedWordsContent)
+                })
+            }
+            if (data[rw.en] != '') {
+                $('#tmpl-' + rw.en).html('【' + rw.zh + '】' + relatedWordsContent);
+            } else {
+                $('#tmpl-' + rw.en).text('');
+            }
+        })
 
 
         if (copy) {
@@ -284,8 +287,8 @@ $(function () {
         }
 
         if (wordCount == wordIndex + 50 && repeatMode) {
-            layer.msg('错误次数太多，将关闭重现模式😅')
             $('.repeat').click();
+            layer.msg('错误次数太多，将关闭重现模式😅')
         }
 
         // echarts 画图
@@ -414,6 +417,7 @@ $(function () {
             if (response.status === 200) {
                 wordArray = response.data;
                 begin_index = response.begin_index;
+                recentReviewedWordsArray = response.recent_words;
                 // rawWordLength = wordArray.length;
                 for (let i = 0; i < response.sort.length; i++) {
                     $('.sort-array').each(function () {
@@ -824,7 +828,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow

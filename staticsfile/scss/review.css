@@ -172,4 +172,9 @@ i {
 #tmpl-synonym {
   color: dodgerblue; }
 
+.side-card .recent {
+  background-color: yellow;
+  font-weight: bolder;
+  color: red; }
+
 /*# sourceMappingURL=review.css.map */
