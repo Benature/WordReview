@@ -11,7 +11,7 @@
   ],
   "background": {
     "scripts": [
-      "js/jquery-3.4.1.min.js",
+      "js/jquery-3.5.1.min.js",
       "js/background.js"
     ],
     "css": [
@@ -39,7 +39,7 @@
         "*://127.0.0.1/*"
       ],
       "js": [
-        "js/jquery-3.4.1.min.js",
+        "js/jquery-3.5.1.min.js",
         "js/util.js",
         "js/content-script.js"
       ],
