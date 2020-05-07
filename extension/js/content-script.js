@@ -11,7 +11,8 @@ function renderWordSand(word_now) {
             if (/<td.*valign.*width.*bgcolor.*>([\s\S]*?)<\/td>/g.test(response.content)) {
                 content = RegExp.$1
                     .replace(/<center>[\s\S]+?<\/center>/, '')
-                    .replace(/<font.*?>/, '<font>');
+                    .replace(/<font.*?>/, '<font>')
+                    .replace('<hr>', '');
                 document.getElementById('word-sand').innerHTML = content;
                 if ($.trim($('#word-sand').text()) != '') {
                     $('#word-sand').css('display', '');

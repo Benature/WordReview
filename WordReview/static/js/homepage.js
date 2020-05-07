@@ -28,6 +28,4 @@ $.ajax({
         $img.height(H);
         $img.width(H / h * w);
     }
-
-
 })

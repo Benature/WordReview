@@ -277,12 +277,9 @@ $(function () {
                 flagType = false;
                 break;
         }
-        console.log(flagType)
         if (flagType != false) {
-            console.log(flagType)
             $flag.removeClass('icon' + flagType + 'disabled').addClass('icon' + flagType + 'enabled');
         }
-        console.log(data.flag, data.panFlag)
 
         // 相关词
         relatedWords.forEach((rw) => {
@@ -459,7 +456,6 @@ $(function () {
     } catch (error) {
         console.error(error)
     }
-
 
 
     $('#meaning-box').on('click', function (e) {
@@ -965,3 +961,4 @@ window.onbeforeunload = function (event) {
         return "本轮背单词进度将会丢失😣";
     }
 }
+
