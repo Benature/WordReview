@@ -14,11 +14,11 @@ logs/
 /media/
 
 # config
-/config.conf
+WordReview/config.conf
 
 # PyInstaller
-/build/
-/dist/
+WordReview/build/
+WordReview/dist/
 *.spec
 
 # local
@@ -28,3 +28,5 @@ data/
 /pypi/
 WordReview.wiki/
 *_ig.*
+
+# WordReview/static/bootstrap
