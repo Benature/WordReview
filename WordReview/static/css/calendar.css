@@ -1,3 +1,7 @@
+table{
+    margin-top: 5rem;
+}
+
 th{
     text-align: center;
 }
@@ -25,7 +29,7 @@ td{
     border-radius: .25rem;
     margin: 1px 2px;
     padding: 0 2px;
-    min-width: 45px;
+    min-width: 50px;
 }
 
 .undo{
@@ -36,4 +40,8 @@ td{
 }
 .done{
     border: 1px solid grey;
+}
+.plus{
+    border: 1px dashed rgb(192, 192, 192);
+    color: grey;
 }

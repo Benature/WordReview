@@ -107,20 +107,24 @@ def review_lists(request):
 
         # 艾宾浩斯时间处理
         if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DAYS):
-            c = L_db.ebbinghaus_counter
-            should_next_date = datetime.strptime(L_db.last_review_date, '%Y-%m-%d'
-                                                 ) + timedelta(days=EBBINGHAUS_DAYS[c])
-            # print(should_next_date)
+            ebbinghaus_counter = L_db.ebbinghaus_counter
+            should_next_date = datetime.strptime(L_db.review_dates.split(';')[-1], '%Y-%m-%d'
+                                                 ) + timedelta(days=EBBINGHAUS_DAYS[ebbinghaus_counter])
             if (today - should_next_date).days >= 0:
+                print(should_next_date)
                 # 今天 不早于 理论下一天
                 L_db.ebbinghaus_counter += 1
                 L_db.review_dates += ';' + today_str
                 L_db.last_review_date = today_str
+            elif today != L_db.review_dates_plus.split(';')[-1]:
+                L_db.review_dates_plus += ';' + today_str \
+                    if L_db.review_dates_plus != "" else today_str
         elif L_db.ebbinghaus_counter == 0:
             L_db.last_review_date = today_str
             L_db.ebbinghaus_counter = 1
             L_db.review_dates = today_str
         else:
+            # 已完成艾宾浩斯一周目
             print('这个 list 背完了')
 
         try:
@@ -343,16 +347,19 @@ def homepage(request):
                 L = ld.unlearned_num
                 del_L = ld.word_num - ld.unlearned_num
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
+            if ld.review_dates_plus == "":
+                plus = 0
+            else:
+                plus = len(ld.review_dates_plus.split(';'))
             list_info.append({
                 'i': l,
                 'len': L,
                 'del_len': del_L,
                 'rate': int(ld.list_rate * 100),
                 'recent_rate': int(ld.recent_list_rate * 100),
-                # 'min': min(total),
-                # 'max': max(total),
                 'times': ld.ebbinghaus_counter,
-                'index': index
+                'plus': '' if plus == 0 else '+' + str(plus),
+                'index': index,
             })
         data.append({
             'name': book,

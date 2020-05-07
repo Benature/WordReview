@@ -29,9 +29,9 @@ function getDataRow(data, i, tag = 'td') {
             let d = data[j][k];
             let l = (d.LIST + 1).toString();
             // l = l.length == 1 ? '0' + l : l;
-            let cls = d.state ? 'undo' : 'done';
+            let cls = d.state;
             let href = 'book=' + d.BOOK + '&list=' + d.LIST;
-            text += '<div class="list ' + cls + '" href="' + href + '">' + d.abbr + l + '<sup>' + d.c + '</sup></div>';
+            text += '<div class="list ' + cls + '" href="' + href + '">' + d.abbr + l + '<sup>' + d.count + '</sup></div>';
         }
         bigDiv.innerHTML += text + '</div';
 
@@ -52,11 +52,11 @@ function drawTable(data) {
     }
 }
 
-function pushCalendarData(list, j, state) {
+function pushCalendarData(list, counter, state) {
     return {
         BOOK: list.BOOK,
         LIST: (list.LIST),
-        c: j + list.begin_index,
+        count: counter,
         state: state,
         abbr: list.abbr,
     }
@@ -72,26 +72,39 @@ function renderCalendar(data) {
     }
     for (let i = 0; i < data.length; i++) {
         list = data[i].fields;
-        let last_review_date = new Date(list.last_review_date);
+        let last_review_date = list.review_dates.split(';');
+        last_review_date = new Date(last_review_date[last_review_date.length - 1]);
+        // 词表未背的日期 block
         for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DAYS.length; j++) {
             let next_day = addDays(last_review_date, EBBINGHAUS_DAYS[j]);
             if (dayDelta(next_day, calendar_end) >= 0) { break; }
             let index_tmp = dayDelta(next_day, calendar_begin) + 1;
             if (index_tmp < 0) {
-                console.log('过期：', pushCalendarData(list, j, true));
+                console.warn('过期：', pushCalendarData(list, j + 1, 'undo'));
                 continue;
             }
-            calendar[index_tmp].push(pushCalendarData(list, j, true));
+            calendar[index_tmp].push(pushCalendarData(list, j + 1, 'undo'));
             last_review_date = next_day;
         }
-        let history = list.review_dates.split(';');
-        for (let j = 0; j < history.length; j++) {
-            let old_date = new Date(history[j]);
-            let d = dayDelta(old_date, calendar_begin) + 1;
-            if (d < 0) { continue; }
-            calendar[d].push(
-                pushCalendarData(list, j, false));
+        // 词表已背的日期 block
+        var dateClass = ['done', 'plus'];
+        for (let k = 0; k < dateClass.length; k++) {
+            let history = [list.review_dates, list.review_dates_plus][k];
+            if (history == "") { continue; }
+            history = history.split(';');
+            for (let j = 0; j < history.length; j++) {
+                let old_date = new Date(history[j]);
+                let d = dayDelta(old_date, calendar_begin) + 1;
+                if (d < 0) { continue; }
+                // console.log(dateClass[i])
+                let counter;
+                if (dateClass[k] == 'plus') { counter = '+' + (j + 1); }
+                else { counter = j + 1 }
+                calendar[d].push(
+                    pushCalendarData(list, counter, dateClass[k]));
+            }
         }
+
     }
     drawTable(calendar);
 }

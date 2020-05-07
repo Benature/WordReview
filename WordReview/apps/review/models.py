@@ -56,11 +56,14 @@ class Books(models.Model):
 
 class BookList(models.Model):
     '''单词书的 List 信息'''
+    modify_time = models.DateTimeField('上次修改时间', auto_now=True)
     BOOK = models.CharField('单词书', max_length=20, default='UnknowBook')
     LIST = models.IntegerField('list', default=0)
-    last_review_date = models.CharField('上次复习时间', max_length=10, default='')
+    # last_review_date = models.CharField('上次复习时间（艾宾浩斯安排）', max_length=10, default='')
     review_dates = models.CharField(
-        '所有复习日期（仅记录复习曲线时间）', max_length=100, default='')
+        '所有复习日期（仅记录艾宾浩斯复习曲线时间）', max_length=100, default='')
+    review_dates_plus = models.CharField(
+        '自愿复习日期（非艾宾浩斯复习安排）', max_length=100, default='')
     list_uuid = models.UUIDField(
         'uuid', default=uuid.uuid4, editable=False, unique=True)
     list_rate = models.FloatField('表记忆率', default=0)
@@ -73,7 +76,7 @@ class BookList(models.Model):
 
     class Meta:
         db_table = 'book_list'
-        ordering = ('BOOK', 'LIST', 'last_review_date')
+        ordering = ('BOOK', 'LIST', 'modify_time')
 
 
 class Words(models.Model):
