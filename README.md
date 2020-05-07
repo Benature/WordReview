@@ -1,5 +1,5 @@
 <a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/muyi.png" height="200" align="right"></a>
-<a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/vocabulary.png" height="50" align="left"></a>
+<a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/vocabulary.png" height="70" align="left"></a>
 # Word Review 单词复习
 
 ![GitHub stars](https://img.shields.io/github/stars/Benature/WordReview?style=flat)
