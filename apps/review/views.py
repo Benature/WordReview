@@ -300,12 +300,8 @@ def review(request):
     '''页面：单词复习页'''
     LIST = request.GET.get('list')
     BOOK = request.GET.get('book')
-    if LIST is None or BOOK is None:
-        # if LIST is None:
-        #     LIST = 0
-        # if BOOK is None:
-        #     BOOK = 'qugen10000'
-        return redirect(f'/review/review?list={LIST}&book={BOOK}')
+    # if LIST is None or BOOK is None:
+    #     return redirect(f'/review/review?list={LIST}&book={BOOK}')
     return render(request, "review.pug", locals())
 
 

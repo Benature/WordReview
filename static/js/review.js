@@ -133,7 +133,7 @@ $(function () {
                 renderBreakFromOneLine(note_break[0], tmpl_break_word,
                     /^[a-z]+/g,
                     function (m) { return /^([a-z\s-]+)/g.test(m); },
-                    function (m) { return /^([a-z-\(\),\s]+)\s*（(.+?)）/g.test(m); },
+                    function (m) { return /^([a-z-,\s]+)\s*（(.+?)）/g.test(m); },
                     /^[\s(＋|+)]*/,
                     function (mem) {
                         mem = mem.replace(/^([\s+,]*)/g, '');
@@ -243,21 +243,46 @@ $(function () {
 
         // 单词标签
         $('.icon-flags').children().each(function () {
-            $(this).removeClass('icon-enabled').addClass('icon-disabled');
+            $(this).removeClass('icon-enabled').addClass('icon-disabled').removeClass('icon-pan-enabled');
         })
+        let $flag = null, flagType = "-";
         switch (data.flag) {
             case 2:
-                $('.icon-ok').removeClass('icon-disabled').addClass('icon-enabled');
+                $flag = $('.icon-ok');
                 break;
             case 1:
-                $('.icon-circle').removeClass('icon-disabled').addClass('icon-enabled');
+                $flag = $('.icon-circle');
                 break;
             case -1:
-                $('.icon-star').removeClass('icon-disabled').addClass('icon-enabled');
+                $flag = $('.icon-star');
+                break;
+            case 0:
+                flagType = '-pan-';
+                switch (data.panFlag) {
+                    case 2:
+                        $flag = $('.icon-ok');
+                        break;
+                    case 1:
+                        $flag = $('.icon-circle');
+                        break;
+                    case -1:
+                        $flag = $('.icon-star');
+                        break;
+                    default:
+                        flagType = false;
+                        break;
+                }
                 break;
             default:
+                flagType = false;
                 break;
         }
+        console.log(flagType)
+        if (flagType != false) {
+            console.log(flagType)
+            $flag.removeClass('icon' + flagType + 'disabled').addClass('icon' + flagType + 'enabled');
+        }
+        console.log(data.flag, data.panFlag)
 
         // 相关词
         relatedWords.forEach((rw) => {
@@ -267,10 +292,8 @@ $(function () {
                 let overlapWords = relatedWordArrayTemp.filter((w) => {
                     return recentReviewedWordsArray.includes(w)
                 })
-                console.log(overlapWords)
                 overlapWords.forEach((w) => {
                     relatedWordsContent = relatedWordsContent.replace(w, "<span class='recent'>" + w + "</span>");
-                    console.log(relatedWordsContent)
                 })
             }
             if (data[rw.en] != '') {
@@ -819,6 +842,7 @@ $(function () {
                     $icon.removeClass('icon-enabled').addClass('icon-disabled');
                 }
                 wordArray[wordIndex].fields.flag = flag;
+                wordArray[wordIndex].fields.panFlag = flag;
             } else {
                 layer.msg(response.msg);
             }
@@ -849,27 +873,15 @@ $(function () {
                     $('#btn-remember').click();
                 }
             }
-            else if (188 == e.keyCode && !e.shiftKey) { // <
+            else if (188 == e.keyCode && (!e.shiftKey || !previewMode)) { // <
                 $('#jump-back').click();
                 if (previewMode) { $('#meaning-box').click(); }
             }
-            else if (190 == e.keyCode && !e.shiftKey) { // >
+            else if (190 == e.keyCode && (!e.shiftKey || !previewMode)) { // >
                 $('#jump-forward').click();
                 if (previewMode) { $('#meaning-box').click(); }
             }
 
-            else if (82 == e.keyCode && !e.shiftKey) { // R
-                $('.repeat').click();
-            }
-            else if (69 == e.keyCode && e.shiftKey && !e.ctrlKey) { // shift + E
-                $('.icon-ok').click();
-            }
-            else if (72 == e.keyCode && e.shiftKey && !e.ctrlKey) { // shift + H
-                $('.icon-star').click();
-            }
-            else if (71 == e.keyCode && e.shiftKey && !e.ctrlKey) { // shift + G
-                $('.icon-circle').click();
-            }
             else if ((78 == e.keyCode || 13 == e.keyCode) && !e.shiftKey) { // N or enter
                 $('.hide').removeClass('d-n-note');
                 // $('#tmpl-note').removeClass('d-n-note');
@@ -888,30 +900,6 @@ $(function () {
             else if (32 == e.keyCode || 191 == e.keyCode/*|| 13 == e.keyCode*/) { // blank or /
                 $('#meaning-box').click();
             }
-            else if (84 == e.keyCode || 86 == e.keyCode) { // T or V
-                window.open('http://www.wordsand.cn/lookup.asp?word=' + word);
-            }
-            else if (77 == e.keyCode) { // M
-                window.open('https://mnemonicdictionary.com/?word=' + word);
-            }
-            else if (83 == e.keyCode) { // S
-                window.open('https://www.thesaurus.com/browse/' + word + '?s=t');
-            }
-            else if (80 == e.keyCode) { // P
-                if (!previewMode) {
-                    previewMode = true;
-                    layer.msg('学习/预习模式');
-                } else {
-                    previewMode = false;
-                    layer.msg('恢复到复习模式');
-                }
-            } else if (67 == e.keyCode) { // C
-                if (/<font.*?>([\s\S]*)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
-                    copy2Clipboard(RegExp.$1, "clipboard");
-                    $('.hide').removeClass('d-n-note');
-                    document.getElementById("tmpl-note").focus();
-                }
-            }
 
             if (previewMode) {
                 if (188 == e.keyCode && e.shiftKey) { // shift + <
@@ -928,6 +916,47 @@ $(function () {
         }
     });
 })
+
+hotkeys('C, N, S, P, T, V, M, R', function (event, handler) {
+    if (!noteFocus) {
+        switch (handler.key) {
+            case 'C':
+                if (/<font.*?>([\s\S]*)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
+                    copy2Clipboard(RegExp.$1, "clipboard");
+                    $('.hide').removeClass('d-n-note');
+                    document.getElementById("tmpl-note").focus();
+                }
+                break;
+            case 'P':
+                if (!previewMode) {
+                    previewMode = true;
+                    layer.msg('学习/预习模式');
+                } else {
+                    previewMode = false;
+                    layer.msg('恢复到复习模式');
+                }
+                break;
+            case 'R': $('.repeat').click(); break;
+
+            case 'S': window.open('https://www.thesaurus.com/browse/' + word + '?s=t'); break;
+            case 'M': window.open('https://mnemonicdictionary.com/?word=' + word); break;
+            case 'T': case 'V': window.open('http://www.wordsand.cn/lookup.asp?word=' + word); break;
+        }
+    }
+});
+
+hotkeys('shift+E, shift+H, shift+G', function (event, handler) {
+    console.log(handler.key)
+    if (!noteFocus) {
+        switch (handler.key) {
+            case 'shift+E': $('.icon-ok').click(); break;
+            case 'shift+H': $('.icon-star').click(); break;
+            case 'shift+G': $('.icon-circle').click(); break;
+        }
+    }
+});
+
+
 
 window.onbeforeunload = function (event) {
     if ((wordCount == 0 || wordIndex == wordArray.length - 1) || previewMode) {

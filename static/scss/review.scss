@@ -135,8 +135,7 @@
 
 
 i{
-    padding-right: 5px;
-    
+    padding-right: 5px;  
 }
 
 .icon-disabled{
@@ -147,16 +146,24 @@ i{
 .icon-star-div{
     cursor: pointer;
     .icon-enabled{
-        color: #ffca28;
-        -webkit-text-stroke: 0px;
+        color: #ffca28 !important;
+        -webkit-text-stroke: 0px !important;
+    }
+    .icon-pan-enabled{
+        color: #f5eddc;
+        -webkit-text-stroke: 0.5px #ffca28;
     }
 }
 
 .icon-ok-div{
     cursor: pointer;
     .icon-enabled{
-        color: #73c991;
-        -webkit-text-stroke: 0px;
+        color: #73c991 !important;
+        -webkit-text-stroke: 0px !important;
+    }
+    .icon-pan-enabled{
+        color: #c0e7ce;
+        -webkit-text-stroke: 0.5px #73c991;
     }
 }
 
@@ -164,8 +171,12 @@ i{
     font-size: 13px;
     cursor: pointer;
     .icon-enabled{
-        color: #73c991;
-        -webkit-text-stroke: 0px;
+        color: #73c991 !important;
+        -webkit-text-stroke: 0px !important;
+    }
+    .icon-pan-enabled{
+        color: #c0e7ce;
+        -webkit-text-stroke: 0.5px #73c991;
     }
 }
 
@@ -231,6 +242,7 @@ i{
     .recent{
         background-color: yellow;
         font-weight: bolder;
-        color: red;
+        text-shadow: 0.2em 0.5em 0.1em rgb(29, 1, 1),
+        // color: red;
     }
 }

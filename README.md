@@ -21,9 +21,9 @@ Django + MySQL + Pug + JS
   - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（BV 号：**BV1q7411w7r9**），欢迎康康。
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
     在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
-- **【百度网盘】**
-  - 对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。    
-  - 导入数据库操作请看下文（或[这里](doc/database_init.md)）。    
+- 【百度网盘】
+  - 对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。  
+  - 导入数据库操作请看下文（或[这里](doc/database_init.md)）。  
   - 另：国内打开这个网页可能回稍慢，请耐心一些 dbq
 - 资瓷一下呗  
   如果觉得还不错的话，不如在右上方点个 stars🌟呗(￣▽￣)~*
@@ -151,6 +151,7 @@ tain
 ### 更新日志
 
 - 2020.05
+  - feature: 区分渲染数据库`Words`和`Review`的`flag`难度标记 @05-07
   - feature: `相关词`栏内对近期复习单词做高亮 @05-05
 - 2020.04
   - feature: wiki quote 每日名言（主页）<https://en.wikiquote.org/wiki/Wikiquote:Quote_of_the_day> @04-29

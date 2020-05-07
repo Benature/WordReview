@@ -116,21 +116,30 @@ i {
 .icon-star-div {
   cursor: pointer; }
   .icon-star-div .icon-enabled {
-    color: #ffca28;
-    -webkit-text-stroke: 0px; }
+    color: #ffca28 !important;
+    -webkit-text-stroke: 0px !important; }
+  .icon-star-div .icon-pan-enabled {
+    color: #f5eddc;
+    -webkit-text-stroke: 0.5px #ffca28; }
 
 .icon-ok-div {
   cursor: pointer; }
   .icon-ok-div .icon-enabled {
-    color: #73c991;
-    -webkit-text-stroke: 0px; }
+    color: #73c991 !important;
+    -webkit-text-stroke: 0px !important; }
+  .icon-ok-div .icon-pan-enabled {
+    color: #c0e7ce;
+    -webkit-text-stroke: 0.5px #73c991; }
 
 .icon-circle-div {
   font-size: 13px;
   cursor: pointer; }
   .icon-circle-div .icon-enabled {
-    color: #73c991;
-    -webkit-text-stroke: 0px; }
+    color: #73c991 !important;
+    -webkit-text-stroke: 0px !important; }
+  .icon-circle-div .icon-pan-enabled {
+    color: #c0e7ce;
+    -webkit-text-stroke: 0.5px #73c991; }
 
 .word-block {
   margin: 0 3px; }
@@ -174,7 +183,6 @@ i {
 
 .side-card .recent {
   background-color: yellow;
-  font-weight: bolder;
-  color: red; }
+  font-weight: bolder; }
 
 /*# sourceMappingURL=review.css.map */
