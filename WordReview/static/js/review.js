@@ -30,6 +30,48 @@ function compareField(att, direct) {
 
 var tmp;
 
+var progressColors = ['palevioletred', '#d79cfe', '#9cdcfe', '#5396cd', 'dodgerblue', '#63d966']
+
+function progressIndex(data = null) {
+    // console.log(data)
+    var N = 3;
+    if (data == null) { return N + 2; }
+    else if (typeof (data) == "number") { data = { flag: 0, panRate: data }; }
+    else { data = data.fields; }
+    // console.log(data)
+
+    if (data.flag != 1) {
+        let rate = 1 - data.panRate;
+        if (rate == 0) {
+            return 0;
+        } else if (rate == 1) {
+            return N + 1;
+        } else {
+            return Math.ceil(rate * N)
+        }
+    } else {
+        return N + 2;
+    }
+}
+
+function progressModify(oldRate, newRate) {
+    var oldRateIndex = progressIndex(oldRate);
+    var newRateIndex = progressIndex(newRate);
+    if (oldRateIndex != newRateIndex) {
+        let wholeWidth = $('#nav-progress').width();
+        let $nps = $('#nav-progress').children();
+
+        $nps.eq(oldRateIndex * 2).css('width', (
+            parseFloat($.trim($nps.eq(oldRateIndex * 2).css('width').replace('px', '')))
+            / wholeWidth * 100 - (100 / wordArray.length)) + '%')
+
+        $nps.eq(newRateIndex * 2).css('width', (
+            parseFloat($.trim($nps.eq(newRateIndex * 2).css('width').replace('px', '')))
+            / wholeWidth * 100 + (100 / wordArray.length)) + '%')
+    }
+}
+
+
 
 
 $(function () {
@@ -186,7 +228,7 @@ $(function () {
             .addClass(remember ? 'last-remember' : 'last-forget');
         // console.log(data.panRate);
         if (0 != data.panTotalNum) {
-            $('.progress-bar').css("width", (1 - data.panRate) * 100 + "%");
+            $('#progress-bar-word').css("width", (1 - data.panRate) * 100 + "%");
             $('#tmpl-total-num').addClass('d-none');
             $('#tmpl-progress').text((data.panTotalNum - data.panForgetNum) + '/' + data.panTotalNum);
             if (data.panTotalNum == data.panForgetNum) {
@@ -196,7 +238,7 @@ $(function () {
             }
             $('#tmpl-total-num').text('');
         } else {
-            $('.progress-bar').css("width", "0%");
+            $('#progress-bar-word').css("width", "0%");
             $('#tmpl-total-num').removeClass('d-none');
             $('#tmpl-progress').text('');
             $('#tmpl-total-num').text(data.panTotalNum);
@@ -449,6 +491,22 @@ $(function () {
                 if (previewMode) {
                     $('#meaning-box').click();
                 }
+
+                // 进度条处理
+                var progressCount = {};
+                for (let i = 0; i <= progressIndex(); i++) {
+                    progressCount[i] = 0;
+                }
+                wordArray.forEach((w) => {
+                    progressCount[progressIndex(w)] += 1;
+                })
+                var progressDiv = document.getElementById('nav-progress')
+                for (let i = 0; i <= progressIndex(); i++) {
+                    progressDiv.innerHTML += '<div style="width: ' + (progressCount[i] / wordArray.length * 100 - 0.4) +
+                        '%; background-color: ' + progressColors[i] +
+                        ';" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
+                    progressDiv.innerHTML += '<div style="width: 0.4%; background-color: white;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
+                }
             } else {
                 layer.msg(response.msg)
             }
@@ -503,7 +561,9 @@ $(function () {
         }
         w.panHistory += remember ? '1' : '0';
         w.panTotalNum++;
+        var oldRate = w.panRate;
         w.panRate = w.panForgetNum / w.panTotalNum;
+        progressModify(oldRate, w.panRate)
 
         // echarts 画图
         currentHistoryX.push(word);
@@ -795,6 +855,7 @@ $(function () {
             if ($icon.hasClass('icon-disabled')) {
                 flag = 2;
                 layer.msg('✅将' + word + '设为太简单');
+
             } else if ($icon.hasClass('icon-enabled')) {
                 flag = 0;
                 layer.msg('❌取消设置' + word + '为太简单');
@@ -806,9 +867,11 @@ $(function () {
             if ($icon.hasClass('icon-disabled')) {
                 flag = 1;
                 layer.msg('🟢将' + word + '设为已掌握');
+                progressModify(wordArray[wordIndex].fields.panRate, null);
             } else if ($icon.hasClass('icon-enabled')) {
                 flag = 0;
                 layer.msg('❌取消设置' + word + '为已掌握');
+                progressModify(null, wordArray[wordIndex].fields.panRate);
             } else {
                 console.error('unknown class');
                 console.error($icon);
@@ -942,7 +1005,6 @@ hotkeys('C, N, S, P, T, V, M, R', function (event, handler) {
 });
 
 hotkeys('shift+E, shift+H, shift+G', function (event, handler) {
-    console.log(handler.key)
     if (!noteFocus) {
         switch (handler.key) {
             case 'shift+E': $('.icon-ok').click(); break;
