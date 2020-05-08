@@ -353,6 +353,9 @@ $(function () {
             layer.msg('错误次数太多，将关闭重现模式😅')
         }
 
+        $('#review-progress').html('<div style="width: ' + wordIndex / wordArray.length * 100
+            + '%; background-color: #bfc6ce;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>')
+
         // echarts 画图
         let X = [0];
         let Y = [0];

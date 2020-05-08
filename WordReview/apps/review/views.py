@@ -116,7 +116,7 @@ def review_lists(request):
                 L_db.ebbinghaus_counter += 1
                 L_db.review_dates += ';' + today_str
                 L_db.last_review_date = today_str
-            elif today != L_db.review_dates_plus.split(';')[-1]:
+            elif today_str != L_db.review_dates_plus.split(';')[-1]:
                 L_db.review_dates_plus += ';' + today_str \
                     if L_db.review_dates_plus != "" else today_str
         elif L_db.ebbinghaus_counter == 0:

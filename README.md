@@ -152,6 +152,7 @@ tain
 
 <b><details open><summary>2020.05</summary></b>
 
+- feature: 复习页进度条 @05-09
 - feature: 复习页增加关于记忆率的分布色条 @05-08
 - feature: 艾宾浩斯复习安排之外的自主复习日期记录与渲染 @05-08
 - update: 目录结构变更 @05-07
