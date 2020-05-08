@@ -9,15 +9,15 @@
 |    表头    |    含义    | 必/选  |
 | :--------: | :--------: | :----: |
 |    List    | List 序号  |  必填  |
-|    Unit    | Unit 序号  |  必填  |
+|    Unit    | Unit 序号  |  可选  |
 |   Index    | Index 序号 |  必填  |
 |    word    |  英文单词  |  必填  |
 |    mean    |  单词释义  |  必填  |
-|  mnemonic  |   助记法   | *选填* |
-|  phonetic  |    音标    | *选填* |
-|  antonym   |   反义词   | *选填* |
-|  synonym   |   近义词   | *选填* |
-| derivative |   派生词   | *选填* |
+|  mnemonic  |   助记法   | *可选* |
+|  phonetic  |    音标    | *可选* |
+|  antonym   |   反义词   | *可选* |
+|  synonym   |   近义词   | *可选* |
+| derivative |   派生词   | *可选* |
 
 [网页版的导入的具体说明，另开一页，请点这里。](https://www.notion.so/benature/Word-Review-98fd460445ff44868d53c8739ff9793a)
 

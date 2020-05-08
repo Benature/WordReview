@@ -125,6 +125,7 @@ def review_lists(request):
             L_db.review_dates = today_str
         else:
             # 已完成艾宾浩斯一周目
+            L_db.ebbinghaus_counter = 0
             print('这个 list 背完了')
 
         try:
@@ -347,17 +348,16 @@ def homepage(request):
                 L = ld.unlearned_num
                 del_L = ld.word_num - ld.unlearned_num
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
-            if ld.review_dates_plus == "":
-                plus = 0
-            else:
-                plus = len(ld.review_dates_plus.split(';'))
+            plus = len(ld.review_dates_plus.split(';')
+                       ) if ld.review_dates_plus != "" else 0
             list_info.append({
                 'i': l,
                 'len': L,
                 'del_len': del_L,
                 'rate': int(ld.list_rate * 100),
                 'recent_rate': int(ld.recent_list_rate * 100),
-                'times': ld.ebbinghaus_counter,
+                'times': len(ld.review_dates.split(';')
+                             ) if ld.review_dates != "" else 0,
                 'plus': '' if plus == 0 else '+' + str(plus),
                 'index': index,
             })

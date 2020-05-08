@@ -152,6 +152,8 @@ tain
 
 <b><details open><summary>2020.05</summary></b>
 
+- update:  同一个 List 可以重复进行艾宾浩斯复习安排 @05-09
+- update:  导入单词`Unit`列取消为必选 @05-09
 - feature: 复习页进度条 @05-09
 - feature: 复习页增加关于记忆率的分布色条 @05-08
 - feature: 艾宾浩斯复习安排之外的自主复习日期记录与渲染 @05-08

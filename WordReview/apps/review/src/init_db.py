@@ -20,28 +20,35 @@ Index
 # df = read_excel(path)
 
 
-def import_word(Review, BookList, Words, df, bookName):
-    # path = config.excel_path
-    # df = read_excel(path)
+def import_word(Review, df, bookName):
+    print('begin import db Review')
+    optional_keys = ['Unit']
+    for key in optional_keys:
+        if key not in df.columns:
+            optional_keys.remove(key)
+    print('optional keys', optional_keys)
+
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         review_db = {
             'word': dr['word'],
             'LIST': dr['List'],
-            'UNIT': dr['Unit'],
+            # 'UNIT': dr['Unit'],
             'INDEX': dr['Index'],
             'BOOK': bookName,
         }
-        print(i, dr['word'], dr['mean'])
+        for key in optional_keys:
+            review_db[key.upper()] = dr[key]
+        print(i, dr['word'])
 
         new_word = Review.objects.create(**review_db)
         new_word.save()
 
-    # init_db_booklist(BookList, Review)
-    # init_db_word(Review, Words)
+    print('finish import db Review')
 
 
 def init_db_booklist(BookList, Review, bookName, List_begin_num):
+    print('begin import db BookList')
     for l in range(List_begin_num, List_begin_num + len(set(Review.objects.filter(BOOK=bookName).values_list('LIST')))):
         ld = Review.objects.filter(BOOK=bookName, LIST=l)  # list data
         if len(ld) == 0:
@@ -60,11 +67,20 @@ def init_db_booklist(BookList, Review, bookName, List_begin_num):
             #     set([str(t[0]) for t in ld.values_list('total_num')])),
         }
         BookList.objects.create(**data)
+    print('finish import db BookList')
 
 
 def init_db_words(Review, Words, df):
+    print('begin import db Words')
     # path = config.excel_path
     # df = read_excel(path)
+    optional_keys = ['sentence', 'mnemonic',
+                     'phonetic', 'antonym', 'synonym', 'derivative']
+    for key in optional_keys:
+        if key not in df.columns:
+            optional_keys.remove(key)
+    print('optional keys', optional_keys)
+
     for i in range(0, (len(df))):
         dr = df.iloc[i]
         try:
@@ -72,19 +88,20 @@ def init_db_words(Review, Words, df):
             print('skip because word already exists', dr['word'])
             continue
         except:
+            print(word.word)
             data = {
                 'word': dr['word'],
                 'mean': dr['mean'],
             }
-            for key in ['sentence', 'mnemonic', 'phonetic', 'antonym', 'synonym', 'derivative']:
-                if key in df.columns:
-                    data[key] = dr[key]
+            for key in optional_keys:
+                data[key] = dr[key]
             word = Words.objects.create(**data)
-            print(word.word)
             word.save()
+    print('finish import db Words')
 
 
 def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index):
+    print('begin import db Books')
     data = {
         'BOOK': BOOK,
         'BOOK_zh': BOOK_zh,
@@ -92,14 +109,15 @@ def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index):
         'begin_index': begin_index,
     }
     Books.objects.create(**data).save()
+    print('finish import db Books')
 
 
 def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, BookList, Words):
     df = read_excel(excel_path)
-    init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index)
-    import_word(Review, BookList, Words, df, BOOK)
     init_db_words(Review, Words, df)
+    import_word(Review, df, BOOK)
     init_db_booklist(BookList, Review, BOOK, begin_index)
+    init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index)
 
 
 def update_db(Words):
