@@ -30,27 +30,34 @@ function compareField(att, direct) {
 
 var tmp;
 
-var progressColors = ['palevioletred', '#d79cfe', '#9cdcfe', '#5396cd', 'dodgerblue', '#63d966']
+var progressColors = new Array();
+
+['palevioletred', '#d79cfe', '#9cdcfe', '#5396cd', 'dodgerblue', '#63d966'].forEach((c) => {
+    progressColors.push('#fee890');
+    progressColors.push(c);
+})
+
 
 function progressIndex(data = null) {
-    // console.log(data)
-    var N = 3;
-    if (data == null) { return N + 2; }
+    var N = 3, offset = 1;
+    if (data == null) { data = { flag: 1 }; }
     else if (typeof (data) == "number") { data = { flag: 0, panRate: data }; }
     else { data = data.fields; }
     // console.log(data)
 
+    if (data.flag == -1) { offset = 0; }
+
     if (data.flag != 1) {
         let rate = 1 - data.panRate;
         if (rate == 0) {
-            return 0;
+            return 0 + offset;
         } else if (rate == 1) {
-            return N + 1;
+            return 2 * (N + 1) + offset;
         } else {
-            return Math.ceil(rate * N)
+            return 2 * Math.ceil(rate * N) + offset;
         }
     } else {
-        return N + 2;
+        return 2 * (N + 2) + offset;
     }
 }
 
@@ -503,12 +510,14 @@ $(function () {
                 wordArray.forEach((w) => {
                     progressCount[progressIndex(w)] += 1;
                 })
+                // console.log(progressCount)
                 var progressDiv = document.getElementById('nav-progress')
                 for (let i = 0; i <= progressIndex(); i++) {
-                    progressDiv.innerHTML += '<div style="width: ' + (progressCount[i] / wordArray.length * 100 - 0.4) +
+                    progressDiv.innerHTML += '<div style="width: ' + (progressCount[i] / wordArray.length * 100) +
                         '%; background-color: ' + progressColors[i] +
                         ';" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
-                    progressDiv.innerHTML += '<div style="width: 0.4%; background-color: white;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
+                    let width = (i % 2 == 0) ? 0 : 3;
+                    progressDiv.innerHTML += '<div style="width: ' + width + 'px; background-color: white;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
                 }
             } else {
                 layer.msg(response.msg)
@@ -843,6 +852,7 @@ $(function () {
     $('.icon-flags').on('click', function () {
         let $icon = $(this).children();
         let flag = 0;
+        var oldWordInfo = JSON.parse(JSON.stringify(wordArray[wordIndex]));
         if ($icon.hasClass('icon-star')) {
             if ($icon.hasClass('icon-disabled')) {
                 flag = -1;
@@ -870,11 +880,9 @@ $(function () {
             if ($icon.hasClass('icon-disabled')) {
                 flag = 1;
                 layer.msg('🟢将' + word + '设为已掌握');
-                progressModify(wordArray[wordIndex].fields.panRate, null);
             } else if ($icon.hasClass('icon-enabled')) {
                 flag = 0;
                 layer.msg('❌取消设置' + word + '为已掌握');
-                progressModify(null, wordArray[wordIndex].fields.panRate);
             } else {
                 console.error('unknown class');
                 console.error($icon);
@@ -905,6 +913,7 @@ $(function () {
                 }
                 wordArray[wordIndex].fields.flag = flag;
                 wordArray[wordIndex].fields.panFlag = flag;
+                progressModify(oldWordInfo, wordArray[wordIndex]);
             } else {
                 layer.msg(response.msg);
             }
