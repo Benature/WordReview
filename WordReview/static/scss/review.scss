@@ -180,6 +180,19 @@ i{
     }
 }
 
+.icon-cloud-div{
+    font-size: 12px;
+    cursor: pointer;
+    .icon-enabled{
+        color: #69a0e7 !important;
+        -webkit-text-stroke: 0px !important;
+    }
+    .icon-pan-enabled{
+        color: #aed4eb;
+        -webkit-text-stroke: 0.5px #69a0e7;
+    }
+}
+
 .word-block{
     margin: 0 3px;
 
@@ -245,4 +258,10 @@ i{
         text-shadow: 0.5px 0.5px 0.1px #1d0101,
         // color: red;
     }
+}
+
+.sticky{
+    position: sticky; 
+    top: 0px;
+    z-index: 100;
 }

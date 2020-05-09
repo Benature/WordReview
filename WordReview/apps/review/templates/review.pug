@@ -28,8 +28,8 @@ nav.navbar.navbar-light.bg-light.sticky-top
         a.nav-link.sort-array 记忆序
       li.nav-item
         a.nav-link.sort-array 次数序
-div.progress#review-progress(style="width:100%;height: 2px; margin-top:0px;")
-div.progress#nav-progress(style="width:100%;height:4px;")
+div.progress.sticky#nav-progress(style="width:100%;height:3px;")
+div.progress.sticky#review-progress(style="width:100%;height: 2px; margin-top:0px;")
 a(href="https://github.com/Benature/WordReview#%E5%BF%AB%E6%8D%B7%E9%94%AE" style="margin-left:20px;color:grey;font-size:10px;")
   .icon-question-sign
   | &nbsp快捷键
@@ -66,6 +66,8 @@ div.container.flex-column
                   i.icon-star.icon-disabled
                 div.icon-flags.icon-circle-div
                   i.icon-circle.icon-disabled
+                div.icon-flags.icon-cloud-div
+                  i.icon-cloud.icon-disabled
                 div.icon-flags.icon-ok-div
                   i.icon-ok.icon-disabled
             div#meaning-box.rounded.shadow

@@ -182,7 +182,7 @@ $(function () {
                 renderBreakFromOneLine(note_break[0], tmpl_break_word,
                     /^[a-z]+/g,
                     function (m) { return /^([a-z\s-]+)/g.test(m); },
-                    function (m) { return /^([a-z-,\s]+)\s*（(.+?)）/g.test(m); },
+                    function (m) { return /^([a-z-,\s]+)\s*[（\()](.+?)[）\)]/g.test(m); },
                     /^[\s(＋|+)]*/,
                     function (mem) {
                         mem = mem.replace(/^([\s+,]*)/g, '');
@@ -296,8 +296,11 @@ $(function () {
         })
         let $flag = null, flagType = "-";
         switch (data.flag) {
-            case 2:
+            case 10:
                 $flag = $('.icon-ok');
+                break;
+            case 2:
+                $flag = $('.icon-cloud');
                 break;
             case 1:
                 $flag = $('.icon-circle');
@@ -308,8 +311,11 @@ $(function () {
             case 0:
                 flagType = '-pan-';
                 switch (data.panFlag) {
-                    case 2:
+                    case 10:
                         $flag = $('.icon-ok');
+                        break;
+                    case 2:
+                        $flag = $('.icon-cloud');
                         break;
                     case 1:
                         $flag = $('.icon-circle');
@@ -866,7 +872,7 @@ $(function () {
             }
         } else if ($icon.hasClass('icon-ok')) {
             if ($icon.hasClass('icon-disabled')) {
-                flag = 2;
+                flag = 10;
                 layer.msg('✅将' + word + '设为太简单');
 
             } else if ($icon.hasClass('icon-enabled')) {
@@ -887,7 +893,17 @@ $(function () {
                 console.error('unknown class');
                 console.error($icon);
             }
-
+        } else if ($icon.hasClass('icon-cloud')) {
+            if ($icon.hasClass('icon-disabled')) {
+                flag = 2;
+                layer.msg('☁️将' + word + '设为很熟悉');
+            } else if ($icon.hasClass('icon-enabled')) {
+                flag = 0;
+                layer.msg('❌取消设置' + word + '为很熟悉');
+            } else {
+                console.error('unknown class');
+                console.error($icon);
+            }
         } else {
             console.error('unknown class');
             console.error($icon);
@@ -992,7 +1008,7 @@ hotkeys('C, N, S, P, T, V, M, R', function (event, handler) {
     if (!noteFocus) {
         switch (handler.key) {
             case 'C':
-                if (/<font.*?>([\s\S]*)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
+                if (/<font.*?>([\s\S]*?)<[hb]r>/.test($('#word-sand')[0].innerHTML)) {
                     copy2Clipboard(RegExp.$1, "clipboard");
                     $('.hide').removeClass('d-n-note');
                     document.getElementById("tmpl-note").focus();
@@ -1016,12 +1032,13 @@ hotkeys('C, N, S, P, T, V, M, R', function (event, handler) {
     }
 });
 
-hotkeys('shift+E, shift+H, shift+G', function (event, handler) {
+hotkeys('shift+E, shift+H, shift+G, shift+F', function (event, handler) {
     if (!noteFocus) {
         switch (handler.key) {
             case 'shift+E': $('.icon-ok').click(); break;
             case 'shift+H': $('.icon-star').click(); break;
             case 'shift+G': $('.icon-circle').click(); break;
+            case 'shift+F': $('.icon-cloud').click(); break;
         }
     }
 });
