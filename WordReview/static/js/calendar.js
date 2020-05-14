@@ -77,7 +77,7 @@ function renderCalendar(data) {
         // 词表未背的日期 block
         for (let j = list.ebbinghaus_counter; j < EBBINGHAUS_DAYS.length; j++) {
             let next_day = addDays(last_review_date, EBBINGHAUS_DAYS[j]);
-            if (dayDelta(next_day, calendar_end) >= 0) { break; }
+            if (dayDelta(next_day, calendar_end) >= 0 || j == 0) { break; }
             let index_tmp = dayDelta(next_day, calendar_begin) + 1;
             if (index_tmp < 0) {
                 console.warn('过期：', pushCalendarData(list, j + 1, 'undo'));

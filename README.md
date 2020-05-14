@@ -154,6 +154,7 @@ tain
 
 <b><details open><summary>2020.05</summary></b>
 
+- feature: `昨日重现`复习词表 @05-09
 - feature: 单词标记增加`很熟悉` @05-09
 - update:  同一个 List 可以重复进行艾宾浩斯复习安排 @05-09
 - update:  导入单词`Unit`列取消为必选 @05-09

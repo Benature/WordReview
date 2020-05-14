@@ -1,7 +1,7 @@
 var word;
 // var rawWordLength;
 var wordCount = 0; // 本次复习的计数
-var book = getQueryString('book');
+// var book = getQueryString('book');
 var wordArray;
 var wordIndex = 0;
 var lastWord = '';
@@ -11,9 +11,11 @@ var note = '';
 var begin_index;
 var recentReviewedWordsArray;
 
-var repeatMode = true;
-var previewMode = false;
-
+var mode = {
+    repeat: true,
+    preview: false,
+    yesterday: false,
+}
 var currentHistoryX = [''];
 var currentHistoryY = [0];
 var noteFocus = false;
@@ -228,8 +230,9 @@ $(function () {
         $('#word-sand').empty().css('display', 'none');
         $('#tmpl-word')[0].innerHTML = '<a class="word-display">' + word + '</a>';
         $('#tmpl-phonetic').text(data.phonetic);
-        $('#tmpl-index').text('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX +
-            ' [' + wordIndex + '/' + wordArray.length + ']');
+        $('#tmpl-index').text(
+            ((data.LIST != null) ? ('L' + data.LIST + ' U' + data.UNIT + ' I' + data.INDEX + ' ') : '') +
+            '[' + wordIndex + '/' + wordArray.length + ']');
         $('#tmpl-last-word').text(wordCount + '| ' + lastWord)
             .removeClass(remember ? 'last-forget' : 'last-remember')
             .addClass(remember ? 'last-remember' : 'last-forget');
@@ -361,7 +364,7 @@ $(function () {
             // readText(word);
         }
 
-        if (wordCount == wordIndex + 50 && repeatMode) {
+        if (wordCount == wordIndex + 50 && mode.repeat) {
             $('.repeat').click();
             layer.msg('错误次数太多，将关闭重现模式😅')
         }
@@ -489,10 +492,14 @@ $(function () {
             type: 'GET',
             data: {
                 list: getQueryString('list'),
-                book: book,
+                book: getQueryString('book'),
             }
         }).done(function (response) {
             if (response.status === 200) {
+                if (response.data.length == 0) {
+                    layer.msg('词表空');
+                    return false;
+                }
                 wordArray = response.data;
                 begin_index = response.begin_index;
                 recentReviewedWordsArray = response.recent_words;
@@ -504,7 +511,7 @@ $(function () {
                         }
                     })
                 }
-                if (previewMode) {
+                if (mode.preview) {
                     $('#meaning-box').click();
                 }
 
@@ -524,6 +531,11 @@ $(function () {
                         ';" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
                     let width = (i % 2 == 0) ? 0 : 3;
                     progressDiv.innerHTML += '<div style="width: ' + width + 'px; background-color: white;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar"></div>';
+                }
+                if (response.mode == 'yesterday') {
+                    console.log(response.msg);
+                    layer.msg(response.msg);
+                    mode.yesterday = true;
                 }
             } else {
                 layer.msg(response.msg)
@@ -559,17 +571,14 @@ $(function () {
             if (word_tmp.repeat == null) {
                 word_tmp.repeat = 1;
             } else {
-                console.log(word_tmp.repeat)
                 word_tmp.repeat++;
             }
 
-            if ((repeatMode && word_tmp.repeat < 3) || word_tmp.repeat == 1) {
+            if ((mode.repeat && word_tmp.repeat < 3) || word_tmp.repeat == 1) {
                 if (wordIndex != wordArray.length - 1) {
                     wordArray.splice(wordIndex, 1);
                     let index_tmp = Math.round(Math.random() * (wordArray.length - wordIndex)) + wordIndex;
                     index_tmp += Math.min(wordArray.length - wordIndex - 1, 5); // 防止过快重现
-                    // console.log(index_tmp)
-                    // word_tmp.repeat = true;
                     wordArray.splice(index_tmp, 0, word_tmp);
                 }
                 wordIndex--;
@@ -660,7 +669,8 @@ $(function () {
             type: 'POST',
             data: {
                 list: getQueryString('list'),
-                book: book,
+                book: getQueryString('book'),
+                yesterday_mode: mode.yesterday,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -674,10 +684,17 @@ $(function () {
     // 复习完一个单词
     $('.jump-btn').on('click', function (e) {
         e.preventDefault();
+        let word_tmp = wordArray[wordIndex];
+        let last_forget_num = 0
+        if (word_tmp.repeat != null) {
+            last_forget_num = word_tmp.repeat;
+        }
+
         if ($(this).text() == '我记得') {
             remember = true;
         } else if ($(this).text() == '不认识') {
             remember = false;
+            last_forget_num++;
         }
         let note_now = noteText();
         $.ajax({
@@ -687,9 +704,11 @@ $(function () {
                 remember: remember,
                 word: word,
                 list: wordArray[wordIndex].fields.LIST,
-                book: book,
+                book: getQueryString('book'),
                 note: (note == note_now || note_now == word) ? false : $.trim(note_now),
-                repeat: wordArray[wordIndex].repeat != null ? true : false,
+                last_forget_num: last_forget_num,
+                repeat: word_tmp.repeat != null ? true : false,
+                yesterday_mode: mode.yesterday,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -810,12 +829,12 @@ $(function () {
     // 重现模式
     $('.repeat').on('click', function () {
         if ($(this).text() == '重现模式:关') {
-            repeatMode = true
+            mode.repeat = true
             $(this).text('重现模式:开')
                 .addClass('enabled');
             layer.msg('重现模式已开')
         } else if ($(this).text() == '重现模式:开') {
-            repeatMode = false
+            mode.repeat = false
             $(this).text('重现模式:关')
                 .removeClass('enabled');
             layer.msg('重现模式已关')
@@ -916,6 +935,7 @@ $(function () {
                 book: wordArray[wordIndex].fields.BOOK,
                 word: word,
                 flag: flag,
+                yesterday_mode: mode.yesterday,
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -943,7 +963,7 @@ $(function () {
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
-                if (previewMode) {
+                if (mode.preview) {
                     layer.msg('当前处于预习模式，不是复习')
                 } else if ($('#tmpl-content').hasClass('d-none')) {
                     console.log('急啥呢')
@@ -952,7 +972,7 @@ $(function () {
                 }
             }
             else if (39 == e.keyCode && e.shiftKey) { // shift + right arrow
-                if (previewMode) {
+                if (mode.preview) {
                     layer.msg('当前处于预习模式，不是复习')
                 } else if ($('#tmpl-content').hasClass('d-none')) {
                     console.log('急啥呢')
@@ -960,13 +980,13 @@ $(function () {
                     $('#btn-remember').click();
                 }
             }
-            else if (188 == e.keyCode && (!e.shiftKey || !previewMode)) { // <
+            else if (188 == e.keyCode && (!e.shiftKey || !mode.preview)) { // <
                 $('#jump-back').click();
-                if (previewMode) { $('#meaning-box').click(); }
+                if (mode.preview) { $('#meaning-box').click(); }
             }
-            else if (190 == e.keyCode && (!e.shiftKey || !previewMode)) { // >
+            else if (190 == e.keyCode && (!e.shiftKey || !mode.preview)) { // >
                 $('#jump-forward').click();
-                if (previewMode) { $('#meaning-box').click(); }
+                if (mode.preview) { $('#meaning-box').click(); }
             }
 
             else if ((78 == e.keyCode || 13 == e.keyCode) && !e.shiftKey) { // N or enter
@@ -988,7 +1008,7 @@ $(function () {
                 $('#meaning-box').click();
             }
 
-            if (previewMode) {
+            if (mode.preview) {
                 if (188 == e.keyCode && e.shiftKey) { // shift + <
                     wordIndex = Math.floor((wordIndex - 1) / 10) * 10;
                     renderWord(wordArray[wordIndex]);
@@ -1015,11 +1035,11 @@ hotkeys('C, N, S, P, T, V, M, R', function (event, handler) {
                 }
                 break;
             case 'P':
-                if (!previewMode) {
-                    previewMode = true;
+                if (!mode.preview) {
+                    mode.preview = true;
                     layer.msg('学习/预习模式');
                 } else {
-                    previewMode = false;
+                    mode.preview = false;
                     layer.msg('恢复到复习模式');
                 }
                 break;
@@ -1046,7 +1066,7 @@ hotkeys('shift+E, shift+H, shift+G, shift+F', function (event, handler) {
 
 
 window.onbeforeunload = function (event) {
-    if ((wordCount == 0 || wordIndex == wordArray.length - 1) || previewMode) {
+    if ((wordCount == 0 || wordIndex == wordArray.length - 1) || mode.preview) {
         console.log('拜拜')
     } else if (wordIndex != wordArray.length - 1) {
         return "本轮背单词进度将会丢失😣";

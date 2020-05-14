@@ -100,13 +100,14 @@ def init_db_words(Review, Words, df):
     print('finish import db Words')
 
 
-def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index):
+def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index, hide=False):
     print('begin import db Books')
     data = {
         'BOOK': BOOK,
         'BOOK_zh': BOOK_zh,
         'BOOK_abbr': BOOK_abbr,
         'begin_index': begin_index,
+        'hide': hide,
     }
     Books.objects.create(**data).save()
     print('finish import db Books')

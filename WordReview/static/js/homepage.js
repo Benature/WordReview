@@ -29,3 +29,11 @@ $.ajax({
         $img.width(H / h * w);
     }
 })
+
+$.ajax({
+    url: 'https://api.github.com/repos/Benature/WordReview/commits'
+}).done(function (response) {
+    let latest = response[0].commit;
+    let date = latest.committer.date.replace('T', ' ').replace('Z', '');
+    $('#github-commit').text('上一次源码更新于' + date + '，更新附言为「' + latest.message + '」');
+})

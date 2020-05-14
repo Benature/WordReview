@@ -14,6 +14,16 @@ style
   |     margin: 10px;
   |     cursor: pointer;
   | }
+  | .yesterday-mode{
+  |     width: 35%;
+  |     padding: 10px;
+  |     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  |     border-radius: .25rem!important;
+  |     text-align: center;
+  |     margin: 10px;
+  |     cursor: pointer;
+  |     align-self: center;
+  | }
   | .progress{ 
   |     font-size: 10px;
   |     height: 13px;
@@ -22,6 +32,9 @@ style
   |   display: flex;
   |   justify-content: center;
   | }
+  | .github{
+  |   margin: 0px 3px
+  }
 {% endblock %}
 
 {% block content %}
@@ -30,8 +43,26 @@ div.container.flex-column
     a(style="color:black;" href="https://github.com/Benature/WordReview") 
       i.icon-github
       | &nbsp;Github: Benature
-  a(style="text-align:end;" href="/calendar/") 艾宾浩斯复习日历
+  a.text-center#github-commit(style="color:grey; font-size:10px;")
+  p.d-flex.justify-content-center
+    a(class="github" target="_blank",rel="noopener noreferrer", href="https://camo.githubusercontent.com/6e9a40e120cc53b36d7e72669c879f21320608e5/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f42656e61747572652f576f72645265766965773f7374796c653d666c6174")
+      img(src="https://camo.githubusercontent.com/6e9a40e120cc53b36d7e72669c879f21320608e5/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f42656e61747572652f576f72645265766965773f7374796c653d666c6174" alt="GitHub stars" data-canonical-src="https://img.shields.io/github/stars/Benature/WordReview?style=flat" style="max-width:100%;")
+    a(class="github" target="_blank",rel="noopener noreferrer", href="https://camo.githubusercontent.com/34ac86e5c1b123ef91fd7b3debbe6362c6b0a54b/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f666f726b732f42656e61747572652f576f72645265766965773f7374796c653d666c6174")
+      img(src="https://camo.githubusercontent.com/34ac86e5c1b123ef91fd7b3debbe6362c6b0a54b/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f666f726b732f42656e61747572652f576f72645265766965773f7374796c653d666c6174" alt="GitHub stars" data-canonical-src="https://img.shields.io/github/forks/Benature/WordReview?style=flat" style="max-width:100%;")
+    a(class="github" target="_blank",rel="noopener noreferrer", href="https://camo.githubusercontent.com/efdf447dc924ab7cee9459d16fb48e2e3e4e2060/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732f42656e61747572652f576f7264526576696577")
+      img(src="https://camo.githubusercontent.com/efdf447dc924ab7cee9459d16fb48e2e3e4e2060/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732f42656e61747572652f576f7264526576696577" alt="GitHub issues" data-canonical-src="https://img.shields.io/github/issues/Benature/WordReview" style="max-width:100%;")
+    a(class="github" target="_blank",rel="noopener noreferrer", href="https://camo.githubusercontent.com/f4156ae04961b5fa9df11f2aa21e539ee6840e6c/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642f42656e61747572652f576f7264526576696577")
+      img(src="https://camo.githubusercontent.com/f4156ae04961b5fa9df11f2aa21e539ee6840e6c/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642f42656e61747572652f576f7264526576696577" alt="GitHub closed issues" data-canonical-src="https://img.shields.io/github/issues-closed/Benature/WordReview" style="max-width:100%;")
+    a(class="github" target="_blank",rel="noopener noreferrer", href="https://camo.githubusercontent.com/422b8612f68b05f322f5b524122f9416e20400b9/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f42656e61747572652f576f7264526576696577")
+      img(src="https://camo.githubusercontent.com/422b8612f68b05f322f5b524122f9416e20400b9/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f42656e61747572652f576f7264526576696577" alt="GitHub" data-canonical-src="https://img.shields.io/github/license/Benature/WordReview" style="max-width:100%;")
+  
+  p(style="text-align:end;" href="/calendar/") 艾宾浩斯复习日历
+  
   #tmpl-qotd
+
+  div.list-block(href="/review/review?review=1/" style="width: 35%!important; align-self: center;")
+    a 昨日重现
+
   {% for d in data%}
   h2(style="margin-top:20px;") {{d.name}}
   div.d-flex.flex-wrap
