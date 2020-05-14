@@ -124,6 +124,7 @@ python manage.py migrate
 |        不认识        |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
 | 复制`WordSand`助记法 |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
 |    跳转到日历页面    |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
+|    跳转到昨日重现    |                    <kbd>R</kbd> (Review)                     |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 

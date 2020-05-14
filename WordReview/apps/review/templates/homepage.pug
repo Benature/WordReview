@@ -60,7 +60,7 @@ div.container.flex-column
   
   #tmpl-qotd
 
-  div.list-block(href="/review/review?review=1/" style="width: 35%!important; align-self: center;")
+  div#yesterday-mode.list-block(href="/review/review?review=1/" style="width: 35%!important; align-self: center;")
     a 昨日重现
 
   {% for d in data%}
@@ -91,7 +91,8 @@ div.container.flex-column
   a(style="text-align:end;margin-top:30px" href="/import/") 我要导入新的单词书
   hr
   div.text-center(style="margin-bottom: 130px;")
-    a(style="color:black;" href="https://github.com/Benature/WordReview/issues") 
+    p(style="color:black;" href="https://github.com/Benature/WordReview/issues") 
       i.icon-github
       | &nbsp;意见反馈
+    a.text-center(style="color:grey; font-size:10px;" href="https://github.com/Benature/WordReview") 如果能帮到您，希望可以在 GitHub 点个 Star🌟 不胜感激🙇‍♂️
 {% endblock %}

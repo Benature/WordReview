@@ -37,3 +37,10 @@ $.ajax({
     let date = latest.committer.date.replace('T', ' ').replace('Z', '');
     $('#github-commit').text('上一次源码更新于' + date + '，更新附言为「' + latest.message + '」');
 })
+
+$(document).keyup(function (e) {
+    console.log(e.keyCode);
+    if (82 == e.keyCode) {
+        $('#yesterday-mode').click();
+    }
+});
