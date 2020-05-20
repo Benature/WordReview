@@ -39,8 +39,8 @@ $.ajax({
 })
 
 $(document).keyup(function (e) {
-    console.log(e.keyCode);
-    if (82 == e.keyCode) {
+    // console.log(e.keyCode);
+    if (89 == e.keyCode) {
         $('#yesterday-mode').click();
     }
 });

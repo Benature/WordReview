@@ -493,6 +493,7 @@ $(function () {
             data: {
                 list: getQueryString('list'),
                 book: getQueryString('book'),
+                limit: getQueryString('limit'),
             }
         }).done(function (response) {
             if (response.status === 200) {
@@ -935,6 +936,7 @@ $(function () {
                 book: wordArray[wordIndex].fields.BOOK,
                 word: word,
                 flag: flag,
+                last_flag: wordArray[wordIndex].fields.flag,
                 yesterday_mode: mode.yesterday,
             }
         }).done(function (response) {

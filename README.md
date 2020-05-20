@@ -18,15 +18,17 @@ Django + MySQL + Pug + JS
 ---
 
 - DEMO
-  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（BV 号：**BV1q7411w7r9**），欢迎康康。
+  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（BV 号：BV1q7411w7r9），欢迎康康。
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
-    在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）
-- 百度网盘
-  - 对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。  
-  - 导入数据库操作请看下文（或[这里](doc/database_init.md)）。  
-  - 另：国内打开这个网页可能回稍慢，请耐心一些 dbq
-- 资瓷一下呗  
-  如果觉得还不错的话，不如在右上方点个 stars🌟呗(￣▽￣)~*
+    *在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）*
+- *百度网盘*
+  - *对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。*
+  - *导入数据库操作请看下文（或[这里](doc/database_init.md)）。*  
+  - *另：国内打开这个网页可能回稍慢，请耐心一些 dbq*
+- 资瓷一下呗😋  
+  如果觉得还不错的话，不如在右上方点个 stars🌟呗(￣▽￣)~*  
+  如果童鞋有兴趣的话希望可以一起开发新功能呀٩(๑>◡<๑)۶
+
 
 ---
 
@@ -66,7 +68,7 @@ Django + MySQL + Pug + JS
 
 ## 安装
 
->对于小白可能还需要一些预备说明，请看[这里(更新中)](https://www.notion.so/benature/Word-Review-0b73633ff0c14488a99d33d144c26423)
+>对于小白可能还需要一些预备说明，请看[这里(更新中](https://www.notion.so/benature/Word-Review-0b73633ff0c14488a99d33d144c26423)，催更请 [issue](https://github.com/Benature/WordReview/issues))
 
 命令行输入
 
@@ -124,7 +126,7 @@ python manage.py migrate
 |        不认识        |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
 | 复制`WordSand`助记法 |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
 |    跳转到日历页面    |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
-|    跳转到昨日重现    |                    <kbd>R</kbd> (Review)                     |   主页   |       -        |
+|    跳转到昨日重现    |                   <kbd>Y</kbd> (Yesterday)                   |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 
@@ -155,6 +157,8 @@ tain
 
 <b><details open><summary>2020.05</summary></b>
 
+- update: 单词标记从正向标记恢复为普通标记时，对数据库所有相同单词刷新标记 @05-20
+- update: `昨日重现`支持自定义每次词表长度 @05-19
 - feature: `昨日重现`复习词表 @05-09
 - feature: 单词标记增加`很熟悉` @05-09
 - update:  同一个 List 可以重复进行艾宾浩斯复习安排 @05-09

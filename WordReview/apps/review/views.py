@@ -190,19 +190,24 @@ def update_word_flag(request):
     msg = 'done'
     status = 200
     try:
-        # print(post)
         if post.get('yesterday_mode') == 'true':
             words = [Words.objects.get(word=post.get('word'))]
         else:
-            words = [
-                Review.objects.get(
-                    word=post.get('word'), LIST=post.get('list'), BOOK=post.get('book')),
-                Words.objects.get(word=post.get('word'))
-            ]
+            words = [Words.objects.get(word=post.get('word'))]
+            if post.get('flag') == '0' and int(post.get('last_flag')) > 0:
+                # 如果是从正向标签退回默认，则对数据库所有 list 操作
+                words += [rw for rw in Review.objects.filter(
+                    word=post.get('word'))]
+            else:
+                words.append(Review.objects.get(
+                    word=post.get('word'), LIST=post.get('list'), BOOK=post.get('book')))
         for word in words:
             # print(word)
             word.flag = post.get('flag')
             word.save()
+        # if post.get('flag') == 0:
+        #     Review.objects.filter(word=post.get(
+        #         'word')).update(flag=post.get('flag'))
     except Exception as e:
         msg = e
         status = 501
@@ -268,7 +273,11 @@ def get_word(request):
 
     BOOK = request.GET.get('book')
     LIST = request.GET.get('list')
+    limit = request.GET.get('limit')
+    print("...", limit)
+
     yesterday_mode = BOOK == '' and LIST == ''
+
     if yesterday_mode:
         mode = 'yesterday'
         day0 = datetime.now() - timedelta(days=1, hours=Delay_Hours)
@@ -276,11 +285,14 @@ def get_word(request):
         date_range = [
             datetime.strptime(
                 f"{day0.year}-{day0.month}-{day0.day} {Delay_Hours}", '%Y-%m-%d %H'),
-            datetime.strptime(f"{today.year}-{today.month}-{today.day} {Delay_Hours}", '%Y-%m-%d %H')]
+            datetime.strptime(
+                f"{today.year}-{today.month}-{today.day} {Delay_Hours}", '%Y-%m-%d %H')
+        ]
         list_info = Words.objects.filter(
-            modify_time__range=date_range, last_forget_num__gt=0).order_by("-last_forget_num")
-        msg = f"There is {len(list_info)} words that you need to review😋"
-        list_info = list_info[:50]
+            modify_time__range=date_range, last_forget_num__gt=0).order_by("rate").order_by("-last_forget_num")
+        msg = f"There are {len(list_info)} words that you need to review😋"
+        list_info = list_info[:50] if limit == None else list_info[:int(limit)]
+
     else:
         LIST_li = [int(i) for i in LIST.split('-')]
         if len(LIST_li) == 1:

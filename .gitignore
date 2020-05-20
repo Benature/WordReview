@@ -6,7 +6,7 @@
 **/.ipynb_checkpoints/
 
 # django
-**/migrations/
+**/migrations/*
 !**/migrations/__init__.py
 staticsfile/
 uwsgi.out
