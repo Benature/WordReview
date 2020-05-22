@@ -468,10 +468,11 @@ $(function () {
             document.getElementById('tmpl-sentence').innerHTML = sentence_content;
         } else if (data.sentence == '') {
             $.ajax({
-                url: '/review/spider/dict_mini',
+                url: '/review/spider/other_dict',
                 type: 'POST',
                 data: {
                     word: word,
+                    url: 'http://dict.cn/mini.php',
                 }
             }).done(function (response) {
                 if (response.status === 200) {
@@ -481,6 +482,32 @@ $(function () {
                 }
             })
         }
+
+        // let twoColumn = false;
+        document.getElementById('word-mnemonic').innerHTML = '';
+        $.ajax({
+            url: '/review/spider/other_dict',
+            type: 'POST',
+            data: {
+                word: word,
+                url: 'https://mnemonicdictionary.com/',
+            }
+        }).done(function (response) {
+            if (response.status === 200) {
+                document.getElementById('word-mnemonic').innerHTML = '';
+                let mnemonic = response.data;
+                // console.log(mnemonic);
+                if (mnemonic.length != 0) {
+                    // twoColumn = true;
+                    mnemonic.forEach((m, i) => {
+                        // console.log(m.up)
+                        document.getElementById('word-mnemonic').innerHTML += '<div class="mnemonic-card"><div>' + m.text + '</div><div class="mnemonic-card-footer"><i class="icon-thumbs-up"></i>' + m.up + '<i class="icon-thumbs-down"></i>' + m.down + '</div></div>';
+                    })
+                }
+            } else {
+                layer.msg(response.msg)
+            }
+        })
     }
 
     // =============================================================
@@ -961,7 +988,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        // console.log(e.keyCode);
+        console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow

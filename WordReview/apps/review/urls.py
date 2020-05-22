@@ -19,7 +19,7 @@ urlpatterns = [
     path('review/review_list_finish', views.review_lists, name='复习结束'),
     path('review/update_word_flag', views.update_word_flag, name='更新单词flag'),
     path('review/update_note', views.update_note, name='更新单词note'),
-    path('review/spider/dict_mini', views.spider_dict_mini,
-         name='API_spider_dict_mini'),
+    path('review/spider/other_dict', views.spider_other_dict,
+         name='API_spider_other_dict'),
     # path('import-database/', views.import_db, name='导入数据库'),
 ]

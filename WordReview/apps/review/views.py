@@ -8,7 +8,7 @@ from apps.review.models import Review, BookList, Words, Books
 from apps.src.util import ormToJson, valueList
 import config
 from apps.review.src.init_db import init_db, update_db
-from apps.review.src.spider import crawl_dict_mini
+from apps.review.src.spider import crawl_other_dict
 
 from datetime import datetime, timedelta, date
 
@@ -216,9 +216,10 @@ def update_word_flag(request):
 
 
 @csrf_exempt
-def spider_dict_mini(request):
+def spider_other_dict(request):
     '''API: spider to crawl http://dict.cn/mini.php'''
-    status, data = crawl_dict_mini(request.POST.get('word'))
+    status, data = crawl_other_dict(
+        request.POST.get('word'), request.POST.get('url'))
     return JsonResponse({
         'status': status,
         'data': data,

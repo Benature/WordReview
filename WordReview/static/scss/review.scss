@@ -265,3 +265,26 @@ i{
     top: 0px;
     z-index: 100;
 }
+
+// .word-mnemonic{
+//     // margin-top: 10px;
+//     font-size: 14px;
+// }
+
+.mnemonic-card{
+    margin-bottom: 15px !important;
+    box-shadow: 0 .5rem 0.7rem rgba(42, 21, 104, 0.25);
+    background-color: #fefeff;
+    border-radius: .25rem!important;
+    font-size: 14px;
+    padding: 5px;
+
+    i{
+        margin-left: 5px;
+    }
+
+    .mnemonic-card-footer{
+        font-size: 10px;
+        text-align: right;
+    }
+}
