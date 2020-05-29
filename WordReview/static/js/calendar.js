@@ -126,3 +126,17 @@ $(function () {
         window.location = '/review/review?' + $(this).attr('href')
     })
 })
+
+
+$(function () {
+    $('#yesterday-mode').on('click', function (e) {
+        document.location.href = $(this).attr('href');
+    })
+});
+
+$(document).keyup(function (e) {
+    // console.log(e.keyCode);
+    if (89 == e.keyCode) {
+        $('#yesterday-mode').click();
+    }
+});

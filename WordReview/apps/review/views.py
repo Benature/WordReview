@@ -281,8 +281,8 @@ def get_word(request):
 
     if yesterday_mode:
         mode = 'yesterday'
-        day0 = datetime.now() - timedelta(days=1, hours=Delay_Hours)
-        today = datetime.now()
+        day0 = datetime.now() - timedelta(days=4, hours=Delay_Hours)
+        today = datetime.now() - timedelta(hours=Delay_Hours)
         date_range = [
             datetime.strptime(
                 f"{day0.year}-{day0.month}-{day0.day} {Delay_Hours}", '%Y-%m-%d %H'),

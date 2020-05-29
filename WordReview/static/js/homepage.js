@@ -38,9 +38,17 @@ $.ajax({
     $('#github-commit').text('上一次源码更新于' + date + '，更新附言为「' + latest.message + '」');
 })
 
+$(function () {
+    $('.list-block').on('click', function (e) {
+        document.location.href = $(this).attr('href');
+    })
+});
+
 $(document).keyup(function (e) {
     // console.log(e.keyCode);
     if (89 == e.keyCode) {
         $('#yesterday-mode').click();
+    } else if (67 == e.keyCode) {
+        document.location = '/calendar/';
     }
 });

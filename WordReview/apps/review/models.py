@@ -64,7 +64,7 @@ class BookList(models.Model):
     review_dates = models.CharField(
         '所有复习日期（仅记录艾宾浩斯复习曲线时间）', max_length=100, default='')
     review_dates_plus = models.CharField(
-        '自愿复习日期（非艾宾浩斯复习安排）', max_length=100, default='')
+        '自愿复习日期（非艾宾浩斯复习安排）', max_length=1000, default='')
     list_uuid = models.UUIDField(
         'uuid', default=uuid.uuid4, editable=False, unique=True)
     list_rate = models.FloatField('表记忆率', default=-1)

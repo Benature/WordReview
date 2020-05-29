@@ -2,8 +2,6 @@
 {% block title %}复习主页{% endblock %}
 {% block css %}
 script(src="/static/js/homepage.js")
-script $(function () {$('.list-block').on('click', function (e) {document.location.href = $(this).attr('href');})});
-  |  $(document).keyup(function (e) {if (67 == e.keyCode) {document.location = '/calendar/';}});
 style
   | .list-block{
   |     width: 7rem;
@@ -14,7 +12,7 @@ style
   |     margin: 10px;
   |     cursor: pointer;
   | }
-  | .yesterday-mode{
+  | #yesterday-mode{
   |     width: 35%;
   |     padding: 10px;
   |     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);

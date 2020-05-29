@@ -45,3 +45,14 @@ td{
     border: 1px dashed rgb(192, 192, 192);
     color: grey;
 }
+
+#yesterday-mode{
+    width: 35%;
+    padding: 10px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    border-radius: .25rem!important;
+    text-align: center;
+    margin: 10px;
+    cursor: pointer;
+    align-self: center;
+}
