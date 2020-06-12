@@ -988,7 +988,7 @@ $(function () {
     // 快捷键
     $(document).keyup(function (e) {
         // console.log(noteFocus)
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
         // console.log(e.ctrlKey, e.altKey);
         if (!noteFocus) {
             if (37 == e.keyCode && e.shiftKey) { // shift + left arrow
