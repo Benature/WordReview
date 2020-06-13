@@ -7,7 +7,8 @@
 ![GitHub issues](https://img.shields.io/github/issues/Benature/WordReview)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/Benature/WordReview)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Benature/WordReview)
-![GitHub](https://img.shields.io/github/license/Benature/WordReview)
+[![Gitter](https://badges.gitter.im/WordReview/community.svg)](https://gitter.im/WordReview/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<!-- ![GitHub](https://img.shields.io/github/license/Benature/WordReview) -->
 
 Django + MySQL + Pug + JS
 
