@@ -28,7 +28,7 @@ Django + MySQL + Pug + JS
 - 资瓷一下呗😋  
   如果觉得还不错的话，不如在右上方点个 stars🌟呗(￣▽￣)~*  
   如果童鞋有兴趣的话希望可以一起开发新功能呀٩(๑>◡<๑)۶  
-  *开了个 [telegram 群组](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)，有兴趣可以来聊天：<https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw>*
+  *[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)* / *[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)* / *[Discord](https://discord.gg/6sE32Jh)*
 
 
 ---
