@@ -16,7 +16,7 @@ div.d-flex.container.justify-content-center.flex-column
   h3(style="margin-bottom:20px;text-align: center;") 导入数据库
   {% if message %}
   div.alert.alert-warning 
-   | 您的输入有问题😯
+   | 您的输入有问题😯(报错详见命令行)
    | {{ message }}
   {% endif %}
   form(method="post" action='/import/')#pwdForm.d-flex.flex-column

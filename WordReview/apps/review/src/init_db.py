@@ -76,8 +76,8 @@ def init_db_words(Review, Words, df):
     # df = read_excel(path)
     optional_keys = ['sentence', 'mnemonic',
                      'phonetic', 'antonym', 'synonym', 'derivative']
-    for key in optional_keys:
-        if key not in df.columns:
+    for key in optional_keys[::-1]:
+        if key not in df.columns.tolist():
             optional_keys.remove(key)
     print('optional keys', optional_keys)
 
@@ -88,7 +88,6 @@ def init_db_words(Review, Words, df):
             print('skip because word already exists', dr['word'])
             continue
         except:
-            print(word.word)
             data = {
                 'word': dr['word'],
                 'mean': dr['mean'],
@@ -96,6 +95,7 @@ def init_db_words(Review, Words, df):
             for key in optional_keys:
                 data[key] = dr[key]
             word = Words.objects.create(**data)
+            print(word.word)
             word.save()
     print('finish import db Words')
 

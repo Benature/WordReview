@@ -12,6 +12,8 @@ from apps.review.src.spider import crawl_other_dict
 
 from datetime import datetime, timedelta, date
 
+import traceback
+
 Delay_Hours = 4
 
 EBBINGHAUS_DAYS = [0, 1, 2, 4, 7, 15, 30]
@@ -52,6 +54,7 @@ def import_db(request):
             init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index,
                     excel_path, Books, Review, BookList, Words)
         except Exception as e:
+            print(traceback.format_exc())
             return render(request, "import_db.pug", {'message': e})
         return redirect('/review')
     return render(request, "import_db.pug")

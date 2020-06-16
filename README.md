@@ -19,7 +19,7 @@ Django + MySQL + Pug + JS
 ---
 
 - DEMO
-  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)（BV 号：BV1q7411w7r9），欢迎康康。
+  - 二月的时候简单录了一个 DEMO 视频，上传到了[微信公众号](https://mp.weixin.qq.com/s/3VjiflLdzKv0sjxm1noxDw)和[B站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)，欢迎康康。
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
     *在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）*
 - *百度网盘*
@@ -29,7 +29,7 @@ Django + MySQL + Pug + JS
 - 资瓷一下呗😋  
   如果觉得还不错的话，不如在右上方点个 stars🌟呗(￣▽￣)~*  
   如果童鞋有兴趣的话希望可以一起开发新功能呀٩(๑>◡<๑)۶  
-  *[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)* / *[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)* / *[Discord](https://discord.gg/6sE32Jh)*
+  Discuss: *[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)* / *[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)* / *[Discord](https://discord.gg/6sE32Jh)* / *[Gitter](https://gitter.im/WordReview/community)*
 
 
 ---
@@ -162,6 +162,12 @@ python manage.py migrate
 [TODO 清单](https://www.notion.so/benature/WordReview-fa7e264c1e2048639586af4eb952374f)（有点杂乱）
 
 ### 更新日志
+
+<b><details open><summary>2020.06</summary></b>
+
+- update: 导入报错在命令行输出完整报错 @06-16
+
+</details>
 
 <b><details open><summary>2020.05</summary></b>
 
