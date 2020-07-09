@@ -15,6 +15,7 @@ var mode = {
   repeat: true,
   preview: false,
   yesterday: false,
+  input: false,
 };
 var currentHistoryX = [""];
 var currentHistoryY = [0];
@@ -296,7 +297,13 @@ $(function () {
 
     $("#tmpl-sentence").empty().css("max-width", "50%");
     $("#word-sand").empty().css("display", "none");
-    $("#tmpl-word")[0].innerHTML = '<a class="word-display">' + word + "</a>";
+
+    if (!mode.input) {
+      $("#tmpl-word")[0].innerHTML = '<a class="word-display">' + word + "</a>";
+    } else {
+      $("#tmpl-word")[0].innerHTML = '<a class="word-display"></a>';
+    }
+
     $("#tmpl-phonetic").text(data.phonetic);
     $("#tmpl-index").text(
       (data.LIST != null
@@ -717,6 +724,15 @@ $(function () {
   $("#meaning-box").on("click", function (e) {
     readText(word);
     $(".hide").removeClass("d-none");
+    if (mode.input) {
+      if ($.trim($("#tmpl-word").text()) == word) {
+        $("#tmpl-word")[0].innerHTML =
+          '<a class="word-display">' + word + "✔️</a>";
+      } else {
+        $("#tmpl-word")[0].innerHTML =
+          '<a class="word-display">' + word + "×</a>";
+      }
+    }
   });
   $("#active-note").on("click", function (e) {
     if ($("#tmpl-note").hasClass("d-n-note")) {
@@ -1214,7 +1230,7 @@ $(function () {
   });
 });
 
-hotkeys("C, N, S, P, T, V, M, R", function (event, handler) {
+hotkeys("C, N, S, P, I, T, V, M, R", function (event, handler) {
   if (!noteFocus) {
     switch (handler.key) {
       case "C":
@@ -1231,6 +1247,18 @@ hotkeys("C, N, S, P, T, V, M, R", function (event, handler) {
         } else {
           mode.preview = false;
           layer.msg("恢复到复习模式");
+        }
+        break;
+      case "I":
+        if (!mode.input) {
+          console.log("input mode: on");
+          mode.input = true;
+          $("#tmpl-word")[0].contentEditable = true;
+          $("#tmpl-content").removeClass("hide").removeClass("d-none");
+        } else {
+          console.log("input mode: off");
+          mode.input = false;
+          $("#tmpl-content").addClass("hide");
         }
         break;
       case "R":

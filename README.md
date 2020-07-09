@@ -109,26 +109,27 @@ python manage.py migrate
 
 ### 快捷键
 
-|         操作         |                            快捷键                            |   页面   |      状态      |
-| :------------------: | :----------------------------------------------------------: | :------: | :------------: |
-|      设为重难词      |             <kbd>Shift</kbd>+<kbd>H</kbd> (Hard)             | 复习页面 |      全局      |
-|      设为已掌握      |             <kbd>Shift</kbd>+<kbd>G</kbd> (Get)              | 复习页面 |      全局      |
-|      设为很熟悉      |           <kbd>Shift</kbd>+<kbd>F</kbd> (Familiar)           | 复习页面 |      全局      |
-|      设为太简单      |             <kbd>Shift</kbd>+<kbd>E</kbd> (Easy)             | 复习页面 |      全局      |
-|    进入笔记输入框    |                     <kbd>N</kbd> (Note)                      | 复习页面 |      全局      |
-| 跳转查看助记法（中） |          <kbd>T</kbd> (Tips) / <kbd>V</kbd> (View)           | 复习页面 |      全局      |
-| 跳转查看助记法（英） |                   <kbd>M</kbd> (Mnemonic)                    | 复习页面 |      全局      |
-|    跳转查看近义词    |                   <kbd>S</kbd> (Synonyms)                    | 复习页面 |      全局      |
-|     词卡前后切换     |                  <kbd><</kbd>、<kbd>></kbd>                  | 复习页面 |      全局      |
-|     List前后切换     | <kbd>Shift</kbd>+<kbd><</kbd>、<kbd>Shift</kbd>+<kbd>></kbd> | 复习页面 |    学习状态    |
-|       查看释义       |                       <kbd>空格</kbd>                        | 复习页面 |    复习状态    |
-|    切换至学习状态    |                    <kbd>P</kbd> (Preview)                    | 复习页面 |    复习状态    |
-|     触发重现模式     |                    <kbd>R</kbd> (Repeat)                     | 复习页面 |    复习状态    |
-|        我记得        |                <kbd>Shift</kbd>+<kbd>→</kbd>                 | 复习页面 |    复习状态    |
-|        不认识        |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
-| 复制`WordSand`助记法 |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
-|    跳转到日历页面    |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
-|    跳转到昨日重现    |                   <kbd>Y</kbd> (Yesterday)                   |   主页   |       -        |
+|          操作          |                            快捷键                            |   页面   |      状态      |
+| :--------------------: | :----------------------------------------------------------: | :------: | :------------: |
+|       设为重难词       |             <kbd>Shift</kbd>+<kbd>H</kbd> (Hard)             | 复习页面 |      全局      |
+|       设为已掌握       |             <kbd>Shift</kbd>+<kbd>G</kbd> (Get)              | 复习页面 |      全局      |
+|       设为很熟悉       |           <kbd>Shift</kbd>+<kbd>F</kbd> (Familiar)           | 复习页面 |      全局      |
+|       设为太简单       |             <kbd>Shift</kbd>+<kbd>E</kbd> (Easy)             | 复习页面 |      全局      |
+|     进入笔记输入框     |                     <kbd>N</kbd> (Note)                      | 复习页面 |      全局      |
+|  跳转查看助记法（中）  |          <kbd>T</kbd> (Tips) / <kbd>V</kbd> (View)           | 复习页面 |      全局      |
+|  跳转查看助记法（英）  |                   <kbd>M</kbd> (Mnemonic)                    | 复习页面 |      全局      |
+|     跳转查看近义词     |                   <kbd>S</kbd> (Synonyms)                    | 复习页面 |      全局      |
+|      词卡前后切换      |                  <kbd><</kbd>、<kbd>></kbd>                  | 复习页面 |      全局      |
+|      List前后切换      | <kbd>Shift</kbd>+<kbd><</kbd>、<kbd>Shift</kbd>+<kbd>></kbd> | 复习页面 |    学习状态    |
+|        查看释义        |                       <kbd>空格</kbd>                        | 复习页面 |    复习状态    |
+|     切换至学习状态     |                    <kbd>P</kbd> (Preview)                    | 复习页面 |    复习状态    |
+|      触发重现模式      |                    <kbd>R</kbd> (Repeat)                     | 复习页面 |    复习状态    |
+| 触发输入模式（实验中） |                     <kbd>I</kbd> (Input)                     | 复习页面 |    复习状态    |
+|         我记得         |                <kbd>Shift</kbd>+<kbd>→</kbd>                 | 复习页面 |    复习状态    |
+|         不认识         |                <kbd>Shift</kbd>+<kbd>←</kbd>                 | 复习页面 |    复习状态    |
+|  复制`WordSand`助记法  |                     <kbd>C</kbd> (Copy)                      | 复习页面 | 安装Chrome插件 |
+|     跳转到日历页面     |                   <kbd>C</kbd> (Calendar)                    |   主页   |       -        |
+|     跳转到昨日重现     |                   <kbd>Y</kbd> (Yesterday)                   |   主页   |       -        |
 
 ### 词根词缀词源拆词渲染
 
