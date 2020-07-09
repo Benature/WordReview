@@ -1,5 +1,5 @@
->文档尚不完善，如有问题欢迎[提 issue](https://github.com/Benature/WordReview/issues) 或者 email(<wbenedict@163.com>) 或者私戳我 (●ﾟωﾟ●)
->不要不好意思，什么问题都可以问，大家都有刚开始的时候嘛
+>文档尚不完善，如有问题欢迎在 [Issue](https://github.com/Benature/WordReview/issues) 提出(●ﾟωﾟ●)  
+>*不要不好意思，什么问题都可以问，大家都有刚开始的时候嘛*
 
 # 1. 当然是先克隆代码啦
 
