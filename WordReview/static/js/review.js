@@ -1251,13 +1251,16 @@ hotkeys("C, N, S, P, I, T, V, M, R", function (event, handler) {
         break;
       case "I":
         if (!mode.input) {
-          console.log("input mode: on");
+          layer.msg("听写模式：开");
+          // console.log("input mode: on");
           mode.input = true;
           $("#tmpl-word")[0].contentEditable = true;
           $("#tmpl-content").removeClass("hide").removeClass("d-none");
         } else {
-          console.log("input mode: off");
+          layer.msg("听写模式：关");
+          // console.log("input mode: off");
           mode.input = false;
+          $("#tmpl-word")[0].contentEditable = false;
           $("#tmpl-content").addClass("hide");
         }
         break;
