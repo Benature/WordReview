@@ -20,7 +20,19 @@ Index
 # df = read_excel(path)
 
 
+def check_df(df):
+    '''检查导入文件表头是否完整或符合名字要求'''
+    cols = df.columns
+    checklist = ['word', 'List', 'Index']
+    vacant = []
+    for ci in checklist:
+        if ci not in cols:
+            vacant.append(ci)
+    return vacant
+
+
 def import_word(Review, df, bookName):
+    '''导入 df 到 Review 数据库中'''
     print('begin import db Review')
     optional_keys = ['Unit']
     for key in optional_keys:
@@ -48,6 +60,7 @@ def import_word(Review, df, bookName):
 
 
 def init_db_booklist(BookList, Review, bookName, List_begin_num):
+    '''导入单词书 List 信息'''
     print('begin import db BookList')
     for l in range(List_begin_num, List_begin_num + len(set(Review.objects.filter(BOOK=bookName).values_list('LIST')))):
         ld = Review.objects.filter(BOOK=bookName, LIST=l)  # list data
@@ -115,6 +128,9 @@ def init_db_books(Books, BOOK, BOOK_zh, BOOK_abbr, begin_index, hide=False):
 
 def init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books, Review, BookList, Words):
     df = read_excel(excel_path)
+    vacant = check_df(df)
+    if len(vacant) != 0:
+        raise Exception(f"缺表头: {vacant}")
     init_db_words(Review, Words, df)
     import_word(Review, df, BOOK)
     init_db_booklist(BookList, Review, BOOK, begin_index)

@@ -164,6 +164,10 @@ python manage.py migrate
 
 ### 更新日志
 
+- update: 导入数据时对表头进行检查（[Issue#13](https://github.com/Benature/WordReview/issues/13)）@08-19
+- feature: 新增听写功能（输入模式）（[Issue#10](https://github.com/Benature/WordReview/issues/10)）@07-09
+
+<b><details open><summary>2020 上半年</summary></b>
 <b><details open><summary>2020.06</summary></b>
 
 - update: 导入报错在命令行输出完整报错 @06-16
@@ -251,5 +255,7 @@ python manage.py migrate
 - update:  优化线型图显示（0 起） @02-27
 - fix:     日历显示月份 bug 修复 @02-27
 - more:    略······
+
+</details>
 
 </details>

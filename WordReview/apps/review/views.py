@@ -42,6 +42,7 @@ def import_db(request):
         BOOK_zh = post.get('BOOK_zh')
         BOOK_abbr = post.get('BOOK_abbr')
         excel_path = post.get('excel_path')
+
         try:
             begin_index = int(post.get('begin_index'))
             if begin_index not in [0, 1]:
@@ -50,6 +51,7 @@ def import_db(request):
             return render(request, "import_db.pug", {'message': '请输入 0 或 1！'})
         print(BOOK, BOOK_zh, BOOK_abbr, begin_index,
               excel_path)
+
         try:
             init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index,
                     excel_path, Books, Review, BookList, Words)
