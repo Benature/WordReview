@@ -24,14 +24,15 @@ Django + MySQL + Pug + JS
   - 二月的时候简单录了一个 DEMO 视频，上传到了[B 站](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)，欢迎康康。
   - 还有一个[在线试玩](https://benature.github.io/WordReview/)，可以先感受一下。  
     _在线体验的版本对应`master`分支，现在默认显示的是`ben`分支（开发分支）_
-- _百度网盘_
+<!-- - _百度网盘_
   - _对于不熟悉这个网站的同学，可以直接去[网盘](https://pan.baidu.com/s/17h-HjnZBbPHC45EYPCcoxA)下载，密码：l3g6。_
   - _导入数据库操作请看下文（或[这里](doc/database_init.md)）。_
-  - _另：国内打开这个网页可能回稍慢，请耐心一些 dbq_
+  - _另：国内打开这个网页可能回稍慢，请耐心一些 dbq_ -->
 - 资瓷一下呗 😋  
   如果觉得还不错的话，不如在右上方点个 stars🌟 呗(￣ ▽ ￣)~_  
   如果童鞋有兴趣的话希望可以一起开发新功能呀 ٩(๑>◡<๑)۶  
-  Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)_ / _[Discord](https://discord.gg/6sE32Jh)_ / _[Gitter](https://gitter.im/WordReview/community)\*
+  Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Gitter](https://gitter.im/WordReview/community)_
+  <!-- Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)_ / _[Discord](https://discord.gg/6sE32Jh)_ / _[Gitter](https://gitter.im/WordReview/community)_ -->
 
 ---
 
@@ -47,7 +48,7 @@ Django + MySQL + Pug + JS
 
 第一篇[介绍推送](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)微信公众号「恰好恰好」上发送了，这里就先不展开讲了。
 
-功能特性太多，写在这就太长了，新开一页写[特性说明](https://www.notion.so/benature/Word-Review-0f56c8a9131b4ae3b6d9a6fda5c4e655)（更新中）。
+<!-- 功能特性太多，写在这就太长了，新开一页写[特性说明](https://www.notion.so/benature/Word-Review-0f56c8a9131b4ae3b6d9a6fda5c4e655)（更新中）。 -->
 
 </br>
 
@@ -70,7 +71,7 @@ _关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%
 
 ## 安装
 
-> 对于小白可能还需要一些预备说明，请看[这里(更新中](https://www.notion.so/benature/Word-Review-0b73633ff0c14488a99d33d144c26423)，催更请 [issue](https://github.com/Benature/WordReview/issues))
+> 对于小白可能还需要一些预备说明，请看[这里](https://www.notion.so/benature/Word-Review-0b73633ff0c14488a99d33d144c26423)
 
 命令行输入
 
