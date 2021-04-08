@@ -1,4 +1,4 @@
-django==3.0.7
+django==3.0.14
 django-mysql==3.3.0
 django-sass-processor==0.8
 libsass==0.19.4
