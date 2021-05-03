@@ -1,5 +1,5 @@
 ---
-name: bug_report
+name: Bug Report
 about: 报告问题
 title: ""
 labels: ""
@@ -10,6 +10,8 @@ assignees: ""
 <!-- 内容请尽量填写完整，不填的地方烦请删除掉，避免不必要的阅读阻力 -->
 <!-- 注：被这些奇怪符号括起来的内容不会在preview预览中显示 -->
 
+- [ ] 我已阅读[READEME.md](https://github.com/Benature/WordReview/blob/ben/README.md)中的[问题自检](https://github.com/Benature/WordReview/blob/ben/README.md#%E9%97%AE%E9%A2%98%E8%87%AA%E6%A3%80)
+
 **描述问题**
 请简明阐述您的问题
 
@@ -18,7 +20,8 @@ assignees: ""
 
 <!-- 是如何操作才会触发您遇到的问题 -->
 
-1. 2.
+1. 
+2. 
 
 ```
 请将报错信息复制到此处

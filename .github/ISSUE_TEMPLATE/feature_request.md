@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Feature Request
 about: 新功能建议
 title: ''
 labels: ''
