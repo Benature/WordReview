@@ -29,7 +29,7 @@ Django + MySQL + Pug + JS
   - _导入数据库操作请看下文（或[这里](doc/database_init.md)）。_
   - _另：国内打开这个网页可能回稍慢，请耐心一些 dbq_ -->
 - 资瓷一下呗 😋  
-  如果觉得还不错的话，不如在右上方点个 stars🌟 呗(￣ ▽ ￣)~_  
+  如果觉得还不错的话，不如在右上方点个 stars🌟 呗(￣ ▽ ￣)~  
   如果童鞋有兴趣的话希望可以一起开发新功能呀 ٩(๑>◡<๑)۶  
   <!-- Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Gitter](https://gitter.im/WordReview/community)_ -->
   <!-- 你好鸭，恭喜你发现我懒得删除的联系方式 -->
@@ -73,7 +73,7 @@ _关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%
 
 ## 安装
 
-> 对于小白可能还需要一些预备说明，请看[这里](https://www.notion.so/benature/Word-Review-0b73633ff0c14488a99d33d144c26423)
+> 对于小白可能还需要一些预备说明，请看[这里](https://www.notion.so/benature/Word-Review-9046ae4330ff49198c39491602064f3e)
 
 命令行输入
 
