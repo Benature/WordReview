@@ -85,11 +85,7 @@ git clone https://github.com/Benature/WordReview.git
 
 详细的安装指引写的有点长，请点击[这里](doc/install.md)查看，数据库初始化看[这里](doc/database_init.md)。
 
-如有问题或遇到 BUG 欢迎在 [Issue](https://github.com/Benature/WordReview/issues) 提出(● ﾟ ω ﾟ ●)
-
 > 如果你实在不想折腾配置的话，可以在[这里](https://github.com/Benature/WordReview/releases)直接安装可执行文件。（但不推荐）
-
-<!-- 链接:https://pan.baidu.com/s/1XiyI7DPxrd_mRsuvMeJwQg  密码:0hhe -->
 
 ## 使用
 
