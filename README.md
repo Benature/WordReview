@@ -1,5 +1,5 @@
-<a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/muyi.png" height="200" align="right"></a>
 <a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/vocabulary.png" height="70" align="left"></a>
+<!-- <a href="https://benature.github.io/WordReview/"><img src="./WordReview/static/media/muyi.png" height="200" align="right"></a> -->
 
 # Word Review 单词复习
 
@@ -104,7 +104,6 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-如果您想获取即时的统治（如新的 release 发布），可以点击网页右上方的`Watch`。
 
 ### 快捷键
 
