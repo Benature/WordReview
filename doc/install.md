@@ -27,12 +27,20 @@ git clone https://github.com/Benature/WordReview.git
   名字随便定，这里以`word`为例
 
 ```shell
-conda create -n tgword python=3
+conda create -n word python=3
 ```
 
 >如果你没有其他 django 的项目，偷懒起见可以不创建虚拟环境，以及下面关于虚拟环境的步骤。
 
 3. activate the environment
+
+在命令行继续输入：
+(windows)
+
+```shell
+activate word
+```
+(linux)
 
 ```shell
 source activate word 
