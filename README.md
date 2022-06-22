@@ -34,6 +34,8 @@ Django + MySQL + Pug + JS
   <!-- Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Gitter](https://gitter.im/WordReview/community)_ -->
   <!-- 你好鸭，恭喜你发现我懒得删除的联系方式 -->
   <!-- Discuss: _[Telegram](https://t.me/joinchat/IEhuIhx4UJKf_ZK-46mbNw)_ / _[Slack](https://join.slack.com/t/word-review/shared_invite/zt-f2hnv9v9-rW_DV0y7fsAyFQFsJwOFlg)_ / _[Discord](https://discord.gg/6sE32Jh)_ / _[Gitter](https://gitter.im/WordReview/community)_ -->
+- 回复慢 QAQ
+  - 由于本人精力有线，回复可能不会很及时，（或者漏看了邮件），还请见谅orz
 
 ---
 
