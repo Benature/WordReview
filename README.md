@@ -175,3 +175,9 @@ python manage.py migrate
 
 ### 更新日志
 参见 [CHANGELOG.md](./doc/CHANGELOG.md)
+
+### 赞赏
+
+如果觉得有帮助的话，可以赏点让孩子在饭堂多打份肉呦，感谢～
+
+<img src="https://raw.githubusercontent.com/Benature/obsidian-text-format/master/support.png" width="300px">
