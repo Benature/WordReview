@@ -75,7 +75,7 @@ _关于两种进度条的具体解释见[此处](#list-%E7%9A%84%E8%AE%B0%E5%BF%
 
 ## 安装
 
-> 对于小白可能还需要一些预备说明，请看[这里](https://www.notion.so/benature/Word-Review-9046ae4330ff49198c39491602064f3e)
+> 对于小白可能还需要一些预备说明，请看[这里](https://benature.notion.site/Word-Review-9046ae4330ff49198c39491602064f3e)
 
 命令行输入
 
@@ -159,8 +159,6 @@ python manage.py migrate
 - 重难词：⭐️ 标星
 
 ---
-
-<!-- [TODO 清单](https://www.notion.so/benature/WordReview-fa7e264c1e2048639586af4eb952374f)（有点杂乱） -->
 
 
 ### 问题自检
