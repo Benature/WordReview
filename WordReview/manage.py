@@ -32,7 +32,7 @@ def Is_child_processing():
             serv = listener.accept()  # just bind the port.
 
     t = Thread(target=lock_system_port, args=(62771, ))
-    t.setDaemon(True)
+    t.daemon = True
     t.start()
     del t
     return q.get()
@@ -48,8 +48,8 @@ def enable_browser_with_delay(argv, _t=None):
     if subcommand == 'runserver' and '--noreload' not in argv:
         try:
             parser_port = argv[2]
-            port_with_colon = parser_port[
-                parser_port.index(":"):] if ':' in parser_port else ":" + parser_port
+            port_with_colon = parser_port[parser_port.index(
+                ":"):] if ':' in parser_port else ":" + parser_port
         except (IndexError, ValueError):
             port_with_colon = ":8000"
         finally:
@@ -71,13 +71,13 @@ def main():
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
             "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?"
-        ) from exc
+            "forget to activate a virtual environment?") from exc
 
-    if Is_child_processing() and config.getboolean('custom', 'auto_open_browser'):
+    if Is_child_processing() and config.getboolean('custom',
+                                                   'auto_open_browser'):
         import threading
-        t = threading.Thread(
-            target=enable_browser_with_delay, args=(sys.argv, 1))
+        t = threading.Thread(target=enable_browser_with_delay,
+                             args=(sys.argv, 1))
         t.start()
         del t
 

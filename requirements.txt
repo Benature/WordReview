@@ -4,7 +4,7 @@ django-sass-processor==0.8
 libsass==0.19.4
 mysqlclient==1.4.6
 pymysql==0.9.3
-pypugjs==5.8.1
+pypugjs==5.9.12
 django-compressor
 xlrd
 pandas
