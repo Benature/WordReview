@@ -1,13 +1,14 @@
 django==3.1.14
 django-mysql==3.3.0
 django-sass-processor==0.8
+django-compressor
 libsass==0.19.4
 mysqlclient==1.4.6
 pymysql==0.9.3
 pypugjs==5.9.12
-django-compressor
 xlrd
 pandas
 requests
 bs4
 lxml
+openpyxl==3.1.2

@@ -46,15 +46,15 @@ def import_db(request):
         try:
             begin_index = int(post.get('begin_index'))
             if begin_index not in [0, 1]:
-                return render(request, "import_db.pug", {'message': '请输入 0 或 1！'})
+                return render(request, "import_db.pug",
+                              {'message': '请输入 0 或 1！'})
         except:
             return render(request, "import_db.pug", {'message': '请输入 0 或 1！'})
-        print(BOOK, BOOK_zh, BOOK_abbr, begin_index,
-              excel_path)
+        print(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path)
 
         try:
-            init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index,
-                    excel_path, Books, Review, BookList, Words)
+            init_db(BOOK, BOOK_zh, BOOK_abbr, begin_index, excel_path, Books,
+                    Review, BookList, Words)
         except Exception as e:
             print(traceback.format_exc())
             return render(request, "import_db.pug", {'message': e})
@@ -78,13 +78,17 @@ def review_lists(request):
                 if LIST == 0:  # 这个 BOOK 还没建
                     from apps.review.src.init_db import init_db_books
                     init_db_books(Books,
-                                  'WORD_REVIEW', '昨日重现自主复习', '😇', 0, hide=True)
-                book_list = BookList.objects.create(
-                    BOOK='WORD_REVIEW', LIST=LIST)
+                                  'WORD_REVIEW',
+                                  '昨日重现自主复习',
+                                  '😇',
+                                  0,
+                                  hide=True)
+                book_list = BookList.objects.create(BOOK='WORD_REVIEW',
+                                                    LIST=LIST)
             dates = book_list.review_dates_plus
             if today_str != dates.split(';')[-1]:
-                book_list.review_dates_plus = (
-                    dates + ';' + today_str).strip(';')
+                book_list.review_dates_plus = (dates + ';' +
+                                               today_str).strip(';')
                 book_list.save()
                 print(book_list.review_dates_plus)
                 break
@@ -94,17 +98,17 @@ def review_lists(request):
     else:
         LISTS = [int(i) for i in post.get('list').split('-')]
         if len(LISTS) == 2:
-            LISTS = list(range(LISTS[0], LISTS[1]+1))
+            LISTS = list(range(LISTS[0], LISTS[1] + 1))
         BOOK = post.get('book')
 
     msg = 'done'
     status = 200
     for LIST in LISTS:
         try:
-            ld = Review.objects.filter(
-                BOOK=BOOK, LIST=LIST, flag__lt=1)  # list data
-            ld_pass = Review.objects.filter(
-                BOOK=BOOK, LIST=LIST, flag__gt=0)  # list data
+            ld = Review.objects.filter(BOOK=BOOK, LIST=LIST,
+                                       flag__lt=1)  # list data
+            ld_pass = Review.objects.filter(BOOK=BOOK, LIST=LIST,
+                                            flag__gt=0)  # list data
             L_db = BookList.objects.get(BOOK=BOOK, LIST=LIST)
         except Exception as e:
             msg = f'获取数据异常：{e}'
@@ -113,8 +117,9 @@ def review_lists(request):
 
         L_db.word_num = len(ld) + len(ld_pass)
 
-        rate = sum([r[0] if r[0] != -1 else 1 for r in ld.values_list('rate')
-                    ]) / L_db.word_num
+        # 背过的单词进度
+        rate = sum([r[0] if r[0] != -1 else 1
+                    for r in ld.values_list('rate')]) / L_db.word_num
         rate = 1 - rate if rate != 0.0 else 0
 
         if rate == 0:
@@ -136,8 +141,9 @@ def review_lists(request):
         # 艾宾浩斯时间处理
         if 0 < L_db.ebbinghaus_counter < len(EBBINGHAUS_DAYS):
             ebbinghaus_counter = L_db.ebbinghaus_counter
-            should_next_date = datetime.strptime(L_db.review_dates.split(';')[-1], '%Y-%m-%d'
-                                                 ) + timedelta(days=EBBINGHAUS_DAYS[ebbinghaus_counter])
+            should_next_date = datetime.strptime(
+                L_db.review_dates.split(';')[-1], '%Y-%m-%d') + timedelta(
+                    days=EBBINGHAUS_DAYS[ebbinghaus_counter])
             if (today - should_next_date).days >= 0:
                 print(should_next_date)
                 # 今天 不早于 理论下一天
@@ -201,11 +207,14 @@ def update_word_flag(request):
             words = [Words.objects.get(word=post.get('word'))]
             if post.get('flag') == '0' and int(post.get('last_flag')) > 0:
                 # 如果是从正向标签退回默认，则对数据库所有 list 操作
-                words += [rw for rw in Review.objects.filter(
-                    word=post.get('word'))]
+                words += [
+                    rw for rw in Review.objects.filter(word=post.get('word'))
+                ]
             else:
-                words.append(Review.objects.get(
-                    word=post.get('word'), LIST=post.get('list'), BOOK=post.get('book')))
+                words.append(
+                    Review.objects.get(word=post.get('word'),
+                                       LIST=post.get('list'),
+                                       BOOK=post.get('book')))
         for word in words:
             # print(word)
             word.flag = post.get('flag')
@@ -223,8 +232,8 @@ def update_word_flag(request):
 @csrf_exempt
 def spider_other_dict(request):
     '''API: spider to crawl http://dict.cn/mini.php'''
-    status, data = crawl_other_dict(
-        request.POST.get('word'), request.POST.get('url'))
+    status, data = crawl_other_dict(request.POST.get('word'),
+                                    request.POST.get('url'))
     return JsonResponse({
         'status': status,
         'data': data,
@@ -237,11 +246,13 @@ def review_a_word(request):
     post = request.POST
     try:
         word = Words.objects.get(word=post.get('word'))
-        if post.get('repeat') == 'true' or post.get('yesterday_mode') == 'true':
+        if post.get('repeat') == 'true' or post.get(
+                'yesterday_mode') == 'true':
             word_dbs = [word]
         else:
-            word_in_list = Review.objects.filter(
-                word=post.get('word'), BOOK=post.get('book'), LIST=post.get('list'))[0]
+            word_in_list = Review.objects.filter(word=post.get('word'),
+                                                 BOOK=post.get('book'),
+                                                 LIST=post.get('list'))[0]
             word_dbs = [word, word_in_list]
     except Exception as e:
         return JsonResponse({'msg': '数据库损坏！' + e, 'status': 500})
@@ -290,12 +301,15 @@ def get_word(request):
         today = datetime.now() - timedelta(hours=Delay_Hours)
         date_range = [
             datetime.strptime(
-                f"{day0.year}-{day0.month}-{day0.day} {Delay_Hours}", '%Y-%m-%d %H'),
+                f"{day0.year}-{day0.month}-{day0.day} {Delay_Hours}",
+                '%Y-%m-%d %H'),
             datetime.strptime(
-                f"{today.year}-{today.month}-{today.day} {Delay_Hours}", '%Y-%m-%d %H')
+                f"{today.year}-{today.month}-{today.day} {Delay_Hours}",
+                '%Y-%m-%d %H')
         ]
         list_info = Words.objects.filter(
-            modify_time__range=date_range, last_forget_num__gt=0).order_by("rate").order_by("-last_forget_num")
+            modify_time__range=date_range, last_forget_num__gt=0).order_by(
+                "rate").order_by("-last_forget_num")
         msg = f"There are {len(list_info)} words that you need to review😋"
         list_info = list_info[:50] if limit == None else list_info[:int(limit)]
 
@@ -303,7 +317,8 @@ def get_word(request):
         LIST_li = [int(i) for i in LIST.split('-')]
         if len(LIST_li) == 1:
             list_info = Review.objects.filter(LIST=LIST, BOOK=BOOK, flag__lt=2)
-            if BookList.objects.get(LIST=LIST, BOOK=BOOK).ebbinghaus_counter == 0:
+            if BookList.objects.get(LIST=LIST,
+                                    BOOK=BOOK).ebbinghaus_counter == 0:
                 sortType = ['顺序']
         elif len(LIST_li) == 2:
             list_info = Review.objects.filter(LIST__range=LIST_li, BOOK=BOOK)
@@ -317,7 +332,10 @@ def get_word(request):
             w = l if yesterday_mode else ormToJson(
                 [Words.objects.get(word=l['word'])])[0]['fields']
         except Words.DoesNotExist:
-            return JsonResponse({"msg": f"Word not found:{l['word']}", 'status': 404})
+            return JsonResponse({
+                "msg": f"Word not found:{l['word']}",
+                'status': 404
+            })
 
         for old, pan in pankeys.items():
             w.update({pan: w.pop(old)})
@@ -328,13 +346,20 @@ def get_word(request):
         yesterday.year, yesterday.month, yesterday.day)).values_list('word')
 
     data = {
-        'data': list_info,
-        'status': 200,
-        'sort': sortType,
-        'begin_index': int(Books.objects.get(BOOK=BOOK).begin_index == 0) if BOOK != '' else 0,
+        'data':
+        list_info,
+        'status':
+        200,
+        'sort':
+        sortType,
+        'begin_index':
+        int(Books.objects.get(
+            BOOK=BOOK).begin_index == 0) if BOOK != '' else 0,
         'recent_words': [rw[0] for rw in recent_words],
-        'mode': mode,
-        'msg': msg,
+        'mode':
+        mode,
+        'msg':
+        msg,
     }
     return JsonResponse(data)
 
@@ -376,7 +401,10 @@ def review(request):
 
 def calendar(request):
     '''页面：艾宾浩斯日历图'''
-    return render(request, "calendar.pug", )
+    return render(
+        request,
+        "calendar.pug",
+    )
 
 
 def homepage(request):
@@ -396,8 +424,10 @@ def homepage(request):
         book = book_info['BOOK_zh']
         index = book_info['begin_index']
         # index = 1 if index == 0 else 0
-        lists = sorted([l[0] for l in (set(Review.objects.filter(
-            BOOK=BOOK).values_list('LIST')))])
+        lists = sorted([
+            l[0] for l in (
+                set(Review.objects.filter(BOOK=BOOK).values_list('LIST')))
+        ])
         list_info = []
         for l in lists:
             try:
@@ -412,23 +442,25 @@ def homepage(request):
                 L = ld.unlearned_num
                 del_L = ld.word_num - ld.unlearned_num
             # total = sorted([int(i) for i in ld.review_word_counts.split(';')])
-            plus = len(ld.review_dates_plus.split(';')
-                       ) if ld.review_dates_plus != "" else 0
-            list_info.append({
-                'i': l,
-                'len': L,
-                'del_len': del_L,
-                'rate': int(ld.list_rate * 100),
-                'recent_rate': int(ld.recent_list_rate * 100),
-                'times': len(ld.review_dates.split(';')
-                             ) if ld.review_dates != "" else 0,
-                'plus': '' if plus == 0 else '+' + str(plus),
-                'index': index,
-            })
+            plus = len(ld.review_dates_plus.split(
+                ';')) if ld.review_dates_plus != "" else 0
+            list_info.append(
+                dict(
+                    i=l,
+                    len=L,
+                    del_len=del_L,
+                    rate=int(max(0, ld.list_rate) * 100),
+                    recent_rate=int(max(0, ld.recent_list_rate) * 100),
+                    times=len(ld.review_dates.split(';'))
+                    if ld.review_dates != "" else 0,
+                    plus='' if plus == 0 else '+' + str(plus),
+                    index=index,
+                ))
         data.append({
             'name': book,
             'name_en': BOOK,
             'lists': list_info,
         })
+    print(data)
 
     return render(request, "homepage.pug", locals())
