@@ -178,4 +178,7 @@ python manage.py migrate
 
 如果觉得有帮助的话，可以赏点让孩子在饭堂多打份肉呦，感谢～
 
-<img src="https://raw.githubusercontent.com/Benature/obsidian-text-format/master/support.png" width="300px">
+
+<p align="center">
+<img src="https://i.imgs.ovh/2023/11/28/pfVu5.png" width="500px">
+</p>
