@@ -105,8 +105,10 @@ def review_lists(request):
     status = 200
     for LIST in LISTS:
         try:
+            # list data: where flag < 1
             ld = Review.objects.filter(BOOK=BOOK, LIST=LIST,
                                        flag__lt=1)  # list data
+            # list data passed: where flag > 0
             ld_pass = Review.objects.filter(BOOK=BOOK, LIST=LIST,
                                             flag__gt=0)  # list data
             L_db = BookList.objects.get(BOOK=BOOK, LIST=LIST)
@@ -118,20 +120,20 @@ def review_lists(request):
         L_db.word_num = len(ld) + len(ld_pass)
 
         # 背过的单词进度
-        rate = sum([r[0] if r[0] != -1 else 1
-                    for r in ld.values_list('rate')]) / L_db.word_num
-        rate = 1 - rate if rate != 0.0 else 0
+        list_rate = len([r for r in ld.values_list('rate') if r[0] != -1
+                         ]) / L_db.word_num
+        list_rate = 1 - list_rate if list_rate != 0.0 else 0
 
-        if rate == 0:
+        if list_rate == 0 and len(ld) > 0:
             status = 404
-            msg = '你怕是还没背过这个List'
+            msg = '你好像还没背过这个 List 诶 😳'
             continue
 
         L_db.unlearned_num = len(ld)
         L_db.review_word_counts = ';'.join(
             set([str(t[0]) for t in ld.values_list('total_num')]))
 
-        L_db.list_rate = rate
+        L_db.list_rate = list_rate
         # 计算近期记忆率
         recent_history = ''
         for word in ld:
