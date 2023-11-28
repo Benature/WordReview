@@ -216,7 +216,6 @@ def update_word_flag(request):
                                        LIST=post.get('list'),
                                        BOOK=post.get('book')))
         for word in words:
-            # print(word)
             word.flag = post.get('flag')
             word.save()
         # if post.get('flag') == 0:
@@ -234,10 +233,7 @@ def spider_other_dict(request):
     '''API: spider to crawl http://dict.cn/mini.php'''
     status, data = crawl_other_dict(request.POST.get('word'),
                                     request.POST.get('url'))
-    return JsonResponse({
-        'status': status,
-        'data': data,
-    })
+    return JsonResponse({'status': status, 'data': data})
 
 
 @csrf_exempt
@@ -345,22 +341,14 @@ def get_word(request):
     recent_words = Words.objects.filter(modify_time__gt=date(
         yesterday.year, yesterday.month, yesterday.day)).values_list('word')
 
-    data = {
-        'data':
-        list_info,
-        'status':
-        200,
-        'sort':
-        sortType,
-        'begin_index':
-        int(Books.objects.get(
-            BOOK=BOOK).begin_index == 0) if BOOK != '' else 0,
-        'recent_words': [rw[0] for rw in recent_words],
-        'mode':
-        mode,
-        'msg':
-        msg,
-    }
+    data = dict(data=list_info,
+                status=200,
+                sort=sortType,
+                begin_index=int(Books.objects.get(
+                    BOOK=BOOK).begin_index == 0) if BOOK != '' else 0,
+                recent_words=[rw[0] for rw in recent_words],
+                mode=mode,
+                msg=msg)
     return JsonResponse(data)
 
 
@@ -382,11 +370,7 @@ def get_calendar_data(request):
         d['abbr'] = book_info[d['BOOK']]['abbr']
         d['begin_index'] = book_info[d['BOOK']]['begin_index']
 
-    data = {
-        'data': data,
-        'EBBINGHAUS_DAYS': EBBINGHAUS_DAYS,
-        'status': 200,
-    }
+    data = {'data': data, 'EBBINGHAUS_DAYS': EBBINGHAUS_DAYS, 'status': 200}
     return JsonResponse(data)
 
 
@@ -401,24 +385,15 @@ def review(request):
 
 def calendar(request):
     '''页面：艾宾浩斯日历图'''
-    return render(
-        request,
-        "calendar.pug",
-    )
+    return render(request, "calendar.pug")
 
 
 def homepage(request):
     '''页面：复习主页'''
-    # BOOK = request.GET.get('book')
-    # if BOOK is None:
-    #     BOOK = 'qugen10000'
     books = Books.objects.filter(hide=False)[::-1]
     dic = {}
     for b in books:
-        dic[b.BOOK] = {
-            'BOOK_zh': b.BOOK_zh,
-            'begin_index': b.begin_index,
-        }
+        dic[b.BOOK] = {'BOOK_zh': b.BOOK_zh, 'begin_index': b.begin_index}
     data = []
     for BOOK, book_info in dic.items():
         book = book_info['BOOK_zh']
@@ -445,22 +420,15 @@ def homepage(request):
             plus = len(ld.review_dates_plus.split(
                 ';')) if ld.review_dates_plus != "" else 0
             list_info.append(
-                dict(
-                    i=l,
-                    len=L,
-                    del_len=del_L,
-                    rate=int(max(0, ld.list_rate) * 100),
-                    recent_rate=int(max(0, ld.recent_list_rate) * 100),
-                    times=len(ld.review_dates.split(';'))
-                    if ld.review_dates != "" else 0,
-                    plus='' if plus == 0 else '+' + str(plus),
-                    index=index,
-                ))
-        data.append({
-            'name': book,
-            'name_en': BOOK,
-            'lists': list_info,
-        })
-    print(data)
+                dict(i=l,
+                     len=L,
+                     del_len=del_L,
+                     rate=int(max(0, ld.list_rate) * 100),
+                     recent_rate=int(max(0, ld.recent_list_rate) * 100),
+                     times=len(ld.review_dates.split(';'))
+                     if ld.review_dates != "" else 0,
+                     plus='' if plus == 0 else '+' + str(plus),
+                     index=index))
+        data.append({'name': book, 'name_en': BOOK, 'lists': list_info})
 
     return render(request, "homepage.pug", locals())
