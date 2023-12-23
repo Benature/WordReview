@@ -52,7 +52,7 @@ Django + MySQL + Pug + JS
 
 第一篇[介绍推送](https://mp.weixin.qq.com/s/zOmpevAUafFY5kPGYr65uA)微信公众号「恰好恰好」上发送了，这里就先不展开讲了。
 
-<!-- 功能特性太多，写在这就太长了，新开一页写[特性说明](https://www.notion.so/benature/Word-Review-0f56c8a9131b4ae3b6d9a6fda5c4e655)（更新中）。 -->
+功能特性太多，写在这就太长了，新开一页写[特性说明](https://benature.notion.site/Word-Review-c7e1ab07e7d54a249f461248426dfd08)。
 
 </br>
 

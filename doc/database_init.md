@@ -19,7 +19,7 @@
 |  synonym   |   近义词   | *可选* |
 | derivative |   派生词   | *可选* |
 
-[网页版的导入的具体说明，另开一页，请点这里。](https://www.notion.so/benature/Word-Review-fa8ddbab5afa43278e2005ce8b7b9a2a)
+[网页版的导入的具体说明，另开一页，请点这里。](https://benature.notion.site/Word-Review-fa8ddbab5afa43278e2005ce8b7b9a2a)
 
 
 ## 自定义导入 / 更新
